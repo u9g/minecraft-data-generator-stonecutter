@@ -2,19 +2,39 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+//? if >=1.16 <1.17 {
+/*import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
+*///?} else if >=1.20 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
+//?}
 import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
+//? if <1.19 {
+/*import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
+*///?}
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+//? if >=1.17 {
 import net.minecraft.core.RegistryAccess;
+//?}
+//? if >=1.20 {
 import net.minecraft.core.registries.Registries;
+//?}
 //? if <1.21.11 {
 /*import net.minecraft.resources.ResourceLocation;
-*///?} else {
+*///?}
+//? if <1.17 {
+/*import net.minecraft.util.Mth;
+*///?} else if >=1.21.3 <1.21.5 {
+/*import net.minecraft.util.ARGB;
+*///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
 //?}
 import net.minecraft.world.level.FoliageColor;
+//? if <1.17 {
+/*import net.minecraft.world.level.GrassColor;
+*///?}
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -22,14 +42,29 @@ import net.minecraft.world.level.block.RedStoneWireBlock;
 
 import java.util.*;
 
+
+
 public class TintsDataGenerator implements IDataGenerator {
     public static BiomeTintColors generateBiomeTintColors(Registry<Biome> biomeRegistry) {
         BiomeTintColors colors = new BiomeTintColors();
 
         biomeRegistry.forEach(biome -> {
+            //? if <1.17 {
+            /*double d = Mth.clamp(biome.getTemperature(), 0.0f, 1.0f);
+            double e = Mth.clamp(biome.getDownfall(), 0.0f, 1.0f);
+
+            int biomeGrassColor = GrassColor.get(d, e);
+            int biomeFoliageColor = FoliageColor.get(d, e);
+            *///?}
+            //? if <1.16 {
+            /*int biomeWaterColor = biome.getWaterColor();
+            *///?} else if >=1.16 <1.17 {
+            /*int biomeWaterColor = ((BiomeEffectsAccessor) biome.getSpecialEffects()).waterColor();
+            *///?} else {
             int biomeGrassColor = biome.getGrassColor(0.0, 0.0);
             int biomeFoliageColor = biome.getFoliageColor();
             int biomeWaterColor = biome.getWaterColor();
+            //?}
 
             colors.grassColoursMap.computeIfAbsent(biomeGrassColor, k -> new ArrayList<>()).add(biome);
             colors.foliageColoursMap.computeIfAbsent(biomeFoliageColor, k -> new ArrayList<>()).add(biome);
@@ -42,18 +77,30 @@ public class TintsDataGenerator implements IDataGenerator {
         Map<Integer, Integer> resultColors = new LinkedHashMap<>();
 
         for (int redstoneLevel : RedStoneWireBlock.POWER.getPossibleValues()) {
+            //? if <1.16 {
+            /*int color = RedStoneWireBlock.getColorForData(redstoneLevel);
+            *///?} else if >=1.16 <1.21.3 {
+            /*int color = RedStoneWireBlock.getColorForPower(redstoneLevel);
+            *///?} else {
             // Remove the unintended alpha channel from the redstone tint color
             int color = removeAlphaChannel(RedStoneWireBlock.getColorForPower(redstoneLevel));
+            //?}
             resultColors.put(redstoneLevel, color);
         }
         return resultColors;
+    //? if >=1.21.3 {
     }
 
     private static int removeAlphaChannel(int color) {
         float r = (float) (color >> 16 & 0xFF) / 255;
         float g = (float) (color >> 8 & 0xFF) / 255;
         float b = (float) (color & 0xFF) / 255;
+    //?}
+        //? if >=1.21.3 <1.21.5 {
+        /*return ARGB.colorFromFloat(0, r, g, b);
+        *///?} else if >=1.21.5 {
         return ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
+        //?}
     }
 
     private static int getBlockColor(Block block) {
@@ -67,8 +114,13 @@ public class TintsDataGenerator implements IDataGenerator {
     public static Map<Block, Integer> generateConstantTintColors() {
         Map<Block, Integer> resultColors = new LinkedHashMap<>();
 
+        //? if <1.21.5 {
+        /*resultColors.put(Blocks.BIRCH_LEAVES, FoliageColor.getBirchColor());
+        resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColor.getEvergreenColor());
+        *///?} else {
         resultColors.put(Blocks.BIRCH_LEAVES, FoliageColor.FOLIAGE_BIRCH);
         resultColors.put(Blocks.SPRUCE_LEAVES, FoliageColor.FOLIAGE_EVERGREEN);
+        //?}
 
         resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD));
         resultColors.put(Blocks.ATTACHED_MELON_STEM, getBlockColor(Blocks.ATTACHED_MELON_STEM));
@@ -88,12 +140,19 @@ public class TintsDataGenerator implements IDataGenerator {
 
             JsonArray keysArray = new JsonArray();
             for (Biome biome : entry.getValue()) {
-                //? if <1.21.11 {
+                //? if <1.16 {
+                /*ResourceLocation registryKey = biomeRegistry.getKey(biome);
+                keysArray.add(Objects.requireNonNull(registryKey).getPath());
+                *///?} else if >=1.16 <1.21.5 {
+                /*ResourceLocation registryKey = biomeRegistry.getResourceKey(biome).orElseThrow().location();
+                *///?} else if >=1.21.5 <1.21.11 {
                 /*ResourceLocation registryKey = biomeRegistry.getKey(biome);
                 *///?} else {
                 Identifier registryKey = biomeRegistry.getKey(biome);
                 //?}
+                //? if >=1.16 {
                 keysArray.add(registryKey.getPath());
+                //?}
             }
 
             entryObject.add("keys", keysArray);
@@ -130,12 +189,19 @@ public class TintsDataGenerator implements IDataGenerator {
             JsonObject entryObject = new JsonObject();
 
             JsonArray keysArray = new JsonArray();
-            //? if <1.21.11 {
+            //? if <1.16 {
+            /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
+            keysArray.add(Objects.requireNonNull(registryKey).getPath());
+            *///?} else if >=1.16 <1.21.5 {
+            /*ResourceLocation registryKey = blockRegistry.getResourceKey(entry.getKey()).orElseThrow().location();
+            *///?} else if >=1.21.5 <1.21.11 {
             /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
             *///?} else {
             Identifier registryKey = blockRegistry.getKey(entry.getKey());
             //?}
+            //? if >=1.16 {
             keysArray.add(registryKey.getPath());
+            //?}
 
             entryObject.add("keys", keysArray);
             entryObject.addProperty("color", entry.getValue());
@@ -154,13 +220,41 @@ public class TintsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
+//? if <1.17 {
+/*//        DynamicRegistryManager registryManager = DynamicRegistryManager.create();
+        Registry<Biome> biomeRegistry = Registry.BIOME;
+        Registry<Block> blockRegistry = Registry.BLOCK;
+*///?} else if >=1.17 <=1.18 {
+        /*RegistryAccess registryManager = RegistryAccess.builtin();
+*///?} else if >1.18 <1.20 {
+        /*RegistryAccess registryManager = RegistryAccess.BUILTIN.get();
+*///?}
+        //? if >=1.17 <1.20 {
+        /*Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
+        Registry<Block> blockRegistry = registryManager.registryOrThrow(Registry.BLOCK_REGISTRY);
+        *///?} else if >=1.20 {
         RegistryAccess registryManager = DGU.getWorld().registryAccess();
+        //?}
+        //? if >=1.20 <1.21.3 {
+        /*Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registries.BIOME);
+        Registry<Block> blockRegistry = registryManager.registryOrThrow(Registries.BLOCK);
+        *///?} else if >=1.21.3 {
         Registry<Biome> biomeRegistry = registryManager.lookupOrThrow(Registries.BIOME);
         Registry<Block> blockRegistry = registryManager.lookupOrThrow(Registries.BLOCK);
+        //?}
 
         BiomeTintColors biomeTintColors = generateBiomeTintColors(biomeRegistry);
         Map<Integer, Integer> redstoneColors = generateRedstoneTintColors();
+        //? if <1.19 {
+        /*Map<Block, Integer> constantTintColors = Collections.emptyMap();
+
+        EnvType currentEnvironment = FabricLoader.getInstance().getEnvironmentType();
+        if (currentEnvironment == EnvType.CLIENT) {
+            constantTintColors = generateConstantTintColors();
+        }
+        *///?} else {
         Map<Block, Integer> constantTintColors = generateConstantTintColors();
+        //?}
 
         JsonObject resultObject = new JsonObject();
 

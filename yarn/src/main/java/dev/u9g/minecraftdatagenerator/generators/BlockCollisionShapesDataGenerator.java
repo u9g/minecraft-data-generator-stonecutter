@@ -16,18 +16,12 @@ import com.google.gson.JsonPrimitive;
 //?}
 //? if >=1.13 <1.14 {
 /*import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
-*///?} else if >=1.20 {
-import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
+*///?}
 import net.minecraft.block.Block;
 //? if <1.8.9 {
 /*import net.minecraft.client.Texture;
 *///?} else {
 import net.minecraft.block.BlockState;
-//?}
-//? if >=1.20 {
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 //?}
 //? if >=1.13 {
 import net.minecraft.util.Identifier;
@@ -37,9 +31,9 @@ import net.minecraft.util.math.BlockPos;
 //?}
 //? if <1.13 {
 /*import net.minecraft.util.math.Box;
-*///?} else if >=1.13 <1.20 {
-/*import net.minecraft.util.registry.Registry;
-*///?}
+*///?} else {
+import net.minecraft.util.registry.Registry;
+//?}
 //? if >=1.13 <1.14 {
 /*import net.minecraft.util.shapes.VoxelShape;
 *///?} else if >=1.14 {
@@ -120,14 +114,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             } else {
                 blocksObject.addProperty(nameOf(block), (Integer) val);
             }
-        *///?} else if >=1.13 <1.20 {
-        /*Registry<Block> blockRegistry = Registry.BLOCK;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.BLOCK);
         *///?} else {
-        Registry<Block> blockRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.BLOCK);
-        //?}
-        //? if >=1.13 {
+        Registry<Block> blockRegistry = Registry.BLOCK;
         BlockShapesCache blockShapesCache = new BlockShapesCache();
         //?}
         //? if >=1.13 <1.14 {
@@ -194,10 +182,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 //?}
             //? if >=1.13 <1.14 {
             /*List<BlockState> blockStates = block.getStateManager().getBlockStates();
-            *///?} else if >=1.14 <1.15 {
-            /*List<BlockState> blockStates = block.getStateFactory().getStates();
-            *///?} else if >=1.15 {
-            List<BlockState> blockStates = block.getStateManager().getStates();
+            *///?} else if >=1.14 {
+            List<BlockState> blockStates = block.getStateFactory().getStates();
             //?}
             //? if >=1.13 {
             List<Integer> blockCollisionShapes = new ArrayList<>();
@@ -309,13 +295,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                     }
                 }
 
-                //?}
-                //? if >=1.13 <1.16 {
-                /*Identifier registryKey = blockRegistry.getId(entry.getKey());
+                Identifier registryKey = blockRegistry.getId(entry.getKey());
                 resultObject.add(Objects.requireNonNull(registryKey).getPath(), blockCollision);
-                *///?} else if >=1.16 {
-                Identifier registryKey = blockRegistry.getKey(entry.getKey()).orElseThrow().getValue();
-                resultObject.add(registryKey.getPath(), blockCollision);
                 //?}
             }
             //? if <1.13 {

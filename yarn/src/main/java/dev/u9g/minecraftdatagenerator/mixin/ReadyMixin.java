@@ -17,12 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 *///?}
 @Mixin(MinecraftDedicatedServer.class)
 public class ReadyMixin {
-    //? if <1.21 {
-    /*@Inject(method = "setupServer()Z", at = @At("HEAD"))
+    @Inject(method = "setupServer()Z", at = @At("HEAD"))
     private void constructor(CallbackInfoReturnable<Boolean> cir) {
         ((MinecraftDedicatedServer) (Object) this).setServerPort(0);
     }
-    *///?}
 
     @Inject(method = "setupServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
@@ -35,19 +33,11 @@ public class ReadyMixin {
                 *///?}
                 //? if <1.8.9 {
                 /*(new File(".")).toPath()
-                *///?} else if >=1.14 <1.16 {
-                /*MinecraftVersion.create().getName(),
-                *///?} else if >=1.16 <1.17 {
-                /*MinecraftVersion.field_25319.getName(),
-                *///?} else if >=1.17 <1.18 {
-                /*MinecraftVersion.GAME_VERSION.getName(),
-                *///?} else if >=1.18 {
-                MinecraftVersion.CURRENT.getName(),
+                *///?} else if >=1.14 {
+                MinecraftVersion.create().getName(),
                 //?}
-                //? if >=1.8.9 <1.21 {
-                /*DGU.getCurrentlyRunningServer().getRunDirectory().toPath()
-                *///?} else if >=1.21 {
-                DGU.getCurrentlyRunningServer().getRunDirectory()
+                //? if >=1.8.9 {
+                DGU.getCurrentlyRunningServer().getRunDirectory().toPath()
                 //?}
         );
     }

@@ -14,12 +14,13 @@ return Language.getInstance().get(key);
 //?}
 ```
 
-There are two Stonecutter trees, one per mapping family, because Yarn and Mojang names differ for nearly every symbol:
+There are two Stonecutter trees, one per mapping family, because Yarn and Mojang names differ for nearly every symbol.
+Mojang only publishes mappings from 1.14.4, so everything older stays on Yarn:
 
-| Tree      | Versions          | Mappings                                          |
-|-----------|-------------------|---------------------------------------------------|
-| `yarn/`   | 1.7 – 1.21.3      | Legacy Yarn up to 1.13, Yarn from 1.14            |
-| `mojmap/` | 1.21.5 and later  | Mojang mappings; unobfuscated official names from 26.1 |
+| Tree      | Versions          | Mappings                                               |
+|-----------|-------------------|--------------------------------------------------------|
+| `yarn/`   | 1.7 – 1.14        | Legacy Yarn up to 1.13, Yarn for 1.14                  |
+| `mojmap/` | 1.15 and later    | Mojang mappings; unobfuscated official names from 26.1 |
 
 Each tree has:
 
@@ -52,13 +53,13 @@ You can then find the minecraft-data in the `<tree>/versions/<version>/run/serve
 `<tree>/src` always reflects one version, the active one. To work on another version, switch it:
 
 ```bash
-./gradlew ":yarn:Set active project to 1.16"
+./gradlew ":mojmap:Set active project to 1.16"
 ```
 
-Stonecutter then rewrites the comment conditions in `yarn/src` so the 1.16 branches are live and the others are commented out.
+Stonecutter then rewrites the comment conditions in `mojmap/src` so the 1.16 branches are live and the others are commented out.
 Do not commit a switched tree; switch back to the `vcsVersion` from settings.gradle before committing.
 
-Compile a single version with `./gradlew :yarn:1.16:build`, or every version of a tree with `./gradlew :yarn:build`.
+Compile a single version with `./gradlew :mojmap:1.16:build`, or every version of a tree with `./gradlew :mojmap:build`.
 
 ## Adding a new version
 

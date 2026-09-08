@@ -15,10 +15,8 @@ import net.minecraft.block.material.Material;
 //? if >=1.8.9 <1.13 {
 
 /*import java.util.Objects;
-*///?} else if >=1.13 <1.21 {
-/*import net.minecraft.block.enums.Instrument;
-*///?} else if >=1.21 {
-import net.minecraft.block.enums.NoteBlockInstrument;
+*///?} else if >=1.13 {
+import net.minecraft.block.enums.Instrument;
 //?}
 
 public class InstrumentsDataGenerator implements IDataGenerator {
@@ -49,10 +47,8 @@ public class InstrumentsDataGenerator implements IDataGenerator {
         /*for (String soundName : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
         *///?} else if >=1.9.4 <1.13 {
         /*for (Sound sound : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
-        *///?} else if >=1.13 <1.21 {
-        /*for (Instrument instrument : Instrument.values()) {
-        *///?} else if >=1.21 {
-        for (NoteBlockInstrument instrument : NoteBlockInstrument.values()) {
+        *///?} else if >=1.13 {
+        for (Instrument instrument : Instrument.values()) {
         //?}
             //? if >=1.8.9 {
             JsonObject object = new JsonObject();
@@ -69,10 +65,8 @@ public class InstrumentsDataGenerator implements IDataGenerator {
             //?}
             //? if >=1.13 <1.14 {
             /*object.addProperty("name", instrument.asString());
-            *///?} else if >=1.14 <1.15 {
-            /*object.addProperty("name", instrument.toSnakeCase());
-            *///?} else if >=1.15 {
-            object.addProperty("name", instrument.asString());
+            *///?} else if >=1.14 {
+            object.addProperty("name", instrument.toSnakeCase());
             //?}
             //? if >=1.8.9 {
             array.add(object);

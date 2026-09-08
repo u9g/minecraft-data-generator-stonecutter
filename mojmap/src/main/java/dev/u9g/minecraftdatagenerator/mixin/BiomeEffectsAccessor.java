@@ -1,11 +1,11 @@
 //? if >=1.16 <1.17 {
 /*package dev.u9g.minecraftdatagenerator.mixin;
 
-import net.minecraft.world.biome.BiomeEffects;
+import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(BiomeEffects.class)
+@Mixin(BiomeSpecialEffects.class)
 public interface BiomeEffectsAccessor {
     @Accessor("waterColor")
     int waterColor();

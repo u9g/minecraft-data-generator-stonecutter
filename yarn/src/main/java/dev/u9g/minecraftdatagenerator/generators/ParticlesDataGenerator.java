@@ -5,26 +5,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 //? if <1.14 {
 /*import net.minecraft.client.particle.ParticleType;
-*///?} else if >=1.20 {
-import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
-//? if >=1.14 {
+*///?} else {
 import net.minecraft.particle.ParticleType;
-//?}
-//? if >=1.20 {
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
 //?}
 //? if >=1.13 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 <1.20 {
-/*import net.minecraft.util.registry.Registry;
-*///?}
+import net.minecraft.util.registry.Registry;
 
-//? if >=1.13 <1.16 {
-/*import java.util.Objects;
-*///?}
+import java.util.Objects;
+//?}
 
 public class ParticlesDataGenerator implements IDataGenerator {
     //? if <1.13 {
@@ -37,10 +26,8 @@ public class ParticlesDataGenerator implements IDataGenerator {
         JsonObject effectDesc = new JsonObject();
         //? if >=1.13 <1.14 {
         /*Identifier registryKey = Registry.PARTICLE_TYPE.getId(particleType);
-        *///?} else if >=1.14 <1.16 {
-        /*Identifier registryKey = registry.getId(particleType);
-        *///?} else if >=1.16 {
-        Identifier registryKey = registry.getKey(particleType).orElseThrow().getValue();
+        *///?} else if >=1.14 {
+        Identifier registryKey = registry.getId(particleType);
         //?}
 
         //? if <1.13 {
@@ -51,10 +38,8 @@ public class ParticlesDataGenerator implements IDataGenerator {
         *///?} else {
         effectDesc.addProperty("id", registry.getRawId(particleType));
         //?}
-        //? if >=1.13 <1.16 {
-        /*effectDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else if >=1.16 {
-        effectDesc.addProperty("name", registryKey.getPath());
+        //? if >=1.13 {
+        effectDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
         //?}
         return effectDesc;
     }
@@ -78,14 +63,8 @@ public class ParticlesDataGenerator implements IDataGenerator {
         *///?} else if >=1.13 <1.14 {
         /*Registry.PARTICLE_TYPE.forEach(particleType ->
                 resultsArray.add(generateParticleType((ParticleType<?>) particleType)));
-        *///?} else if >=1.14 <1.20 {
-        /*Registry<ParticleType<?>> particleTypeRegistry = Registry.PARTICLE_TYPE;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<ParticleType<?>> particleTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.PARTICLE_TYPE);
         *///?} else {
-        Registry<ParticleType<?>> particleTypeRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PARTICLE_TYPE);
-        //?}
-        //? if >=1.14 {
+        Registry<ParticleType<?>> particleTypeRegistry = Registry.PARTICLE_TYPE;
         particleTypeRegistry.forEach(particleType -> resultsArray.add(generateParticleType(particleTypeRegistry, particleType)));
         //?}
         return resultsArray;

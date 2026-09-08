@@ -6,9 +6,9 @@ import com.google.gson.JsonObject;
 /*import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 *///?} else if >=1.13 <1.14 {
 /*import com.google.gson.reflect.TypeToken;
-*///?} else if >=1.14 <1.18 {
-/*import dev.u9g.minecraftdatagenerator.FieldHelper;
-*///?}
+*///?} else if >=1.14 {
+import dev.u9g.minecraftdatagenerator.FieldHelper;
+//?}
 import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
@@ -28,19 +28,15 @@ import net.minecraft.entity.EntityType;
 //? if >=1.11.2 {
 import net.minecraft.entity.LivingEntity;
 //?}
-//? if >=1.14 <1.15 {
-/*import net.minecraft.entity.WaterCreatureEntity;
-*///?} else if >=1.21.3 {
-import net.minecraft.entity.SpawnReason;
+//? if >=1.14 {
+import net.minecraft.entity.WaterCreatureEntity;
 //?}
 import net.minecraft.entity.mob.AmbientEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 //? if <1.14 {
 /*import net.minecraft.entity.mob.WaterCreatureEntity;
-*///?} else if >=1.15 {
-import net.minecraft.entity.mob.WaterCreatureEntity;
-//?}
+*///?}
 import net.minecraft.entity.passive.AnimalEntity;
 //? if >=1.11.2 {
 import net.minecraft.entity.passive.PassiveEntity;
@@ -57,22 +53,13 @@ import net.minecraft.entity.projectile.FishingBobberEntity;
 *///?} else if >=1.14 {
 import net.minecraft.entity.projectile.ProjectileEntity;
 //?}
-//? if >=1.20 {
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-//?}
-//? if >=1.16 {
-import net.minecraft.server.MinecraftServer;
-//?}
 //? if >=1.8.9 {
 import net.minecraft.util.Identifier;
 //?}
-//? if >=1.13 <1.20 {
-/*import net.minecraft.util.registry.Registry;
-*///?}
-//? if <1.17 {
-/*import org.jetbrains.annotations.NotNull;
-*///?}
+//? if >=1.13 {
+import net.minecraft.util.registry.Registry;
+//?}
+import org.jetbrains.annotations.NotNull;
 //? if <1.14 {
 /*import org.jetbrains.annotations.Nullable;
 *///?}
@@ -80,12 +67,10 @@ import net.minecraft.util.Identifier;
 //? if >=1.13 <1.14 {
 /*import java.lang.reflect.Field;
 *///?}
-//? if >=1.13 <1.18 {
-/*import java.lang.reflect.ParameterizedType;
-*///?}
-//? if <1.16 {
-/*import java.util.Objects;
-*///?}
+//? if >=1.13 {
+import java.lang.reflect.ParameterizedType;
+//?}
+import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
     //? if <1.13 {
@@ -109,12 +94,8 @@ public class EntitiesDataGenerator implements IDataGenerator {
         *///?}
         //? if <1.8.9 {
         /*entityDesc.addProperty("name", Objects.requireNonNull(registryKey));
-        *///?} else if >=1.13 <1.16 {
-        /*Identifier registryKey = entityRegistry.getId(entityType);
-        *///?} else if >=1.16 {
-        Identifier registryKey = entityRegistry.getKey(entityType).orElseThrow().getValue();
-        //?}
-        //? if >=1.13 {
+        *///?} else if >=1.13 {
+        Identifier registryKey = entityRegistry.getId(entityType);
         int entityRawId = entityRegistry.getRawId(entityType);
         //?}
         //? if >=1.13 <1.14 {
@@ -126,9 +107,9 @@ public class EntitiesDataGenerator implements IDataGenerator {
         entityDesc.addProperty("id", entityRawId);
         entityDesc.addProperty("internalId", entityRawId);
         //?}
-        //? if >=1.8.9 <1.16 {
-        /*entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?}
+        //? if >=1.8.9 {
+        entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
+        //?}
         //? if >=1.8.9 <1.9.4 {
         /*if (entity instanceof ItemEntity itemEntity) {
             // Same as 1.9.4
@@ -144,9 +125,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         /*if (displayName != null && !displayName.startsWith("entity.")) {
             entityDesc.addProperty("displayName", displayName);
         }
-        *///?} else if >=1.16 {
-        entityDesc.addProperty("name", registryKey.getPath());
-        //?}
+        *///?}
 
         //? if >=1.11.2 <1.13 {
         /*if (entity != null) entityDesc.addProperty("displayName", DGU.translateText(entity.getTranslationKey()));
@@ -156,55 +135,16 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //? if <1.14 {
         /*entityDesc.addProperty("width", entity == null ? 0 : entity.width);
         entityDesc.addProperty("height", entity == null ? 0 : entity.height);
-        *///?} else if >=1.14 <1.15 {
-        /*entityDesc.addProperty("width", entityType.getWidth());
-        entityDesc.addProperty("height", entityType.getHeight());
-        *///?} else if >=1.15 <1.20.5 {
-        /*entityDesc.addProperty("width", entityType.getDimensions().width);
-        entityDesc.addProperty("height", entityType.getDimensions().height);
         *///?} else {
-        entityDesc.addProperty("width", entityType.getDimensions().width());
-        entityDesc.addProperty("height", entityType.getDimensions().height());
+        entityDesc.addProperty("width", entityType.getWidth());
+        entityDesc.addProperty("height", entityType.getHeight());
         //?}
 
         //? if <1.14 {
         /*String entityTypeString = getEntityTypeForClass(entityClass);
-        *///?} else if >=1.14 <1.16 {
-        /*Entity entityObject = entityType.create(DGU.getWorld());
-        *///?} else if >=1.17 {
-        String entityTypeString = "UNKNOWN";
-        //?}
-        //? if >=1.16 {
-        MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
-        //?}
-        //? if >=1.16 <1.17 {
-        /*Entity entityObject = entityType.create(minecraftServer.getOverworld());
-        *///?}
-        //? if >=1.14 <1.17 {
-        /*String entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "player";
-        *///?} else if >=1.17 {
-
-        if (minecraftServer != null) {
-        //?}
-            //? if >=1.17 <1.21.3 {
-            /*Entity entityObject = entityType.create(minecraftServer.getOverworld());
-            *///?}
-            //? if >=1.17 <1.20.4 {
-            /*entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "player";
-            *///?} else if >=1.21.3 {
-            Entity entityObject = entityType.create(minecraftServer.getOverworld(), SpawnReason.NATURAL);
-            //?}
-            //? if >=1.20.4 {
-            entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "unknown";
-            //?}
-        //? if >=1.17 {
-        }
-        //?}
-        //? if >=1.20.4 {
-        if (entityType == EntityType.PLAYER) {
-            entityTypeString = "player";
-        }
-
+        *///?} else {
+        Entity entityObject = entityType.create(DGU.getWorld());
+        String entityTypeString = entityObject != null ? getEntityTypeForClass(entityObject.getClass()) : "player";
         //?}
         entityDesc.addProperty("type", entityTypeString);
         //? if <1.13 {
@@ -259,9 +199,9 @@ public class EntitiesDataGenerator implements IDataGenerator {
     }
 
     *///?}
-    //? if >=1.13 <1.17 {
-    /*private static String getCategoryFrom(@NotNull EntityType<?> entityType) {
-    *///?}
+    //? if >=1.13 {
+    private static String getCategoryFrom(@NotNull EntityType<?> entityType) {
+    //?}
         //? if >=1.13 <1.14 {
         /*if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
         Class<? extends Entity> entityClazz = getEntityClass(entityType);
@@ -269,61 +209,23 @@ public class EntitiesDataGenerator implements IDataGenerator {
         *///?}
         //? if <1.14 {
         /*return switch (packageName) {
-        *///?} else if >=1.17 {
-    private static String getCategoryFrom(EntityType<?> entityType) {
-        //?}
-        //? if >=1.14 <1.18 {
-        /*ParameterizedType entityTypeClass = (ParameterizedType) FieldHelper.findStaticFieldWithValue(EntityType.class, entityType).getGenericType();
+        *///?} else {
+        ParameterizedType entityTypeClass = (ParameterizedType) FieldHelper.findStaticFieldWithValue(EntityType.class, entityType).getGenericType();
         Class<?> entityClass = (Class<?>) entityTypeClass.getActualTypeArguments()[0];
         return switch (entityClass.getPackageName()) {
-        *///?} else if >=1.18 <=1.18 {
-        /*if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
-        Entity entity = EntityType.createInstanceFromId(Registry.ENTITY_TYPE.getRawId(entityType), DGU.getWorld());
-        *///?} else if >1.18 <1.19 {
-        /*if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
-        *///?} else if >=1.19 {
-        if (entityType == EntityType.PLAYER) return "UNKNOWN";
-        //?}
-        //? if >1.18 <1.21.3 {
-        /*Entity entity = entityType.create(DGU.getWorld());
-        *///?} else if >=1.21.3 {
-        Entity entity = entityType.create(DGU.getWorld(), SpawnReason.NATURAL);
-        //?}
-        //? if >=1.18 {
-        if (entity == null)
-        //?}
-            //? if >=1.18 <1.21 {
-            /*throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
-            *///?} else if >=1.21 {
-            throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getTranslationKey()));
-            //?}
-        //? if >=1.18 {
-        entity.discard();
-        return switch (entity.getClass().getPackageName()) {
         //?}
             case "net.minecraft.entity.decoration", "net.minecraft.entity.decoration.painting" -> "Immobile";
             case "net.minecraft.entity.boss", "net.minecraft.entity.mob", "net.minecraft.entity.boss.dragon" ->
                     "Hostile mobs";
-            //? if <1.16 {
-            /*case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
-            *///?} else {
-            case "net.minecraft.entity.projectile", "net.minecraft.entity.projectile.thrown" -> "Projectiles";
-            //?}
+            case "net.minecraft.entity.projectile", "net.minecraft.entity.thrown" -> "Projectiles";
             case "net.minecraft.entity.passive" -> "Passive mobs";
             case "net.minecraft.entity.vehicle" -> "Vehicles";
             //? if <1.14 {
             /*case "net.minecraft.entity" -> "other";
             default -> throw new IllegalStateException("Unexpected entity type: " + packageName);
-            *///?} else if >=1.14 <1.18 {
-            /*case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
-            default -> throw new IllegalStateException("Unexpected entity type: " + entityClass.getPackageName());
             *///?} else {
-            case "net.minecraft.entity" -> "UNKNOWN";
-            //?}
-            //? if >=1.18 <1.21 {
-            /*default -> throw new IllegalStateException("Unexpected entity type: " + entity.getClass().getPackageName());
-            *///?} else if >=1.21 {
-            default -> throw new Error("Unexpected entity type: " + entity.getClass().getPackageName());
+            case "net.minecraft.entity.player", "net.minecraft.entity" -> "other";
+            default -> throw new IllegalStateException("Unexpected entity type: " + entityClass.getPackageName());
             //?}
         };
     }
@@ -436,21 +338,16 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //? if <1.13 {
         /*for (Class<? extends Entity> entityType : Registries.ENTITY_TYPES) {
             resultArray.add(generateEntity(entityType));
-        *///?} else if >=1.13 <1.20 {
-        /*Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
-        *///?}
+        *///?} else {
+        Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
+        //?}
         //? if >=1.13 <1.14 {
         /*for (EntityType<?> entityType : (Iterable<EntityType<?>>) entityTypeRegistry) {
             resultArray.add(generateEntity(entityTypeRegistry, entityType));
         *///?}
         //? if <1.14 {
         /*}
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().getRegistryManager().get(RegistryKeys.ENTITY_TYPE);
-        *///?} else if >=1.21.3 {
-        Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().getRegistryManager().getOrThrow(RegistryKeys.ENTITY_TYPE);
-        //?}
-        //? if >=1.14 {
+        *///?} else {
         entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
         //?}
         return resultArray;
