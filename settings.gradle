@@ -1,5 +1,16 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = "KikuGie"
+            url = "https://maven.kikugie.dev/releases"
+        }
+    }
+}
+
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+    id 'dev.kikugie.stonecutter' version '0.9.8'
 }
 
 dependencyResolutionManagement {
@@ -12,4 +23,22 @@ dependencyResolutionManagement {
 
 include "common"
 
-new File(rootProject.projectDir, "mc").list().toList().forEach { include ":mc:$it" }
+stonecutter {
+    kotlinController = false
+    centralScript = "build.gradle"
+
+    // Yarn-named sources: legacy yarn up to 1.13, yarn from 1.14 to 1.21.3.
+    create("yarn") {
+        versions "1.7", "1.8.9", "1.9.4", "1.10.2", "1.11.2", "1.12.2", "1.13",
+                 "1.14", "1.15", "1.16", "1.17", "1.18",
+                 "1.19", "1.19.2", "1.20", "1.20.4", "1.20.5", "1.21", "1.21.3"
+        vers "22w19a", "1.19-alpha.22.19.a"
+        vcsVersion = "1.21.3"
+    }
+
+    // Mojang-named sources: mojmap from 1.21.5, unobfuscated official names from 26.1.
+    create("mojmap") {
+        versions "1.21.5", "1.21.6", "1.21.7", "1.21.8", "1.21.9", "1.21.10", "1.21.11", "26.1"
+        vcsVersion = "26.1"
+    }
+}

@@ -1,0 +1,82 @@
+import xyz.wagyourtail.unimined.internal.minecraft.MinecraftProvider
+
+plugins {
+    id 'dg-mc-conventions'
+}
+
+def mcVersion = property('mc.version')
+def mappingType = property('mc.mappings')
+def mappingBuild = findProperty('mc.mappings.build')
+def javaRelease = Integer.parseInt(findProperty('java.version') ?: '21')
+def mixinList = property('mixins').split(',').collect { '"' + it.trim() + '"' }.join(', ')
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaRelease))
+    }
+}
+
+if (findProperty('lombok.version')) {
+    lombok {
+        version = property('lombok.version')
+    }
+}
+
+unimined.minecraft {
+    version mcVersion
+
+    mappings {
+        switch (mappingType) {
+            case 'legacyYarn':
+                legacyIntermediary()
+                legacyYarn(mappingBuild as int)
+                devFallbackNamespace "intermediary"
+                break
+            case 'yarnv1':
+                intermediary()
+                yarnv1(mappingBuild as int)
+                devFallbackNamespace "intermediary"
+                break
+            case 'yarn':
+                intermediary()
+                yarn(mappingBuild as int)
+                devFallbackNamespace "intermediary"
+                break
+            case 'mojmap':
+                mojmap()
+                devNamespace "mojmap"
+                devFallbackNamespace "intermediary"
+                break
+            case 'official':
+                devFallbackNamespace "official"
+                break
+            default:
+                throw new GradleException("Unknown mc.mappings: $mappingType")
+        }
+    }
+
+    def patcher = mappingType == 'legacyYarn'
+        ? new CustomLegacyFabricMinecraftTransformer(project, delegate as MinecraftProvider)
+        : new CustomOfficialFabricMinecraftTransformer(project, delegate as MinecraftProvider)
+    customPatcher(patcher) {
+        it.loader libs.versions.fabric.loader.get()
+    }
+
+    runs.config("server") {
+        javaVersion = JavaVersion.toVersion(javaRelease)
+    }
+
+    defaultRemapJar = true
+}
+
+processResources {
+    inputs.property("mixins", mixinList)
+    filesMatching("minecraft-data-generator.mixins.json") {
+        expand(mixins: "[$mixinList]")
+    }
+}
+
+// Formatting is checked once per tree on the shared sources, see stonecutter.gradle.
+tasks.matching { it.name.startsWith('spotless') }.configureEach {
+    enabled = false
+}

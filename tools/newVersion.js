@@ -1,30 +1,36 @@
 const fs = require('fs')
 const { join } = require('path')
+const { root, versions, treeOf } = require('./versions')
 
-const manifest = require('../versions.json')
-
-const oldVersion = manifest.at(-1)
-const oldDir = join(__dirname, '../mc', oldVersion)
+const oldVersion = versions.at(-1)
 
 function bump (newVersion) {
-  const newDir = join(__dirname, '../mc', newVersion)
+  const tree = treeOf(oldVersion)
+  const oldDir = join(root, tree, 'versions', oldVersion)
+  const newDir = join(root, tree, 'versions', newVersion)
 
   if (fs.existsSync(newDir)) {
     console.warn(`New version directory already exists: ${newDir}`)
     process.exit(0)
   }
 
-  fs.cpSync(oldDir, newDir, { recursive: true })
+  fs.mkdirSync(newDir)
+  const props = fs.readFileSync(join(oldDir, 'gradle.properties'), 'utf8')
+  fs.writeFileSync(join(newDir, 'gradle.properties'), props.replace(`mc.version=${oldVersion}`, `mc.version=${newVersion}`))
 
-  // update the build.gradle file in the new mc version directory to replace the old version with the new version
-  const buildGradlePath = join(__dirname, '../mc', newVersion, 'build.gradle')
-  let buildGradleContent = fs.readFileSync(buildGradlePath, 'utf8')
-  buildGradleContent = buildGradleContent.replace(new RegExp(oldVersion, 'g'), newVersion)
-  fs.writeFileSync(buildGradlePath, buildGradleContent)
+  // Register the node in the tree's version list and make it the version checked into src/.
+  const settingsPath = join(root, 'settings.gradle')
+  let settings = fs.readFileSync(settingsPath, 'utf8')
+  settings = settings.replace(`"${oldVersion}"\n`, `"${oldVersion}", "${newVersion}"\n`)
+  settings = settings.replace(`vcsVersion = "${oldVersion}"`, `vcsVersion = "${newVersion}"`)
+  fs.writeFileSync(settingsPath, settings)
 
-  // Now update the versions.json file
-  manifest.push(newVersion)
-  fs.writeFileSync(join(__dirname, '../versions.json'), JSON.stringify(manifest, null, 2))
+  const controllerPath = join(root, tree, 'stonecutter.gradle')
+  const controller = fs.readFileSync(controllerPath, 'utf8')
+  fs.writeFileSync(controllerPath, controller.replace(`stonecutter.active '${oldVersion}'`, `stonecutter.active '${newVersion}'`))
+
+  versions.push(newVersion)
+  fs.writeFileSync(join(root, 'versions.json'), JSON.stringify(versions, null, 2) + '\n')
 }
 
 module.exports = bump

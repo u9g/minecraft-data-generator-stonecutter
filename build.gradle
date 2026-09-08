@@ -22,3 +22,18 @@ allprojects {
         mavenCentral()
     }
 }
+
+// The shared Stonecutter sources are formatted here: the version projects only see
+// generated copies, and import order is not enforced because version conditions sit
+// between imports.
+apply plugin: 'com.diffplug.spotless'
+
+spotless {
+    java {
+        target 'yarn/src/**/*.java', 'mojmap/src/**/*.java'
+
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+}

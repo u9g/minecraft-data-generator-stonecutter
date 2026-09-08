@@ -2,11 +2,10 @@
  * setupCopilot.js
  *
  * Reads versions from:
- *  - versions.json at repo root (if present), else
- *  - directories under mc/
+ *  - versions.json at repo root
  *
  * For each version it runs:
- *   ./gradlew :mc:<version>:runServer --stacktrace
+ *   ./gradlew :<tree>:<version>:runServer --stacktrace
  *
  * Uses child_process.execSync(cmd, { stdio: 'inherit' }) so logs stream to the action console.
  * Errors are caught, logged, and the loop continues. At the end the script writes
@@ -22,13 +21,13 @@ const { join } = require('path')
 const failOnError = process.env.FAIL_ON_ERROR === 'true'
 
 // Save some time by skipping old versions as we are not parallelizing builds
-const versions = require('../../versions.json')
+const { versions, projectPath } = require('../../tools/versions')
 const SKIP_VERSIONS = versions.slice(0, -2) // all but last 2 versions
 
 async function main () {
 
   if (!Array.isArray(versions) || versions.length === 0) {
-    console.error('No versions found (no VERSION env, no versions.json, no mc/* directories).')
+    console.error('No versions found in versions.json.')
     process.exit(1)
   }
 
@@ -46,7 +45,7 @@ async function main () {
     }
     console.log('')
     console.log('=== Building version:', v, '===')
-    const cmd = `./gradlew :mc:${v}:runServer --stacktrace`
+    const cmd = `./gradlew ${projectPath(v)}:runServer --stacktrace`
     try {
       // stream output to the runner logs
       cp.execSync(cmd, { stdio: 'inherit' })
