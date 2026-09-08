@@ -12,21 +12,10 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-//? if >=1.17 {
-import net.minecraft.core.RegistryAccess;
-//?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
 import net.minecraft.util.Mth;
 //? if =1.21.3 {
 /*import net.minecraft.util.ARGB;
-*///?} else if >=1.21.11 {
-import net.minecraft.resources.Identifier;
-//?}
+*///?}
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.biome.Biome;
@@ -134,19 +123,8 @@ public class TintsDataGenerator implements IDataGenerator {
 
             JsonArray keysArray = new JsonArray();
             for (Biome biome : entry.getValue()) {
-                //? if <1.16 {
-                /*ResourceLocation registryKey = biomeRegistry.getKey(biome);
-                keysArray.add(Objects.requireNonNull(registryKey).getPath());
-                *///?} else if >=1.16 <1.21.5 {
-                /*ResourceLocation registryKey = biomeRegistry.getResourceKey(biome).orElseThrow().location();
-                *///?} else if >=1.21.5 <1.21.11 {
-                /*ResourceLocation registryKey = biomeRegistry.getKey(biome);
-                *///?} else {
-                Identifier registryKey = biomeRegistry.getKey(biome);
-                //?}
-                //? if >=1.16 {
+                var registryKey = biomeRegistry.getKey(biome);
                 keysArray.add(registryKey.getPath());
-                //?}
             }
 
             entryObject.add("keys", keysArray);
@@ -183,19 +161,8 @@ public class TintsDataGenerator implements IDataGenerator {
             JsonObject entryObject = new JsonObject();
 
             JsonArray keysArray = new JsonArray();
-            //? if <1.16 {
-            /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
-            keysArray.add(Objects.requireNonNull(registryKey).getPath());
-            *///?} else if >=1.16 <1.21.5 {
-            /*ResourceLocation registryKey = blockRegistry.getResourceKey(entry.getKey()).orElseThrow().location();
-            *///?} else if >=1.21.5 <1.21.11 {
-            /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
-            *///?} else {
-            Identifier registryKey = blockRegistry.getKey(entry.getKey());
-            //?}
-            //? if >=1.16 {
+            var registryKey = blockRegistry.getKey(entry.getKey());
             keysArray.add(registryKey.getPath());
-            //?}
 
             entryObject.add("keys", keysArray);
             entryObject.addProperty("color", entry.getValue());
@@ -214,28 +181,9 @@ public class TintsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
-//? if <1.17 {
-/*//        DynamicRegistryManager registryManager = DynamicRegistryManager.create();
-        Registry<Biome> biomeRegistry = Registry.BIOME;
-        Registry<Block> blockRegistry = Registry.BLOCK;
-*///?} else if >=1.17 <=1.18 {
-        /*RegistryAccess registryManager = RegistryAccess.builtin();
-*///?} else if >1.18 <1.20 {
-        /*RegistryAccess registryManager = RegistryAccess.BUILTIN.get();
-*///?}
-        //? if >=1.17 <1.20 {
-        /*Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
-        Registry<Block> blockRegistry = registryManager.registryOrThrow(Registry.BLOCK_REGISTRY);
-        *///?} else if >=1.20 {
-        RegistryAccess registryManager = DGU.getWorld().registryAccess();
-        //?}
-        //? if >=1.20 <1.21.3 {
-        /*Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registries.BIOME);
-        Registry<Block> blockRegistry = registryManager.registryOrThrow(Registries.BLOCK);
-        *///?} else if >=1.21.3 {
-        Registry<Biome> biomeRegistry = registryManager.lookupOrThrow(Registries.BIOME);
-        Registry<Block> blockRegistry = registryManager.lookupOrThrow(Registries.BLOCK);
-        //?}
+//        DynamicRegistryManager registryManager = DynamicRegistryManager.create();
+        Registry<Biome> biomeRegistry = DGU.registry("biome");
+        Registry<Block> blockRegistry = DGU.registry("block");
 
         BiomeTintColors biomeTintColors = generateBiomeTintColors(biomeRegistry);
         Map<Integer, Integer> redstoneColors = generateRedstoneTintColors();

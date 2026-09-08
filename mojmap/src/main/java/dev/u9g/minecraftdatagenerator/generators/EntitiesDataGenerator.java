@@ -5,14 +5,6 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.FieldHelper;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.Registry;
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?} else {
-import net.minecraft.resources.Identifier;
-//?}
 import net.minecraft.server.MinecraftServer;
 //? if <1.17 {
 /*import net.minecraft.world.entity.AgableMob;
@@ -43,27 +35,16 @@ import net.minecraft.world.entity.projectile.Projectile;
 *///?}
 
 import java.lang.reflect.ParameterizedType;
-import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
-        //? if <1.16 || (>=1.21.5 <1.21.11) {
-        /*ResourceLocation registryKey = entityRegistry.getKey(entityType);
-        *///?} else if >=1.16 <1.21.5 {
-        /*ResourceLocation registryKey = entityRegistry.getResourceKey(entityType).orElseThrow().location();
-        *///?} else {
-        Identifier registryKey = entityRegistry.getKey(entityType);
-        //?}
+        var registryKey = entityRegistry.getKey(entityType);
         int entityRawId = entityRegistry.getId(entityType);
 
         entityDesc.addProperty("id", entityRawId);
         entityDesc.addProperty("internalId", entityRawId);
-        //? if <1.16 {
-        /*entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else {
         entityDesc.addProperty("name", registryKey.getPath());
-        //?}
 
         entityDesc.addProperty("displayName", DGU.translateText(entityType.getDescriptionId()));
         //? if <1.20.5 {
@@ -129,7 +110,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         String className = entityClass.getSimpleName();
         *///?} else if =1.18 {
         /*if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
-        Entity entity = EntityType.create(Registry.ENTITY_TYPE.getId(entityType), DGU.getWorld());
+        Entity entity = EntityType.create(DGU.<EntityType<?>>registry("entity_type").getId(entityType), DGU.getWorld());
         *///?} else if >1.18 <1.19 {
         /*if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
         *///?} else {
@@ -142,27 +123,23 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //?}
         //? if >=1.18 {
         if (entity == null)
-        //?}
-            //? if >=1.18 <1.21 {
-            /*throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getDescriptionId()));
-            *///?} else if >=1.21 {
-            throw new Error("Entity was null after trying to create a: " + DGU.translateText(entityType.getDescriptionId()));
-            //?}
-        //? if >=1.18 {
+            throw new IllegalStateException("Entity was null after trying to create a: " + DGU.translateText(entityType.getDescriptionId()));
         entity.discard();
         String packageName = entity.getClass().getPackageName();
         //?}
         //? if >=1.18 <1.21.5 {
         /*String className = entity.getClass().getSimpleName();
         *///?}
-        //? if <1.21.5 {
-        /*String family = packageName.replaceFirst("^net\\.minecraft\\.world\\.entity\\.?", "").split("\\.")[0];
+
+
+        String family = packageName.replaceFirst("^net\\.minecraft\\.world\\.entity\\.?", "").split("\\.")[0];
         return switch (family) {
             case "decoration" -> "Immobile";
-            case "boss", "monster" -> className.equals("EndCrystal") ? "Immobile"
+            //? if <1.21.5 {
+            /*case "boss", "monster" -> className.equals("EndCrystal") ? "Immobile"
                     : className.equals("Strider") ? "Passive mobs" : "Hostile mobs";
             case "projectile", "fishing" -> className.equals("EvokerFangs") ? "Hostile mobs"
-        *///?}
+            *///?}
                     //? if <1.16 {
                     /*: className.equals("FireworkRocketEntity") ? "other"
                     *///?}
@@ -173,54 +150,26 @@ public class EntitiesDataGenerator implements IDataGenerator {
                     *///?}
             //? if <1.21.5 {
             /*case "animal", "ambient", "npc" -> className.equals("SkeletonHorse") || className.equals("ZombieHorse") ? "Hostile mobs" : "Passive mobs";
+            *///?} else {
+            case "boss", "monster" -> "Hostile mobs";
+            case "projectile" -> "Projectiles";
+            case "animal" -> "Passive mobs";
+            //?}
             case "vehicle" -> "Vehicles";
-            case "player", "item", "global", "" -> className.equals("Interaction") || className.endsWith("Display") ? "Immobile"
+            //? if <1.21.5 {
+            /*case "player", "item", "global", "" -> className.equals("Interaction") || className.endsWith("Display") ? "Immobile"
             *///?}
                     //? if <1.18 {
                     /*: className.equals("GlowSquid") ? "Passive mobs" : "other";
                     *///?} else if >=1.18 <1.21.5 {
                     /*: className.equals("GlowSquid") ? "Passive mobs" : "UNKNOWN";
                     *///?}
-            //? if <1.21 {
+            //? if <1.21.5 {
             /*default -> throw new IllegalStateException("Unexpected entity type: " + packageName);
-            *///?} else if >=1.21 <1.21.5 {
-            /*default -> throw new Error("Unexpected entity type: " + packageName);
-            *///?}
-        //? if <1.21.5 {
-        /*};
-        *///?}
-
-
-        // Use a more flexible approach to handle sub-packages
-        //? if >=1.21.5 <1.21.9 {
-        /*if (packageName.equals("net.minecraft.world.entity.decoration") ||
-        *///?} else if >=1.21.9 {
-        if (packageName.equals("net.minecraft.world.entity.decoration") ||
-        //?}
-            //? if >=1.21.5 {
-            packageName.startsWith("net.minecraft.world.entity.decoration.")) {
-            return "Immobile";
-        } else if (packageName.equals("net.minecraft.world.entity.boss") ||
-                   packageName.equals("net.minecraft.world.entity.monster") ||
-                   packageName.startsWith("net.minecraft.world.entity.boss.") ||
-                   packageName.startsWith("net.minecraft.world.entity.monster.")) {
-            return "Hostile mobs";
-        } else if (packageName.equals("net.minecraft.world.entity.projectile") ||
-                   packageName.startsWith("net.minecraft.world.entity.projectile.")) {
-            return "Projectiles";
-        } else if (packageName.equals("net.minecraft.world.entity.animal") ||
-                   packageName.startsWith("net.minecraft.world.entity.animal.")) {
-            return "Passive mobs";
-        } else if (packageName.equals("net.minecraft.world.entity.vehicle") ||
-                   packageName.startsWith("net.minecraft.world.entity.vehicle.")) {
-            return "Vehicles";
-        } else if (packageName.equals("net.minecraft.world.entity")) {
-            return "UNKNOWN";
-        } else {
-            // Instead of throwing an error, return UNKNOWN for unexpected packages
-            return "UNKNOWN";
-        }
+            *///?} else {
+            default -> "UNKNOWN";
             //?}
+        };
     }
 
     //Honestly, both "type" and "category" fields in the schema and examples do not contain any useful information
@@ -276,13 +225,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        //? if <1.20 {
-        /*Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ENTITY_TYPE);
-        *///?} else {
-        Registry<EntityType<?>> entityTypeRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ENTITY_TYPE);
-        //?}
+        Registry<EntityType<?>> entityTypeRegistry = DGU.registry("entity_type");
         entityTypeRegistry.forEach(entity -> resultArray.add(generateEntity(entityTypeRegistry, entity)));
         return resultArray;
     }

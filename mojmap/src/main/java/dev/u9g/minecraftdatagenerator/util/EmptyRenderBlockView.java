@@ -3,12 +3,6 @@ package dev.u9g.minecraftdatagenerator.util;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
-//? if >=1.17 <1.20 {
-/*import net.minecraft.core.RegistryAccess;
-*///?} else if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
 //? if <26.1 {
 /*import net.minecraft.world.level.BlockAndTintGetter;
 *///?}
@@ -19,9 +13,6 @@ import net.minecraft.world.level.CardinalLighting;
 //?}
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
-//? if >=1.21.5 {
-import net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier;
-//?}
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -98,28 +89,13 @@ public enum EmptyRenderBlockView implements BlockAndTintGetter {
     *///?}
         //? if <1.17 {
         /*return colorResolver.getColor(Biomes.PLAINS, pos.getX(), pos.getY());
-        *///?} else if >=1.17 <=1.18 {
-        /*RegistryAccess registryManager = RegistryAccess.builtin();
-        *///?} else if >1.18 <1.20 {
-        /*RegistryAccess registryManager = RegistryAccess.BUILTIN.get();
-        *///?}
-        //? if >=1.17 <1.20 {
-        /*Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Biome> biomeRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.BIOME);
-        *///?}
-        //? if >=1.17 <1.21.3 {
-        /*Biome plainsBiome = biomeRegistry.get(Biomes.PLAINS);
+        *///?} else if >=1.17 <1.21.3 {
+        /*Biome plainsBiome = DGU.<Biome>registry("biome").get(Biomes.PLAINS);
         *///?} else if >=1.21.5 {
     public int getBlockTint(BlockPos pos, net.minecraft.world.level.ColorResolver colorResolver) {
         //?}
         //? if >=1.21.3 {
-        Registry<Biome> biomeRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.BIOME);
-        //?}
-        //? if =1.21.3 {
-        /*Biome plainsBiome = biomeRegistry.getValue(Biomes.PLAINS);
-        *///?} else if >=1.21.5 {
-        Biome plainsBiome = biomeRegistry.get(Biomes.PLAINS).orElse(null).value();
+        Biome plainsBiome = DGU.<Biome>registry("biome").get(Biomes.PLAINS).orElse(null).value();
         //?}
         //? if >=1.17 {
 
@@ -129,11 +105,7 @@ public enum EmptyRenderBlockView implements BlockAndTintGetter {
 
     @Override
     public int getBrightness(LightLayer type, BlockPos pos) {
-        //? if <1.21.3 {
-        /*return type == LightLayer.SKY ? getMaxLightLevel() : 0;
-        *///?} else {
         return type == LightLayer.SKY ? 15 : 0;
-        //?}
     }
 
     //? if <1.21.5 {

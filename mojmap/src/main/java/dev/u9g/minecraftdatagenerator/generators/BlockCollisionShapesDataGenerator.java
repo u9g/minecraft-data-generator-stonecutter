@@ -7,14 +7,6 @@ import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?} else {
-import net.minecraft.resources.Identifier;
-//?}
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,13 +25,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
 
     @Override
     public JsonObject generateDataJson() {
-        //? if <1.20 {
-        /*Registry<Block> blockRegistry = Registry.BLOCK;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Block> blockRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.BLOCK);
-        *///?} else {
-        Registry<Block> blockRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.BLOCK);
-        //?}
+        Registry<Block> blockRegistry = DGU.registry("block");
         BlockShapesCache blockShapesCache = new BlockShapesCache();
 
         blockRegistry.forEach(blockShapesCache::processBlock);
@@ -91,19 +77,8 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                     }
                 }
 
-                //? if <1.16 {
-                /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
-                resultObject.add(Objects.requireNonNull(registryKey).getPath(), blockCollision);
-                *///?} else if >=1.16 <1.21.5 {
-                /*ResourceLocation registryKey = blockRegistry.getResourceKey(entry.getKey()).orElseThrow().location();
-                *///?} else if >=1.21.5 <1.21.11 {
-                /*ResourceLocation registryKey = blockRegistry.getKey(entry.getKey());
-                *///?} else {
-                Identifier registryKey = blockRegistry.getKey(entry.getKey());
-                //?}
-                //? if >=1.16 {
+                var registryKey = blockRegistry.getKey(entry.getKey());
                 resultObject.add(registryKey.getPath(), blockCollision);
-                //?}
             }
 
             return resultObject;

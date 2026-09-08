@@ -7,14 +7,6 @@ import net.minecraft.core.Registry;
 //? if >=1.20.5 {
 import net.minecraft.core.component.DataComponents;
 //?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?} else {
-import net.minecraft.resources.Identifier;
-//?}
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 
@@ -23,20 +15,10 @@ import java.util.Objects;
 public class FoodsDataGenerator implements IDataGenerator {
     public static JsonObject generateFoodDescriptor(Registry<Item> registry, Item foodItem) {
         JsonObject foodDesc = new JsonObject();
-        //? if <1.16 || (>=1.21.5 <1.21.11) {
-        /*ResourceLocation registryKey = registry.getKey(foodItem);
-        *///?} else if >=1.16 <1.21.5 {
-        /*ResourceLocation registryKey = registry.getResourceKey(foodItem).orElseThrow().location();
-        *///?} else {
-        Identifier registryKey = registry.getKey(foodItem);
-        //?}
+        var registryKey = registry.getKey(foodItem);
 
         foodDesc.addProperty("id", registry.getId(foodItem));
-        //? if <1.16 {
-        /*foodDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else {
         foodDesc.addProperty("name", registryKey.getPath());
-        //?}
 
         //? if <1.20.5 {
         /*foodDesc.addProperty("stackSize", foodItem.getMaxStackSize());
@@ -72,13 +54,7 @@ public class FoodsDataGenerator implements IDataGenerator {
 
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        //? if <1.20 {
-        /*Registry<Item> itemRegistry = Registry.ITEM;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Item> itemRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM);
-        *///?} else {
-        Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-        //?}
+        Registry<Item> itemRegistry = DGU.registry("item");
         itemRegistry.stream()
                 //? if <1.20.5 {
                 /*.filter(Item::isEdible)

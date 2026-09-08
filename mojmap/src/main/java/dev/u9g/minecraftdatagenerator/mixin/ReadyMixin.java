@@ -2,7 +2,6 @@ package dev.u9g.minecraftdatagenerator.mixin;
 
 import dev.u9g.minecraftdatagenerator.MinecraftDataGenerator;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.DetectedVersion;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,16 +21,12 @@ public class ReadyMixin {
     @Inject(method = "initServer()Z", at = @At("TAIL"))
     private void init(CallbackInfoReturnable<Boolean> cir) {
         MinecraftDataGenerator.start(
-                //? if <1.16 {
-                /*DetectedVersion.tryDetectVersion().getName(),
-                *///?} else if >=1.16 <1.21.5 {
-                /*DetectedVersion.BUILT_IN.getName(),
+                //? if <1.21.6 {
+                /*SharedConstants.getCurrentVersion().getName(),
                 *///?}
                 //? if <1.21 {
                 /*DGU.getCurrentlyRunningServer().getServerDirectory().toPath()
-                *///?} else if >=1.21.5 <1.21.9 {
-                /*SharedConstants.VERSION_STRING,
-                *///?} else if >=1.21.9 {
+                *///?} else if >=1.21.6 {
                 SharedConstants.getCurrentVersion().name(),
                 //?}
                 //? if >=1.21 {

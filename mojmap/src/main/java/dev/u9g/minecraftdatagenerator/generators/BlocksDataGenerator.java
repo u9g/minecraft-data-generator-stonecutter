@@ -9,17 +9,6 @@ import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-//? if >=1.20 <1.21.5 {
-/*import net.minecraft.core.registries.BuiltInRegistries;
-*///?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?} else {
-import net.minecraft.resources.Identifier;
-//?}
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 //? if <1.17 {
@@ -62,18 +51,11 @@ public class BlocksDataGenerator implements IDataGenerator {
 
     private static List<Item> getItemsEffectiveForBlock(BlockState blockState) {
     //?}
-        //? if <1.20 {
-        /*return Registry.ITEM.stream()
-        *///?}
+        return DGU.<Item>registry("item").stream()
                 //? if <1.17 {
                 /*.filter(item -> item instanceof DiggerItem)
                 .filter(item -> ((MiningToolItemAccessor) item).getEffectiveBlocks().contains(block))
-                *///?} else if >=1.20 <1.21.3 {
-        /*return DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM).stream()
-                *///?} else if >=1.21.3 {
-        return DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM).stream()
-                //?}
-                //? if >=1.17 {
+                *///?} else {
                 .filter(item -> item.getDefaultInstance().isCorrectToolForDrops(blockState))
                 //?}
                 .collect(Collectors.toList());
@@ -214,22 +196,15 @@ public class BlocksDataGenerator implements IDataGenerator {
     //?}
         JsonObject blockDesc = new JsonObject();
         //? if >=1.21.5 {
-        Registry<Block> blockRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.BLOCK);
+        Registry<Block> blockRegistry = DGU.registry("block");
         //?}
 
         List<BlockState> blockStates = block.getStateDefinition().getPossibleStates();
         BlockState defaultState = block.defaultBlockState();
-        //? if <1.16 {
-        /*ResourceLocation registryKey = Registry.BLOCK.getKey(block);
-        *///?} else if >=1.16 <1.20 {
-        /*ResourceLocation registryKey = Registry.BLOCK.getResourceKey(block).orElseThrow().location();
-        *///?} else if >=1.20 <1.21.5 {
-        /*ResourceLocation registryKey = BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = blockRegistry.getKey(block);
-        *///?} else {
-        Identifier registryKey = blockRegistry.getKey(block);
-        //?}
+        //? if <1.21.5 {
+        /*Registry<Block> blockRegistry = DGU.registry("block");
+        *///?}
+        var registryKey = blockRegistry.getKey(block);
         String localizationKey = block.getDescriptionId();
         //? if <1.17 {
         /*List<Item> effectiveTools = getItemsEffectiveForBlock(block);
@@ -237,13 +212,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         List<Item> effectiveTools = getItemsEffectiveForBlock(defaultState);
         //?}
 
-        //? if <1.20 {
-        /*blockDesc.addProperty("id", Registry.BLOCK.getId(block));
-        *///?} else if >=1.20 <1.21.5 {
-        /*blockDesc.addProperty("id", BuiltInRegistries.BLOCK.getId(block));
-        *///?} else {
         blockDesc.addProperty("id", blockRegistry.getId(block));
-        //?}
         //? if >1.18 {
         blockDesc.addProperty("name", registryKey.getPath());
         //?}
@@ -267,32 +236,71 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("hardness", block.defaultDestroyTime());
         //?}
         blockDesc.addProperty("resistance", block.getExplosionResistance());
-        //? if <1.18 {
+        //? if =1.18 {
+        /*blockDesc.addProperty("minStateId", Block.getId(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getId(blockStates.getLast()));
+        JsonArray stateProperties = new JsonArray();
+        for (Property<?> property : block.getStateDefinition().getProperties()) {
+            stateProperties.add(generateStateProperty(property));
+        }
+        blockDesc.add("states", stateProperties);
+        // Let's not generate block drops...
+        // List<ItemStack> actualBlockDrops = new ArrayList<>();
+        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
+
+        // for (ItemStack dropStack : actualBlockDrops) {
+        //     dropsArray.add(Item.getRawId(dropStack.getItem()));
+        // }
+        JsonArray dropsArray = new JsonArray();
+        blockDesc.add("drops", dropsArray);
+        *///?} else if >1.18 <1.20.5 {
+        /*blockDesc.addProperty("stackSize", block.asItem().getMaxStackSize());
+        *///?} else if >=1.20.5 {
+        blockDesc.addProperty("stackSize", block.asItem().getDefaultMaxStackSize());
+        //?}
+        //? if >=1.18 {
+        blockDesc.addProperty("diggable", block.defaultDestroyTime() != -1.0f && !(block instanceof AirBlock));
+        //?}
+        //? if =1.18 {
+        /*blockDesc.addProperty("transparent", !defaultState.canOcclude());
+        blockDesc.addProperty("filterLight", defaultState.getLightBlock(EmptyBlockGetter.INSTANCE, BlockPos.ZERO));
+        blockDesc.addProperty("emitLight", defaultState.getLightEmission());
+        VoxelShape blockCollisionShape = defaultState.getCollisionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
+        blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
+        *///?}
+        //? if <=1.18 {
         /*blockDesc.addProperty("stackSize", block.asItem().getMaxStackSize());
         *///?}
         //? if <1.17 {
         /*blockDesc.addProperty("diggable", hardness != -1.0f && !(block instanceof AirBlock));
         JsonObject effTools = new JsonObject();
         effectiveTools.forEach(item -> effTools.addProperty(
-                String.valueOf(Registry.ITEM.getId(item)), // key
-        *///?}
-                //? if <1.16 {
-                /*item.getDestroySpeed(DGU.asStack(item), defaultState) // value
-                *///?} else if =1.16 {
-                /*item.getDestroySpeed(item.getDefaultInstance(), defaultState) // value
-                *///?}
-        //? if <1.17 {
-        /*));
+                String.valueOf(DGU.<Item>registry("item").getId(item)), // key
+                item.getDestroySpeed(new ItemStack(item), defaultState) // value
+        ));
         blockDesc.add("effectiveTools", effTools);
         *///?} else if =1.17 {
         /*blockDesc.addProperty("diggable", block.defaultDestroyTime() != -1.0f && !(block instanceof AirBlock));
+        *///?} else if =1.18 {
+        /*blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
+        //Only add harvest tools if tool is required for harvesting this block
+        if (defaultState.requiresCorrectToolForDrops()) {
+            JsonObject effectiveToolsObject = new JsonObject();
+            for (Item effectiveItem : effectiveTools) {
+                effectiveToolsObject.addProperty(Integer.toString(DGU.<Item>registry("item").getId(effectiveItem)), true);
+            }
+            blockDesc.add("harvestTools", effectiveToolsObject);
+        }
+        blockDesc.addProperty("defaultState", Block.getId(defaultState));
+        *///?}
 //        JsonObject effTools = new JsonObject();
 //        effectiveTools.forEach(item -> effTools.addProperty(
 //                String.valueOf(Registry.ITEM.getRawId(item)), // key
 //                item.getMiningSpeedMultiplier(item.getDefaultStack(), defaultState) // value
 //        ));
 //        blockDesc.add("effectiveTools", effTools);
-        blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
+        //? if =1.17 {
+        /*blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
         *///?}
         //? if <1.18 {
 
@@ -301,19 +309,56 @@ public class BlocksDataGenerator implements IDataGenerator {
         blockDesc.addProperty("filterLight", defaultState.getLightBlock(EmptyBlockGetter.INSTANCE, BlockPos.ZERO));
 
         blockDesc.addProperty("defaultState", Block.getId(defaultState));
-        *///?} else if >1.18 <1.20.5 {
-        /*blockDesc.addProperty("stackSize", block.asItem().getMaxStackSize());
-        *///?} else if >=1.20.5 {
-        blockDesc.addProperty("stackSize", block.asItem().getDefaultMaxStackSize());
-        //?}
-        //? if >1.18 {
-        blockDesc.addProperty("diggable", block.defaultDestroyTime() != -1.0f && !(block instanceof AirBlock));
-//        JsonObject effTools = new JsonObject();
-//        effectiveTools.forEach(item -> effTools.addProperty(
-//                String.valueOf(Registry.ITEM.getRawId(item)), // key
-//                item.getMiningSpeedMultiplier(item.getDefaultStack(), defaultState) // value
-//        ));
-//        blockDesc.add("effectiveTools", effTools);
+        blockDesc.addProperty("minStateId", Block.getId(blockStates.getFirst()));
+        blockDesc.addProperty("maxStateId", Block.getId(blockStates.getLast()));
+        *///?}
+
+        //? if <1.18 {
+        /*JsonArray stateProperties = new JsonArray();
+        for (Property<?> property : block.getStateDefinition().getProperties()) {
+            stateProperties.add(generateStateProperty(property));
+        }
+        blockDesc.add("states", stateProperties);
+
+        *///?}
+//        List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
+        //? if =1.16 {
+        /*List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
+        *///?} else if =1.17 {
+        /*//Only add harvest tools if tool is required for harvesting this block
+        if (defaultState.requiresCorrectToolForDrops()) {
+            Registry<Item> itemRegistry = DGU.registry("item");
+            JsonObject effectiveToolsObject = new JsonObject();
+            for (Item effectiveItem : effectiveTools) {
+                effectiveToolsObject.addProperty(Integer.toString(itemRegistry.getId(effectiveItem)), true);
+            }
+            blockDesc.add("harvestTools", effectiveToolsObject);
+        }
+
+        List<ItemStack> actualBlockDrops = new ArrayList<>();
+        populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
+        *///?}
+        //? if <1.18 {
+
+        /*JsonArray dropsArray = new JsonArray();
+        *///?}
+//        drops.forEach(dropped -> dropsArray.add(Item.getRawId(dropped.getItem())));
+
+        //? if =1.16 {
+        /*drops.forEach(dropped -> dropsArray.add(DGU.<Item>registry("item").getId(dropped.getItem())));
+        *///?} else if =1.17 {
+        /*Registry<Item> itemRegistry = DGU.registry("item");
+        for (ItemStack dropStack : actualBlockDrops) {
+            dropsArray.add(itemRegistry.getId(dropStack.getItem()));
+        }
+        *///?}
+        //? if <1.18 {
+        /*blockDesc.add("drops", dropsArray);
+
+        VoxelShape blockCollisionShape = defaultState.getCollisionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
+        blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
+
+        *///?} else if >1.18 {
         blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
 
         blockDesc.addProperty("transparent", !defaultState.canOcclude());
@@ -329,109 +374,35 @@ public class BlocksDataGenerator implements IDataGenerator {
         //? if >1.18 {
 
         blockDesc.addProperty("defaultState", Block.getId(defaultState));
-        //?}
         blockDesc.addProperty("minStateId", Block.getId(blockStates.getFirst()));
         blockDesc.addProperty("maxStateId", Block.getId(blockStates.getLast()));
-
 
         JsonArray stateProperties = new JsonArray();
         for (Property<?> property : block.getStateDefinition().getProperties()) {
             stateProperties.add(generateStateProperty(property));
         }
         blockDesc.add("states", stateProperties);
-        // Let's not generate block drops...
-        // List<ItemStack> actualBlockDrops = new ArrayList<>();
-        // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
-//        List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
-        //? if =1.16 {
-        /*List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
-        *///?} else if =1.18 {
-        /*// for (ItemStack dropStack : actualBlockDrops) {
-        //     dropsArray.add(Item.getRawId(dropStack.getItem()));
-        // }
-        JsonArray dropsArray = new JsonArray();
-        blockDesc.add("drops", dropsArray);
-        blockDesc.addProperty("diggable", block.defaultDestroyTime() != -1.0f && !(block instanceof AirBlock));
-        blockDesc.addProperty("transparent", !defaultState.canOcclude());
-        blockDesc.addProperty("filterLight", defaultState.getLightBlock(EmptyBlockGetter.INSTANCE, BlockPos.ZERO));
-        blockDesc.addProperty("emitLight", defaultState.getLightEmission());
-        VoxelShape blockCollisionShape = defaultState.getCollisionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
-        blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
-        blockDesc.addProperty("stackSize", block.asItem().getMaxStackSize());
-        blockDesc.addProperty("material", findMatchingBlockMaterial(defaultState, materials));
-        *///?}
-        //? if >=1.17 {
         //Only add harvest tools if tool is required for harvesting this block
         if (defaultState.requiresCorrectToolForDrops()) {
-        //?}
-            //? if >=1.21.5 {
-            Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-            //?}
-            //? if >=1.17 {
+            Registry<Item> itemRegistry = DGU.registry("item");
             JsonObject effectiveToolsObject = new JsonObject();
             for (Item effectiveItem : effectiveTools) {
-            //?}
-                //? if >=1.17 <1.21.5 {
-                /*effectiveToolsObject.addProperty(Integer.toString(Item.getId(effectiveItem)), true);
-                *///?} else if >=1.21.5 {
                 effectiveToolsObject.addProperty(Integer.toString(itemRegistry.getId(effectiveItem)), true);
-                //?}
-            //? if >=1.17 {
             }
             blockDesc.add("harvestTools", effectiveToolsObject);
         }
-            //?}
-        //? if =1.17 {
-
-        /*List<ItemStack> actualBlockDrops = new ArrayList<>();
-        populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
-        *///?}
-        //? if <1.18 {
-
-        /*JsonArray dropsArray = new JsonArray();
-        *///?}
-//        drops.forEach(dropped -> dropsArray.add(Item.getRawId(dropped.getItem())));
-        //? if =1.16 {
-        /*drops.forEach(dropped -> dropsArray.add(Item.getId(dropped.getItem())));
-        *///?} else if =1.17 {
-        /*for (ItemStack dropStack : actualBlockDrops) {
-            dropsArray.add(Item.getId(dropStack.getItem()));
-        }
-        *///?}
-        //? if <1.18 {
-        /*blockDesc.add("drops", dropsArray);
-
-        VoxelShape blockCollisionShape = defaultState.getCollisionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
-        blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
-
-        *///?} else if =1.18 {
-        /*blockDesc.addProperty("defaultState", Block.getId(defaultState));
-//        JsonObject effTools = new JsonObject();
-//        effectiveTools.forEach(item -> effTools.addProperty(
-//                String.valueOf(Registry.ITEM.getRawId(item)), // key
-//                item.getMiningSpeedMultiplier(item.getDefaultStack(), defaultState) // value
-//        ));
-//        blockDesc.add("effectiveTools", effTools);
-        *///?} else {
 
         List<ItemStack> actualBlockDrops = new ArrayList<>();
         populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
         JsonArray dropsArray = new JsonArray();
         //?}
-        //? if >=1.21.5 {
-        Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-        //?}
+
         //? if >1.18 {
+        Registry<Item> itemRegistry = DGU.registry("item");
         for (ItemStack dropStack : actualBlockDrops) {
-        //?}
-            //? if >1.18 <1.21.5 {
-            /*dropsArray.add(Item.getId(dropStack.getItem()));
-            *///?} else if >=1.21.5 {
             dropsArray.add(itemRegistry.getId(dropStack.getItem()));
-            //?}
-        //? if >1.18 {
         }
         blockDesc.add("drops", dropsArray);
 
@@ -451,23 +422,21 @@ public class BlocksDataGenerator implements IDataGenerator {
     public JsonArray generateDataJson() {
         JsonArray resultBlocksArray = new JsonArray();
         //? if (>=1.17 <=1.18) || (>=1.19 <1.20) {
-        /*Registry<Block> blockRegistry = Registry.BLOCK;
+        /*Registry<Block> blockRegistry = DGU.registry("block");
         *///?}
         //? if >=1.17 {
         List<MaterialsDataGenerator.MaterialInfo> availableMaterials = MaterialsDataGenerator.getGlobalMaterialInfo();
         //?}
         //? if >=1.21.5 {
-        Registry<Block> blockRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.BLOCK);
+        Registry<Block> blockRegistry = DGU.registry("block");
         //?}
 
         //? if <1.17 {
-        /*Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(block)));
+        /*DGU.<Block>registry("block").forEach(block -> resultBlocksArray.add(generateBlock(block)));
         *///?} else if (>=1.17 <=1.18) || (>=1.19 <1.20) || >=1.21.5 {
         blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        //?} else if >1.18 <1.19 {
-        /*Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        *///?} else {
-        /*BuiltInRegistries.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
+        //?} else {
+        /*DGU.<Block>registry("block").forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
         *///?}
         return resultBlocksArray;
     }

@@ -9,14 +9,13 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 //?}
 import net.minecraft.core.Registry;
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
 //? if =1.21 {
 /*import net.minecraft.tags.EnchantmentTags;
+*///?} else if >=1.21.3 {
+import net.minecraft.core.registries.Registries;
+//?}
+//? if >=1.21.3 <1.21.11 {
+/*import net.minecraft.resources.ResourceLocation;
 *///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
 //?}
@@ -31,7 +30,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
     //? if <1.16 {
@@ -67,9 +65,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     }
 
     private static boolean isEnchantmentInTag(Enchantment enchantment, String tag) {
-        return DGU.getWorld()
-                .registryAccess()
-                .lookupOrThrow(Registries.ENCHANTMENT)
+        return DGU.<Enchantment>registry("enchantment")
     //?}
                 //? if >=1.21.3 <1.21.11 {
                 /*.getOrThrow(TagKey.create(Registries.ENCHANTMENT, ResourceLocation.parse(tag)))
@@ -116,25 +112,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
 
     public static JsonObject generateEnchantment(Registry<Enchantment> registry, Enchantment enchantment) {
         JsonObject enchantmentDesc = new JsonObject();
-        //? if <1.16 {
-        /*ResourceLocation registryKey = registry.getKey(enchantment);
-        *///?} else if =1.21 {
+        //? if =1.21 {
         /*Holder<Enchantment> enchantmentEntry = registry.wrapAsHolder(enchantment);
         *///?}
-        //? if >=1.16 <1.21.5 {
-        /*ResourceLocation registryKey = registry.getResourceKey(enchantment).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = registry.getKey(enchantment);
-        *///?} else if >=1.21.11 {
-        Identifier registryKey = registry.getKey(enchantment);
-        //?}
+        var registryKey = registry.getKey(enchantment);
 
         enchantmentDesc.addProperty("id", registry.getId(enchantment));
-        //? if <1.16 {
-        /*enchantmentDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else {
         enchantmentDesc.addProperty("name", registryKey.getPath());
-        //?}
         //? if <1.21 {
         /*enchantmentDesc.addProperty("displayName", DGU.translateText(enchantment.getDescriptionId()));
         *///?} else if =1.21 {
@@ -186,19 +170,8 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
 
         JsonArray excludes = new JsonArray();
         for (Enchantment excludedEnchantment : incompatibleEnchantments) {
-            //? if <1.16 {
-            /*ResourceLocation otherKey = registry.getKey(excludedEnchantment);
-            excludes.add(Objects.requireNonNull(otherKey).getPath());
-            *///?} else if >=1.16 <1.21.5 {
-            /*ResourceLocation otherKey = registry.getResourceKey(excludedEnchantment).orElseThrow().location();
-            *///?} else if >=1.21.5 <1.21.11 {
-            /*ResourceLocation otherKey = registry.getKey(excludedEnchantment);
-            *///?} else {
-            Identifier otherKey = registry.getKey(excludedEnchantment);
-            //?}
-            //? if >=1.16 {
+            var otherKey = registry.getKey(excludedEnchantment);
             excludes.add(otherKey.getPath());
-            //?}
         }
         enchantmentDesc.add("exclude", excludes);
 
@@ -239,13 +212,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultsArray = new JsonArray();
-        //? if <1.20 {
-        /*Registry<Enchantment> enchantmentRegistry = Registry.ENCHANTMENT;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Enchantment> enchantmentRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
-        *///?} else {
-        Registry<Enchantment> enchantmentRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        //?}
+        Registry<Enchantment> enchantmentRegistry = DGU.registry("enchantment");
         enchantmentRegistry.stream()
                 .forEach(enchantment -> resultsArray.add(generateEnchantment(enchantmentRegistry, enchantment)));
         return resultsArray;

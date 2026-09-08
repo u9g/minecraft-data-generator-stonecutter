@@ -13,11 +13,7 @@ import java.util.Map;
 //? if =1.16 {
 /*import dev.u9g.minecraftdatagenerator.mixin.ClampedEntityAttributeAccessor;
 *///?}
-import net.minecraft.core.Registry;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 
@@ -39,14 +35,8 @@ public class AttributesDataGenerator implements IDataGenerator {
         /*for (Map.Entry<String, String> translation : translations.entrySet()) {
             String key = translation.getKey();
             if (!key.startsWith("attribute.name.")) continue;
-        *///?} else if >=1.16 <1.20 {
-        /*for (Attribute attribute : Registry.ATTRIBUTE) {
-        *///?} else if >=1.20 <1.21.3 {
-        /*var registry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ATTRIBUTE);
         *///?} else {
-        var registry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ATTRIBUTE);
-        //?}
-        //? if >=1.20 {
+        var registry = DGU.<Attribute>registry("attribute");
         for (Attribute attribute : registry) {
         //?}
             JsonObject obj = new JsonObject();
@@ -54,16 +44,13 @@ public class AttributesDataGenerator implements IDataGenerator {
             /*key = key.replace("attribute.name.", "");
             obj.addProperty("name", key.split("\\.")[1]);
             obj.addProperty("resource", key);
-            *///?} else if >=1.16 <1.20 {
-            /*obj.addProperty("name", Registry.ATTRIBUTE.getKey(attribute).getPath().split("\\.")[1]);
-            obj.addProperty("resource", Registry.ATTRIBUTE.getKey(attribute).getPath());
+            *///?} else if >=1.16 <1.21 {
+            /*obj.addProperty("name", registry.getKey(attribute).getPath().split("\\.")[1]);
+            obj.addProperty("resource", registry.getKey(attribute).getPath());
             *///?}
             //? if =1.16 {
             /*obj.addProperty("min", ((ClampedEntityAttributeAccessor) attribute).getMinValue());
             obj.addProperty("max", ((ClampedEntityAttributeAccessor) attribute).getMaxValue());
-            *///?} else if >=1.20 <1.21 {
-            /*obj.addProperty("name", registry.getKey(attribute).getPath().split("\\.")[1]);
-            obj.addProperty("resource", registry.getKey(attribute).getPath());
             *///?} else if =1.21 {
             /*String[] parts = Objects.requireNonNull(registry.getKey(attribute)).getPath().split("\\.");
             String name = parts[0].equals("generic") ? parts[1] : parts[0] + "_" + parts[1];

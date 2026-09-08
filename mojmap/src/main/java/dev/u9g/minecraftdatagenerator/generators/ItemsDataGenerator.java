@@ -4,26 +4,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//? if >=1.20.5 {
-import net.minecraft.core.Holder;
-//?}
+//? if =1.20.5 {
+/*import net.minecraft.core.Holder;
+*///?}
 import net.minecraft.core.Registry;
 //? if >=1.20.5 {
 import net.minecraft.core.component.DataComponents;
-//?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if =1.20.5 {
-/*import net.minecraft.data.registries.VanillaRegistries;
-*///?}
-//? if <1.21.11 {
-/*import net.minecraft.resources.ResourceLocation;
-*///?}
-//? if =1.20.5 {
-/*import net.minecraft.tags.TagKey;
-*///?} else if >=1.21.11 {
-import net.minecraft.resources.Identifier;
 //?}
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 /*import net.minecraft.world.item.enchantment.EnchantmentCategory;
 *///?}
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.*;
 import java.util.Arrays;
@@ -44,20 +29,10 @@ import java.util.stream.Collectors;
 public class ItemsDataGenerator implements IDataGenerator {
 
     private static List<Item> calculateItemsToRepairWith(Registry<Item> itemRegistry, Item sourceItem) {
-        //? if <1.16 {
-        /*ItemStack sourceItemStack = DGU.asStack(sourceItem);
-        *///?} else if >=1.16 <1.21.5 {
-        /*ItemStack sourceItemStack = sourceItem.getDefaultInstance();
-        *///?} else {
         ItemStack sourceItemStack = new ItemStack(sourceItem);
-        //?}
         return itemRegistry.stream()
-                //? if <1.16 {
-                /*.filter(otherItem -> sourceItem.isValidRepairItem(sourceItemStack, DGU.asStack(otherItem)))
-                *///?} else if >=1.16 <1.21.3 {
-                /*.filter(otherItem -> sourceItem.isValidRepairItem(sourceItemStack, otherItem.getDefaultInstance()))
-                *///?} else if =1.21.3 {
-                /*.filter(otherItem -> sourceItemStack.isValidRepairItem(otherItem.getDefaultInstance()))
+                //? if <1.21.3 {
+                /*.filter(otherItem -> sourceItem.isValidRepairItem(sourceItemStack, new ItemStack(otherItem)))
                 *///?} else {
                 .filter(otherItem -> sourceItemStack.isValidRepairItem(new ItemStack(otherItem)))
                 //?}
@@ -70,7 +45,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .filter(target -> target.canEnchant(sourceItem))
     *///?} else if =1.20.5 {
     /*private static Set<String> getApplicableEnchantmentTargets(Holder<Item> sourceItem) {
-        return DGU.getWorld().registryAccess().registryOrThrow(Registries.ENCHANTMENT).stream()
+        return DGU.<Enchantment>registry("enchantment").stream()
                 .map(Enchantment::getSupportedItems)
                 .filter(sourceItem::is)
     *///?}
@@ -84,23 +59,13 @@ public class ItemsDataGenerator implements IDataGenerator {
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
-        //? if <1.16 || (>=1.21.5 <1.21.11) {
-        /*ResourceLocation registryKey = itemRegistry.getKey(item);
-        *///?} else if >=1.16 <1.21.5 {
-        /*ResourceLocation registryKey = itemRegistry.getResourceKey(item).orElseThrow().location();
-        *///?} else {
-        Identifier registryKey = itemRegistry.getKey(item);
-        //?}
+        var registryKey = itemRegistry.getKey(item);
 
         itemDesc.addProperty("id", itemRegistry.getId(item));
-        //? if <1.16 {
-        /*itemDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else if =1.18 {
+        //? if =1.18 {
         /*itemDesc.addProperty("displayName", DGU.translateText(item.getDescriptionId()));
         *///?}
-        //? if >=1.16 {
         itemDesc.addProperty("name", registryKey.getPath());
-        //?}
 
         //? if <1.18 || >1.18 {
         itemDesc.addProperty("displayName", DGU.translateText(item.getDescriptionId()));
@@ -120,12 +85,8 @@ public class ItemsDataGenerator implements IDataGenerator {
         /*if (item.canBeDepleted()) itemDesc.addProperty("maxDurability", item.getMaxDamage());
         *///?} else if =1.20.5 {
         /*getApplicableEnchantmentTargets(itemRegistry.wrapAsHolder(item)).forEach(enchantCategoriesArray::add);
-        *///?}
-        //? if <1.21 {
-        /*if (!enchantCategoriesArray.isEmpty()) {
         *///?} else if =1.21 {
-        /*Registry<Enchantment> enchants = DGU.getWorld().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
-        for (Enchantment enchant : enchants) {
+        /*for (Enchantment enchant : DGU.<Enchantment>registry("enchantment")) {
             if (enchant.getSupportedItems().contains(item.builtInRegistryHolder())) {
                 String enchantTarget = enchant.getSupportedItems().unwrapKey().get().location().getPath().split("/")[1];
                 if (!enchantCategoriesArray.contains(new JsonPrimitive(enchantTarget))) {
@@ -133,8 +94,8 @@ public class ItemsDataGenerator implements IDataGenerator {
                 }
             }
         }
-        *///?} else {
-        DGU.getWorld().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).stream()
+        *///?} else if >=1.21.3 {
+        DGU.<Enchantment>registry("enchantment").stream()
                 .map(Enchantment::getSupportedItems)
                 .filter(applicableItems -> applicableItems.contains(itemRegistry.wrapAsHolder(item)))
                 .map(EnchantmentsDataGenerator::getEnchantmentTargetName)
@@ -142,9 +103,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 .forEach(enchantCategoriesArray::add);
 
         //?}
-        //? if >=1.21 {
-        if (enchantCategoriesArray.size() > 0) {
-        //?}
+        if (!enchantCategoriesArray.isEmpty()) {
             itemDesc.add("enchantCategories", enchantCategoriesArray);
         }
 
@@ -159,25 +118,10 @@ public class ItemsDataGenerator implements IDataGenerator {
 
             JsonArray fixedWithArray = new JsonArray();
             for (Item repairWithItem : repairWithItems) {
-                //? if <1.16 {
-                /*ResourceLocation repairWithName = itemRegistry.getKey(repairWithItem);
-                fixedWithArray.add(Objects.requireNonNull(repairWithName).getPath());
-                *///?} else if >=1.16 <1.21.5 {
-                /*ResourceLocation repairWithName = itemRegistry.getResourceKey(repairWithItem).orElseThrow().location();
-                *///?} else if >=1.21.5 <1.21.11 {
-                /*ResourceLocation repairWithName = itemRegistry.getKey(repairWithItem);
-                *///?} else {
-                Identifier repairWithName = itemRegistry.getKey(repairWithItem);
-                //?}
-                //? if >=1.16 {
+                var repairWithName = itemRegistry.getKey(repairWithItem);
                 fixedWithArray.add(repairWithName.getPath());
-                //?}
             }
-            //? if <1.21 {
-            /*if (!fixedWithArray.isEmpty()) {
-            *///?} else {
-            if (fixedWithArray.size() > 0) {
-            //?}
+            if (!fixedWithArray.isEmpty()) {
                 itemDesc.add("repairWith", fixedWithArray);
             }
             //? if <1.18 {
@@ -206,13 +150,7 @@ public class ItemsDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultArray = new JsonArray();
-        //? if <1.20 {
-        /*Registry<Item> itemRegistry = Registry.ITEM;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Item> itemRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM);
-        *///?} else {
-        Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-        //?}
+        Registry<Item> itemRegistry = DGU.registry("item");
         itemRegistry.stream().forEach(item -> resultArray.add(generateItem(itemRegistry, item)));
         return resultArray;
     }

@@ -8,20 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-import net.minecraft.core.Registry;
 //? if >=1.20 {
 import net.minecraft.core.RegistryAccess;
-//?}
-//? if =1.21.3 {
-/*import net.minecraft.core.registries.BuiltInRegistries;
-*///?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
-//?}
-//? if =1.21.3 {
-/*import net.minecraft.data.recipes.RecipeCategory;
-*///?} else if >=1.21.9 {
-import net.minecraft.util.context.ContextMap;
 //?}
 import net.minecraft.world.item.Item;
 //? if >=1.21.5 {
@@ -37,56 +25,39 @@ import net.minecraft.world.item.crafting.Recipe;
 *///?}
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
-import net.minecraft.world.item.crafting.RecipeType;
 //? if >=1.21.8 {
 import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 //?}
-//? if =1.21.8 {
-/*import net.minecraft.util.context.ContextMap;
-*///?}
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class RecipeDataGenerator implements IDataGenerator {
 
     private static int getRawIdFor(Item item) {
-        //? if <1.20 {
-        /*return Registry.ITEM.getId(item);
-        *///?} else if >=1.20 <1.21.3 {
-        /*return DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM).getId(item);
-        *///?} else {
-        return DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM).getId(item);
-        //?}
+        return DGU.<Item>registry("item").getId(item);
     }
 
     @Override
     public String getDataName() {
         return "recipes";
+    //? if >=1.21 {
     }
 
-    //? if >=1.21 {
     @Override
     public JsonElement generateDataJson() {
         RegistryAccess registryManager = DGU.getWorld().registryAccess();
         JsonObject finalObj = new JsonObject();
         Multimap<Integer, JsonObject> recipes = ArrayListMultimap.create();
-    //?}
-        //? if =1.21 {
-        /*for (RecipeHolder<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().getRecipes()) {
-        *///?} else if >=1.21.3 {
-        for (RecipeHolder<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getServer().getRecipeManager().getRecipes()) {
-        //?}
-            //? if >=1.21 {
+        for (RecipeHolder<?> recipeE : DGU.getCurrentlyRunningServer().getRecipeManager().getRecipes()) {
             Recipe<?> recipe = recipeE.value();
             if (recipe instanceof ShapedRecipe sr) {
                 generateShapedRecipe(registryManager, finalObj, sr, 0);
             } else if (recipe instanceof ShapelessRecipe sl) {
                 var ingredients = new JsonArray();
-            //?}
+    //?}
                 //? if =1.21 {
                 /*for (Ingredient ingredient : sl.getIngredients()) {
                     if (ingredient.isEmpty()) continue;
@@ -148,9 +119,9 @@ public class RecipeDataGenerator implements IDataGenerator {
             finalObj.get(a.toString()).getAsJsonArray().add(b);
         });
         return finalObj;
+            //?}
     }
 
-            //?}
     //? if >=1.20.5 {
     private void generateShapedRecipe(RegistryAccess registryManager, JsonObject finalObj, ShapedRecipe sr, int n) {
         boolean hasIncremented = false;
@@ -310,7 +281,7 @@ public class RecipeDataGenerator implements IDataGenerator {
     *///?}
 //        JsonObject finalObj = new JsonObject();
 //        Multimap<Integer, JsonObject> recipes = ArrayListMultimap.create();
-//        for (Recipe<?> recipe : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().values()) {
+//        for (Recipe<?> recipe : DGU.getCurrentlyRunningServer().getRecipeManager().values()) {
 //            if (recipe instanceof ShapedRecipe sr) {
 //                var ingredients = sr.getIngredients();
 //                List<Integer> ingr = new ArrayList<>();
@@ -326,9 +297,9 @@ public class RecipeDataGenerator implements IDataGenerator {
         Multimap<Integer, JsonObject> recipes = ArrayListMultimap.create();
         *///?}
         //? if >=1.18 <1.20.4 {
-        /*for (Recipe<?> recipe : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().getRecipes()) {
+        /*for (Recipe<?> recipe : DGU.getCurrentlyRunningServer().getRecipeManager().getRecipes()) {
         *///?} else if >=1.20.4 <1.21 {
-        /*for (RecipeHolder<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().getRecipes()) {
+        /*for (RecipeHolder<?> recipeE : DGU.getCurrentlyRunningServer().getRecipeManager().getRecipes()) {
             Recipe<?> recipe = recipeE.value();
         *///?}
             //? if >=1.18 <1.21 {

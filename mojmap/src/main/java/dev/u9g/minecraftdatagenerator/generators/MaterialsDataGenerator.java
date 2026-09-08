@@ -2,7 +2,6 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 //? if <1.20.5 {
@@ -12,9 +11,6 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.Registry;
 //? if >=1.20.5 {
 import net.minecraft.core.component.DataComponents;
-//?}
-//? if >=1.20 {
-import net.minecraft.core.registries.Registries;
 //?}
 import net.minecraft.tags.BlockTags;
 //? if <=1.18 {
@@ -27,12 +23,6 @@ import net.minecraft.tags.TagKey;
 *///?}
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-//? if <1.21.5 {
-/*import net.minecraft.world.item.SwordItem;
-*///?}
-//? if >=1.20.5 <1.21.3 {
-/*import net.minecraft.world.item.component.Tool;
-*///?}
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -73,12 +63,8 @@ public class MaterialsDataGenerator implements IDataGenerator {
     /*private static String makeMaterialNameForTag(Tag<Block> tag) {
         Tag.Named<Block> identifiedTag = (Tag.Named<Block>) tag;
         return identifiedTag.getName().getPath();
-    *///?} else if =1.21.3 {
-    /*private static float getToolSpeed(Item item) {
-    *///?} else if >=1.21.5 {
+    *///?} else if >=1.21.3 {
     private static Float getToolSpeed(Item item) {
-    //?}
-        //? if >=1.21.3 {
         String itemName = item.toString().toLowerCase();
         // Remove minecraft: prefix if present
         if (itemName.startsWith("minecraft:")) {
@@ -92,7 +78,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
         return 1.0f;
     }
 
-        //?}
+    //?}
     //? if >1.18 {
     private static String makeMaterialNameForTag(TagKey<Block> tag) {
         return tag.location().getPath();
@@ -121,19 +107,14 @@ public class MaterialsDataGenerator implements IDataGenerator {
         Map<Item, Float> resultingToolSpeeds = new LinkedHashMap<>();
         combinedMaterials.stream()
                 .map(allMaterials::get)
-                //? if <1.18 || >1.18 {
                 .forEach(resultingToolSpeeds::putAll);
-                //?} else {
-                /*.forEach(v -> {
-                    System.out.println(v);
-                    resultingToolSpeeds.putAll(v);
-                });
-                *///?}
         allMaterials.put(compositeMaterialName, resultingToolSpeeds);
-    }
+    //? if <1.21.3 {
+    /*}
 
+    *///?}
     //? if >=1.20.5 <1.21.3 {
-    /*private static float getToolSpeed(Item item) {
+    /*private static Float getToolSpeed(Item item) {
         String itemName = item.toString().toLowerCase();
     *///?}
         //? if =1.21 {
@@ -149,9 +130,11 @@ public class MaterialsDataGenerator implements IDataGenerator {
             }
         }
         return 1.0f;
+        *///?}
+    //? if >=1.20.5 {
     }
 
-        *///?}
+    //?}
     public static List<MaterialInfo> getGlobalMaterialInfo() {
         ArrayList<MaterialInfo> resultList = new ArrayList<>();
 
@@ -173,13 +156,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
         HashSet<String> uniqueMaterialNames = new HashSet<>();
 
-        //? if <1.20 {
-        /*Registry<Item> itemRegistry = Registry.ITEM;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Item> itemRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM);
-        *///?} else {
-        Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-        //?}
+        Registry<Item> itemRegistry = DGU.registry("item");
         itemRegistry.forEach(item -> {
             //? if <1.21.5 {
             /*if (item instanceof DiggerItem toolItem) {
@@ -196,18 +173,12 @@ public class MaterialsDataGenerator implements IDataGenerator {
                 //?}
                 //? if >=1.20.5 {
                 item.components().get(DataComponents.TOOL).rules()
-                //?}
-                        //? if >=1.20.5 <1.21.3 {
-                        /*.stream().map(Tool.Rule::blocks)
-                        *///?} else if >=1.21.3 {
                         .stream().map(rule -> rule.blocks())
-                        //?}
-                        //? if >=1.20.5 {
                         .forEach(blocks -> {
                             Optional<TagKey<Block>> tagKey = blocks.unwrapKey();
                             if (tagKey.isPresent()) {
                                 String materialName = makeMaterialNameForTag((tagKey.get()));
-                        //?}
+                //?}
 
                 //? if <1.20.5 {
                 /*if (!uniqueMaterialNames.contains(materialName)) {
@@ -236,20 +207,10 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
     @Override
     public JsonElement generateDataJson() {
-        //? if <1.20 {
-        /*Registry<Item> itemRegistry = Registry.ITEM;
-        *///?} else if >=1.20 <1.21.3 {
-        /*Registry<Item> itemRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.ITEM);
-        *///?} else {
-        Registry<Item> itemRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.ITEM);
-        //?}
+        Registry<Item> itemRegistry = DGU.registry("item");
 
         Map<String, Map<Item, Float>> materialMiningSpeeds = new LinkedHashMap<>();
-        //? if <1.21.5 {
-        /*materialMiningSpeeds.put("default", ImmutableMap.of());
-        *///?} else {
         materialMiningSpeeds.put("default", new LinkedHashMap<>());
-        //?}
 
         //Special materials used for shears and swords special mining speed logic
         Map<Item, Float> leavesMaterialSpeeds = new LinkedHashMap<>();
@@ -265,10 +226,6 @@ public class MaterialsDataGenerator implements IDataGenerator {
         //Shears need special handling because they do not follow normal rules like tools
         leavesMaterialSpeeds.put(Items.SHEARS, 15.0f);
         cowebMaterialSpeeds.put(Items.SHEARS, 15.0f);
-        //? if <1.21.5 {
-        /*materialMiningSpeeds.put("vine_or_glow_lichen", ImmutableMap.of(Items.SHEARS, 2.0f));
-        materialMiningSpeeds.put("wool", ImmutableMap.of(Items.SHEARS, 5.0f));
-        *///?} else {
 
         Map<Item, Float> vineOrGlowLichenSpeeds = new LinkedHashMap<>();
         vineOrGlowLichenSpeeds.put(Items.SHEARS, 2.0f);
@@ -277,7 +234,6 @@ public class MaterialsDataGenerator implements IDataGenerator {
         Map<Item, Float> woolSpeeds = new LinkedHashMap<>();
         woolSpeeds.put(Items.SHEARS, 5.0f);
         materialMiningSpeeds.put("wool", woolSpeeds);
-        //?}
 
         itemRegistry.forEach(item -> {
             //Tools are handled rather easily and do not require anything else
@@ -300,15 +256,9 @@ public class MaterialsDataGenerator implements IDataGenerator {
                 //?}
                 //? if >=1.20.5 {
                 item.components().get(DataComponents.TOOL).rules()
-                //?}
-                        //? if >=1.20.5 <1.21.3 {
-                        /*.stream().map(Tool.Rule::blocks)
-                        *///?} else if >=1.21.3 {
                         .stream().map(rule -> rule.blocks())
-                        //?}
-                        //? if >=1.20.5 {
                         .forEach(blocks -> {
-                        //?}
+                //?}
                             //? if >=1.20.5 <1.21.3 {
                             /*Optional<TagKey<Block>> tagKey = blocks.unwrapKey();
                             if (tagKey.isPresent()) {
@@ -331,7 +281,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
             // Add sword speeds for special materials
             //Swords require special treatment
             //? if <1.21.3 {
-            /*if (item instanceof SwordItem) {
+            /*if (itemRegistry.getKey(item).getPath().contains("sword")) {
                 cowebMaterialSpeeds.put(item, 15.0f);
                 plantMaterialSpeeds.put(item, 1.5f);
                 leavesMaterialSpeeds.put(item, 1.5f);
@@ -347,20 +297,14 @@ public class MaterialsDataGenerator implements IDataGenerator {
                         );
 
                 //Swords require special treatment
-            //?}
-                //? if =1.21.3 {
-                /*if (item instanceof SwordItem) {
-                *///?} else if >=1.21.5 {
                 if (itemRegistry.getKey(item).getPath().contains("sword")) {
-                //?}
-                    //? if >=1.21.3 {
                     cowebMaterialSpeeds.put(item, 15.0f);
                     plantMaterialSpeeds.put(item, 1.5f);
                     leavesMaterialSpeeds.put(item, 1.5f);
                     gourdMaterialSpeeds.put(item, 1.5f);
                 }
             }});
-                    //?}
+            //?}
 
         COMPOSITE_MATERIALS.forEach(values -> createCompositeMaterial(materialMiningSpeeds, values));
 
