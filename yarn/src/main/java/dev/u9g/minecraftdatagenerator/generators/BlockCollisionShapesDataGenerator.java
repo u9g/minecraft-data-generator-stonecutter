@@ -7,7 +7,7 @@ import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
-*///?} else if >=1.13 <1.14 {
+*///?} else if =1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
 *///?}
 import net.minecraft.block.Block;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 /*import net.minecraft.util.math.Box;
 *///?}
 import net.minecraft.util.registry.Registry;
-//? if >=1.13 <1.14 {
+//? if =1.13 {
 /*import net.minecraft.util.shapes.VoxelShape;
 *///?} else if >=1.14 {
 import net.minecraft.util.shape.VoxelShape;
@@ -64,7 +64,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         arr.add(new JsonPrimitive(box.maxX));
         arr.add(new JsonPrimitive(box.maxY));
         arr.add(new JsonPrimitive(box.maxZ));
-        *///?} else if >=1.12.2 <1.13 {
+        *///?} else if =1.12.2 {
         /*arr.add(box.minX);
         arr.add(box.minY);
         arr.add(box.minZ);
@@ -101,7 +101,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
         Registry<Block> blockRegistry = Registry.BLOCK;
         BlockShapesCache blockShapesCache = new BlockShapesCache();
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*for (Block block : (Iterable<Block>) blockRegistry) {
             blockShapesCache.processBlock(block);
         *///?}
@@ -148,7 +148,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 List<Box> boxes = new ArrayList<>();
                 try {
             *///?}
-                    //? if >=1.8.9 <1.9.4 {
+                    //? if =1.8.9 {
                     /*// Fix needed for StairsBlock because it requires the state of the block to be set
                     DGU.getWorld().setBlockState(BlockPos.ORIGIN, state);
                     block.appendCollisionBoxes(DGU.getWorld(), BlockPos.ORIGIN, state, ENTITY_BOX, boxes, null);
@@ -163,7 +163,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 *///?} else if >=1.13 {
         public void processBlock(Block block) {
                 //?}
-            //? if >=1.13 <1.14 {
+            //? if =1.13 {
             /*List<BlockState> blockStates = block.getStateManager().getBlockStates();
             *///?} else if >=1.14 {
             List<BlockState> blockStates = block.getStateFactory().getStates();
@@ -237,7 +237,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             *///?}
                 //? if >=1.8.9 <1.12.2 {
                 /*indexesOfBoxesInTheShapesCache.forEach(shapeIndex -> shapeIndexes.add(new JsonPrimitive(shapeIndex)));
-                *///?} else if >=1.12.2 <1.13 {
+                *///?} else if =1.12.2 {
                 /*indexesOfBoxesInTheShapesCache.forEach(shapeIndexes::add);
                 *///?}
                 //? if >=1.8.9 <1.13 {
@@ -260,7 +260,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
             JsonObject resultObject = new JsonObject();
 
         //?}
-            //? if >=1.13 <1.14 {
+            //? if =1.13 {
             /*for (Map.Entry<Block, List<Integer>> entry : blockCollisionShapes.entrySet()) {
             *///?} else if >=1.14 {
             for (var entry : blockCollisionShapes.entrySet()) {
@@ -302,7 +302,7 @@ public class BlockCollisionShapesDataGenerator implements IDataGenerator {
                 JsonArray arr = new JsonArray();
                 boxes.forEach(box -> arr.add(jsonOf(box)));
                 return arr;
-            *///?} else if >=1.13 <1.14 {
+            *///?} else if =1.13 {
             /*for (Map.Entry<VoxelShape, Integer> entry : uniqueBlockShapes.entrySet()) {
             *///?} else {
             for (var entry : uniqueBlockShapes.entrySet()) {

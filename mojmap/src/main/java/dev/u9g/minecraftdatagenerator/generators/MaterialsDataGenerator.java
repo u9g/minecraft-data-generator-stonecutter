@@ -73,7 +73,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
     /*private static String makeMaterialNameForTag(Tag<Block> tag) {
         Tag.Named<Block> identifiedTag = (Tag.Named<Block>) tag;
         return identifiedTag.getName().getPath();
-    *///?} else if >=1.21.3 <1.21.5 {
+    *///?} else if =1.21.3 {
     /*private static float getToolSpeed(Item item) {
     *///?} else if >=1.21.5 {
     private static Float getToolSpeed(Item item) {
@@ -121,16 +121,14 @@ public class MaterialsDataGenerator implements IDataGenerator {
         Map<Item, Float> resultingToolSpeeds = new LinkedHashMap<>();
         combinedMaterials.stream()
                 .map(allMaterials::get)
-                //? if <1.18 {
-                /*.forEach(resultingToolSpeeds::putAll);
-                *///?} else if >=1.18 <=1.18 {
+                //? if <1.18 || >1.18 {
+                .forEach(resultingToolSpeeds::putAll);
+                //?} else {
                 /*.forEach(v -> {
                     System.out.println(v);
                     resultingToolSpeeds.putAll(v);
                 });
-                *///?} else {
-                .forEach(resultingToolSpeeds::putAll);
-                //?}
+                *///?}
         allMaterials.put(compositeMaterialName, resultingToolSpeeds);
     }
 
@@ -138,7 +136,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
     /*private static float getToolSpeed(Item item) {
         String itemName = item.toString().toLowerCase();
     *///?}
-        //? if >=1.21 <1.21.3 {
+        //? if =1.21 {
         /*// Remove minecraft: prefix if present
         if (itemName.startsWith("minecraft:")) {
             itemName = itemName.substring("minecraft:".length());
@@ -350,7 +348,7 @@ public class MaterialsDataGenerator implements IDataGenerator {
 
                 //Swords require special treatment
             //?}
-                //? if >=1.21.3 <1.21.5 {
+                //? if =1.21.3 {
                 /*if (item instanceof SwordItem) {
                 *///?} else if >=1.21.5 {
                 if (itemRegistry.getKey(item).getPath().contains("sword")) {

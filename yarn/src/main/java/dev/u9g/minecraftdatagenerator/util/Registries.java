@@ -40,7 +40,7 @@ public class Registries {
     public static final RegistryView<String, StatusEffect> STATUS_EFFECTS;
     public static final RegistryView<String, Enchantment> ENCHANTMENTS;
     public static final RegistryView<String, Class<? extends Entity>> ENTITY_TYPES;
-    ^///?} else if >=1.8.9 <1.9.4 {
+    ^///?} else if =1.8.9 {
     /^public static final SimpleRegistry<String, Biome> BIOMES = setupBiomeRegistry();
     ^///?} else {
     public static final SimpleRegistry<Identifier, Biome> BIOMES = Biome.REGISTRY;
@@ -49,7 +49,7 @@ public class Registries {
     public static final SimpleRegistry<Identifier, Block> BLOCKS = Block.REGISTRY;
     public static final SimpleRegistry<Identifier, Item> ITEMS = Item.REGISTRY;
     //?}
-    //? if >=1.8.9 <1.9.4 {
+    //? if =1.8.9 {
     /^public static final SimpleRegistry<Identifier, StatusEffect> STATUS_EFFECTS = setupStatusEffectRegistry();
     public static final SimpleRegistry<Identifier, Enchantment> ENCHANTMENTS = setupEnchantmentRegistry();
     public static final SimpleRegistry<Identifier, Class<? extends Entity>> ENTITY_TYPES = setupEntityTypesRegistry();
@@ -79,7 +79,7 @@ public class Registries {
 
     private static RegistryView<String, Class<? extends Entity>> setupEntityTypesRegistry() {
         TableBackedRegistryView.Builder<String, Class<? extends Entity>> registry = new TableBackedRegistryView.Builder<>();
-    ^///?} else if >=1.8.9 <1.9.4 {
+    ^///?} else if =1.8.9 {
     /^private static SimpleRegistry<Identifier, Class<? extends Entity>> setupEntityTypesRegistry() {
         SimpleRegistry<Identifier, Class<? extends Entity>> registry = new SimpleRegistry<>();
     ^///?} else if >=1.9.4 <1.11.2 {
@@ -94,7 +94,7 @@ public class Registries {
         ^///?}
             //? if <1.8.9 {
             /^registry.add(name, entry.getKey(), entry.getValue());
-            ^///?} else if >=1.8.9 <1.9.4 {
+            ^///?} else if =1.8.9 {
             /^registry.add(entry.getKey(), new Identifier(name), entry.getValue());
             ^///?} else if >=1.9.4 <1.11.2 {
             /^ENTITY_TYPES.add(entry.getKey(), new Identifier(name), entry.getValue());
@@ -105,7 +105,7 @@ public class Registries {
 
         //? if <1.8.9 {
         /^return registry.build();
-        ^///?} else if >=1.8.9 <1.9.4 {
+        ^///?} else if =1.8.9 {
         /^return registry;
         ^///?}
     //? if <1.9.4 {
@@ -119,7 +119,7 @@ public class Registries {
             if (enchantment == null) continue;
             String translatedName = Registries.LANGUAGE.translate(enchantment.getTranslationKey());
             registry.add(String.join("", translatedName.toLowerCase(Locale.ENGLISH).split(" ")), enchantment.id, enchantment);
-    ^///?} else if >=1.8.9 <1.9.4 {
+    ^///?} else if =1.8.9 {
     /^private static SimpleRegistry<Identifier, Enchantment> setupEnchantmentRegistry() {
         SimpleRegistry<Identifier, Enchantment> registry = new SimpleRegistry<>();
         for (Map.Entry<Identifier, Enchantment> entry : EnchantmentAccessor.ENCHANTMENT_MAP().entrySet()) {
@@ -130,7 +130,7 @@ public class Registries {
         ^///?}
         //? if <1.8.9 {
         /^return registry.build();
-        ^///?} else if >=1.8.9 <1.9.4 {
+        ^///?} else if =1.8.9 {
         /^return registry;
         ^///?}
     //? if <1.9.4 {
@@ -140,7 +140,7 @@ public class Registries {
     //? if <1.8.9 {
     /^private static RegistryView<String, Biome> setupBiomeRegistry() {
         TableBackedRegistryView.Builder<String, Biome> builder = new TableBackedRegistryView.Builder<>();
-    ^///?} else if >=1.8.9 <1.9.4 {
+    ^///?} else if =1.8.9 {
     /^private static SimpleRegistry<String, Biome> setupBiomeRegistry() {
         SimpleRegistry<String, Biome> registry = new SimpleRegistry<>();
     ^///?}
@@ -149,7 +149,7 @@ public class Registries {
         ^///?}
             //? if <1.8.9 {
             /^builder.add(biome.name, biome.id, biome);
-            ^///?} else if >=1.8.9 <1.9.4 {
+            ^///?} else if =1.8.9 {
             /^registry.add(biome.id, biome.name, biome);
             ^///?}
         //? if <1.9.4 {
@@ -157,7 +157,7 @@ public class Registries {
         ^///?}
         //? if <1.8.9 {
         /^return builder.build();
-        ^///?} else if >=1.8.9 <1.9.4 {
+        ^///?} else if =1.8.9 {
         /^return registry;
         ^///?}
     //? if <1.9.4 {
@@ -171,7 +171,7 @@ public class Registries {
             if (effect == null) continue;
             String[] words = Registries.LANGUAGE.translate(effect.getTranslationKey()).split(" ");
             builder.add(StringUtils.join(words, ""), effect.id, effect);
-    ^///?} else if >=1.8.9 <1.9.4 {
+    ^///?} else if =1.8.9 {
     /^private static SimpleRegistry<Identifier, StatusEffect> setupStatusEffectRegistry() {
         SimpleRegistry<Identifier, StatusEffect> registry = new SimpleRegistry<>();
         for (Map.Entry<Identifier, StatusEffect> entry : StatusEffectAccessor.STATUS_EFFECTS_BY_ID().entrySet()) {
@@ -182,7 +182,7 @@ public class Registries {
         ^///?}
         //? if <1.8.9 {
         /^return builder.build();
-        ^///?} else if >=1.8.9 <1.9.4 {
+        ^///?} else if =1.8.9 {
         /^return registry;
         ^///?}
     //? if <1.11.2 {

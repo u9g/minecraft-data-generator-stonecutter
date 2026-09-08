@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.locale.Language;
 
 import java.util.Map;
-//? if >=1.16 <1.17 {
+//? if =1.16 {
 /*import dev.u9g.minecraftdatagenerator.mixin.ClampedEntityAttributeAccessor;
 *///?}
 import net.minecraft.core.Registry;
@@ -58,13 +58,13 @@ public class AttributesDataGenerator implements IDataGenerator {
             /*obj.addProperty("name", Registry.ATTRIBUTE.getKey(attribute).getPath().split("\\.")[1]);
             obj.addProperty("resource", Registry.ATTRIBUTE.getKey(attribute).getPath());
             *///?}
-            //? if >=1.16 <1.17 {
+            //? if =1.16 {
             /*obj.addProperty("min", ((ClampedEntityAttributeAccessor) attribute).getMinValue());
             obj.addProperty("max", ((ClampedEntityAttributeAccessor) attribute).getMaxValue());
             *///?} else if >=1.20 <1.21 {
             /*obj.addProperty("name", registry.getKey(attribute).getPath().split("\\.")[1]);
             obj.addProperty("resource", registry.getKey(attribute).getPath());
-            *///?} else if >=1.21 <1.21.3 {
+            *///?} else if =1.21 {
             /*String[] parts = Objects.requireNonNull(registry.getKey(attribute)).getPath().split("\\.");
             String name = parts[0].equals("generic") ? parts[1] : parts[0] + "_" + parts[1];
             *///?} else if >=1.21.3 {

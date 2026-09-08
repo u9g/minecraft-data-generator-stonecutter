@@ -57,7 +57,7 @@ public class BiomesDataGenerator implements IDataGenerator {
 
         //? if <1.9.4 {
         /*biomeDesc.addProperty("id", Registries.BIOMES.getRawId(biome));
-        *///?} else if >=1.12.2 <1.13 {
+        *///?} else if =1.12.2 {
         /*String name = String.join("_", ((BiomeAccessor) biome).name().toLowerCase(Locale.ENGLISH).split(" "));
         String displayName = ((BiomeAccessor) biome).name();
         *///?}
@@ -66,7 +66,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         //?}
         //? if <1.12.2 {
         /*biomeDesc.addProperty("name", String.join("_", ((BiomeAccessor) biome).name().toLowerCase(Locale.ENGLISH).split(" ")));
-        *///?} else if >=1.12.2 <1.13 {
+        *///?} else if =1.12.2 {
         /*biomeDesc.addProperty("name", name);
         *///?}
         //? if <1.13 {
@@ -78,7 +78,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         biomeDesc.addProperty("name", registryKey.getPath());
 
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*biomeDesc.addProperty("category", biome.getCategory().name().toLowerCase(Locale.ENGLISH));
         *///?} else if >=1.14 {
         biomeDesc.addProperty("category", biome.getCategory().getName());
@@ -91,7 +91,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         *///?}
         //? if <1.9.4 {
         /*biomeDesc.addProperty("depth", biome.depth);
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*biomeDesc.addProperty("precipitation", biome.getPrecipitation().name().toLowerCase(Locale.ENGLISH));
         *///?} else if >=1.14 {
         biomeDesc.addProperty("precipitation", biome.getPrecipitation().getName());
@@ -106,7 +106,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         //? if <1.9.4 {
         /*biomeDesc.addProperty("color", biome.getSkyColor(biome.temperature));
         biomeDesc.addProperty("rainfall", biome.downfall);
-        *///?} else if >=1.12.2 <1.13 {
+        *///?} else if =1.12.2 {
         /*biomeDesc.addProperty("displayName", displayName);
         *///?} else if >=1.13 {
         biomeDesc.addProperty("displayName", DGU.translateText(localizationKey));
@@ -207,7 +207,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         *///?}
             //? if <1.8.9 {
             /*biomes.put(biome.id, generateBiomeInfo(biome));
-            *///?} else if >=1.8.9 <1.9.4 {
+            *///?} else if =1.8.9 {
             /*biomesArray.add(generateBiomeInfo(biome));
             *///?} else if >=1.9.4 <1.13 {
         /*for (Biome biome : biomeRegistry) {

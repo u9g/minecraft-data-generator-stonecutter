@@ -32,7 +32,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
             .put(EnchantmentTarget.FEET, "armor_feet")
             .put(EnchantmentTarget.LEGS, "armor_legs")
             *///?}
-            //? if >=1.8.9 <1.9.4 {
+            //? if =1.8.9 {
             /*.put(EnchantmentTarget.TORSO, "armor_chest")
             *///?} else if >=1.9.4 <1.14 {
             /*.put(EnchantmentTarget.ARMOR_CHEST, "armor_chest")
@@ -45,7 +45,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
             .put(EnchantmentTarget.DIGGER, "digger")
             .put(EnchantmentTarget.FISHING_ROD, "fishing_rod")
             *///?}
-            //? if >=1.13 <1.14 {
+            //? if =1.13 {
             /*.put(EnchantmentTarget.TRIDENT, "trident")
             *///?}
             //? if <1.14 {
@@ -142,7 +142,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
             /*if (!enchantment.differs(other) && !other.differs(enchantment) && other != enchantment) {
             *///?} else if >=1.11.2 <1.13 {
             /*if (!enchantment.isDifferent(other) && other != enchantment) {
-            *///?} else if >=1.13 <1.14 {
+            *///?} else if =1.13 {
         /*for (Enchantment other : (Iterable<Enchantment>) registry) {
             if (enchantment.isDifferent(other) && other != enchantment) {
             *///?}

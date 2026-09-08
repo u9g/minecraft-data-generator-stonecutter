@@ -13,7 +13,7 @@ import net.minecraft.util.registry.Registry;
 public class SoundsDataGenerator implements IDataGenerator {
     //? if <1.13 {
     /*public static JsonObject generateSound(Sound soundEvent) {
-    *///?} else if >=1.13 <1.14 {
+    *///?} else if =1.13 {
     /*public static JsonObject generateSound(Registry<Sound> registry, Sound soundEvent) {
     *///?} else {
     public static JsonObject generateSound(SoundEvent soundEvent) {
@@ -22,7 +22,7 @@ public class SoundsDataGenerator implements IDataGenerator {
 
         //? if <1.13 {
         /*soundDesc.addProperty("id", Sound.REGISTRY.getRawId(soundEvent));
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*soundDesc.addProperty("id", registry.getRawId(soundEvent));
         *///?} else {
         soundDesc.addProperty("id", Registry.SOUND_EVENT.getRawId(soundEvent));
@@ -42,7 +42,7 @@ public class SoundsDataGenerator implements IDataGenerator {
         JsonArray resultsArray = new JsonArray();
         //? if <1.13 {
         /*Sound.REGISTRY.forEach(sound -> resultsArray.add(generateSound(sound)));
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*Registry<Sound> soundEventRegistry = Registry.SOUND_EVENT;
         soundEventRegistry.forEach(sound -> resultsArray.add(generateSound(soundEventRegistry, (Sound) sound)));
         *///?} else {

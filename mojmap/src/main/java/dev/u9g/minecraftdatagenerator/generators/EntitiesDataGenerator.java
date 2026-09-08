@@ -48,12 +48,10 @@ import java.util.Objects;
 public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {
         JsonObject entityDesc = new JsonObject();
-        //? if <1.16 {
+        //? if <1.16 || (>=1.21.5 <1.21.11) {
         /*ResourceLocation registryKey = entityRegistry.getKey(entityType);
         *///?} else if >=1.16 <1.21.5 {
         /*ResourceLocation registryKey = entityRegistry.getResourceKey(entityType).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = entityRegistry.getKey(entityType);
         *///?} else {
         Identifier registryKey = entityRegistry.getKey(entityType);
         //?}
@@ -84,7 +82,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //? if >=1.16 {
         MinecraftServer minecraftServer = DGU.getCurrentlyRunningServer();
         //?}
-        //? if >=1.16 <1.17 {
+        //? if =1.16 {
         /*Entity entityObject = entityType.create(minecraftServer.overworld());
         *///?}
         //? if <1.17 {
@@ -129,7 +127,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         Class<?> entityClass = (Class<?>) entityTypeClass.getActualTypeArguments()[0];
         String packageName = entityClass.getPackageName();
         String className = entityClass.getSimpleName();
-        *///?} else if >=1.18 <=1.18 {
+        *///?} else if =1.18 {
         /*if (entityType == EntityType.PLAYER) return "UNKNOWN"; // fail early for player entities
         Entity entity = EntityType.create(Registry.ENTITY_TYPE.getId(entityType), DGU.getWorld());
         *///?} else if >1.18 <1.19 {

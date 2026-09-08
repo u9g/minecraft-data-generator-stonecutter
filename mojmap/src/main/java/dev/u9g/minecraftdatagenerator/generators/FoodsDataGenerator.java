@@ -23,12 +23,10 @@ import java.util.Objects;
 public class FoodsDataGenerator implements IDataGenerator {
     public static JsonObject generateFoodDescriptor(Registry<Item> registry, Item foodItem) {
         JsonObject foodDesc = new JsonObject();
-        //? if <1.16 {
+        //? if <1.16 || (>=1.21.5 <1.21.11) {
         /*ResourceLocation registryKey = registry.getKey(foodItem);
         *///?} else if >=1.16 <1.21.5 {
         /*ResourceLocation registryKey = registry.getResourceKey(foodItem).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = registry.getKey(foodItem);
         *///?} else {
         Identifier registryKey = registry.getKey(foodItem);
         //?}

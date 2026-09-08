@@ -14,13 +14,13 @@ import net.minecraft.core.component.DataComponents;
 //? if >=1.20 {
 import net.minecraft.core.registries.Registries;
 //?}
-//? if >=1.20.5 <1.21 {
+//? if =1.20.5 {
 /*import net.minecraft.data.registries.VanillaRegistries;
 *///?}
 //? if <1.21.11 {
 /*import net.minecraft.resources.ResourceLocation;
 *///?}
-//? if >=1.20.5 <1.21 {
+//? if =1.20.5 {
 /*import net.minecraft.tags.TagKey;
 *///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
@@ -56,7 +56,7 @@ public class ItemsDataGenerator implements IDataGenerator {
                 /*.filter(otherItem -> sourceItem.isValidRepairItem(sourceItemStack, DGU.asStack(otherItem)))
                 *///?} else if >=1.16 <1.21.3 {
                 /*.filter(otherItem -> sourceItem.isValidRepairItem(sourceItemStack, otherItem.getDefaultInstance()))
-                *///?} else if >=1.21.3 <1.21.5 {
+                *///?} else if =1.21.3 {
                 /*.filter(otherItem -> sourceItemStack.isValidRepairItem(otherItem.getDefaultInstance()))
                 *///?} else {
                 .filter(otherItem -> sourceItemStack.isValidRepairItem(new ItemStack(otherItem)))
@@ -68,7 +68,7 @@ public class ItemsDataGenerator implements IDataGenerator {
     /*private static Set<String> getApplicableEnchantmentTargets(Item sourceItem) {
         return Arrays.stream(EnchantmentCategory.values())
                 .filter(target -> target.canEnchant(sourceItem))
-    *///?} else if >=1.20.5 <1.21 {
+    *///?} else if =1.20.5 {
     /*private static Set<String> getApplicableEnchantmentTargets(Holder<Item> sourceItem) {
         return DGU.getWorld().registryAccess().registryOrThrow(Registries.ENCHANTMENT).stream()
                 .map(Enchantment::getSupportedItems)
@@ -84,12 +84,10 @@ public class ItemsDataGenerator implements IDataGenerator {
 
     public static JsonObject generateItem(Registry<Item> itemRegistry, Item item) {
         JsonObject itemDesc = new JsonObject();
-        //? if <1.16 {
+        //? if <1.16 || (>=1.21.5 <1.21.11) {
         /*ResourceLocation registryKey = itemRegistry.getKey(item);
         *///?} else if >=1.16 <1.21.5 {
         /*ResourceLocation registryKey = itemRegistry.getResourceKey(item).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = itemRegistry.getKey(item);
         *///?} else {
         Identifier registryKey = itemRegistry.getKey(item);
         //?}
@@ -97,16 +95,14 @@ public class ItemsDataGenerator implements IDataGenerator {
         itemDesc.addProperty("id", itemRegistry.getId(item));
         //? if <1.16 {
         /*itemDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
-        *///?} else if >=1.18 <=1.18 {
+        *///?} else if =1.18 {
         /*itemDesc.addProperty("displayName", DGU.translateText(item.getDescriptionId()));
         *///?}
         //? if >=1.16 {
         itemDesc.addProperty("name", registryKey.getPath());
         //?}
 
-        //? if <1.18 {
-        /*itemDesc.addProperty("displayName", DGU.translateText(item.getDescriptionId()));
-        *///?} else if >1.18 {
+        //? if <1.18 || >1.18 {
         itemDesc.addProperty("displayName", DGU.translateText(item.getDescriptionId()));
         //?}
         //? if <1.20.5 {
@@ -119,15 +115,15 @@ public class ItemsDataGenerator implements IDataGenerator {
         //? if <1.20.5 {
         /*getApplicableEnchantmentTargets(item).forEach(enchantCategoriesArray::add);
         *///?}
-        //? if >=1.18 <=1.18 {
+        //? if =1.18 {
 
         /*if (item.canBeDepleted()) itemDesc.addProperty("maxDurability", item.getMaxDamage());
-        *///?} else if >=1.20.5 <1.21 {
+        *///?} else if =1.20.5 {
         /*getApplicableEnchantmentTargets(itemRegistry.wrapAsHolder(item)).forEach(enchantCategoriesArray::add);
         *///?}
         //? if <1.21 {
         /*if (!enchantCategoriesArray.isEmpty()) {
-        *///?} else if >=1.21 <1.21.3 {
+        *///?} else if =1.21 {
         /*Registry<Enchantment> enchants = DGU.getWorld().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
         for (Enchantment enchant : enchants) {
             if (enchant.getSupportedItems().contains(item.builtInRegistryHolder())) {

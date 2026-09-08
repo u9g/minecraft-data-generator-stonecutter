@@ -19,12 +19,10 @@ import java.util.Objects;
 public class ParticlesDataGenerator implements IDataGenerator {
     public static JsonObject generateParticleType(Registry<ParticleType<?>> registry, ParticleType<?> particleType) {
         JsonObject effectDesc = new JsonObject();
-        //? if <1.16 {
+        //? if <1.16 || (>=1.21.5 <1.21.11) {
         /*ResourceLocation registryKey = registry.getKey(particleType);
         *///?} else if >=1.16 <1.21.5 {
         /*ResourceLocation registryKey = registry.getResourceKey(particleType).orElseThrow().location();
-        *///?} else if >=1.21.5 <1.21.11 {
-        /*ResourceLocation registryKey = registry.getKey(particleType);
         *///?} else {
         Identifier registryKey = registry.getKey(particleType);
         //?}

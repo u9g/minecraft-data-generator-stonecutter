@@ -44,7 +44,7 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-//? if >=1.13 <1.14 {
+//? if =1.13 {
 /*import net.minecraft.util.shapes.VoxelShape;
 *///?} else if >=1.14 {
 import net.minecraft.util.shape.VoxelShape;
@@ -72,7 +72,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         *///?} else {
         return Registry.ITEM.stream()
         //?}
-                //? if >=1.13 <1.14 {
+                //? if =1.13 {
                 /*.filter(item -> item instanceof ToolItem)
                 *///?} else if >=1.14 {
                 .filter(item -> item instanceof MiningToolItem)
@@ -198,7 +198,7 @@ public class BlocksDataGenerator implements IDataGenerator {
 
         //? if <1.8.9 {
         /*float hardness = block.method_471(null, 0, 0, 0);
-        *///?} else if >=1.8.9 <1.9.4 {
+        *///?} else if =1.8.9 {
         /*float hardness = block.getStrength(null, null);
         *///?} else {
         float hardness = block.getDefaultState().getHardness(null, null);
@@ -213,7 +213,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         *///?} else if >=1.13 {
         blockDesc.addProperty("resistance", block.getBlastResistance());
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*blockDesc.addProperty("stackSize", block.getItem().getMaxCount());
         *///?} else if >=1.14 {
         blockDesc.addProperty("stackSize", block.asItem().getMaxAmount());
@@ -303,13 +303,13 @@ public class BlocksDataGenerator implements IDataGenerator {
     *///?} else if >=1.8.9 <1.13 {
     /*private static String boundingBox(Block block, BlockState state) {
     *///?}
-        //? if >=1.8.9 <1.9.4 {
+        //? if =1.8.9 {
         /*// Fix needed for StairsBlock because it requires the state of the block to be set
         DGU.getWorld().setBlockState(BlockPos.ORIGIN, state);
         if (block.getCollisionBox(DGU.getWorld(), BlockPos.ORIGIN, state) == null) {
-        *///?} else if >=1.9.4 <1.10.2 {
+        *///?} else if =1.9.4 {
         /*if (block.getDefaultState().getCollisionBox(EmptyBlockView.INSTANCE, BlockPos.ORIGIN) == Block.EMPTY_BOX) {
-        *///?} else if >=1.10.2 <1.11.2 {
+        *///?} else if =1.10.2 {
         /*if (block.getDefaultState().getCollisionBox(EmptyBlockView.INSTANCE, BlockPos.ORIGIN) == null) {
         *///?} else if >=1.11.2 <1.13 {
         /*if (block.getCollisionBox(state, EmptyBlockView.INSTANCE, BlockPos.ORIGIN) == null) {
@@ -341,7 +341,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         JsonArray resultBlocksArray = new JsonArray();
         //? if <1.13 {
         /*for (Block block : Registries.BLOCKS) {
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*Registry<Block> blockRegistry = Registry.BLOCK;
         for (Block block : (Iterable<Block>) blockRegistry) {
         *///?}

@@ -15,7 +15,7 @@ public interface StatusEffectAccessor {
     //? if <1.8.9 {
     /*@Accessor("STATUS_EFFECTS")
     static StatusEffect[] STATUS_EFFECTS() {
-    *///?} else if >=1.8.9 <1.9.4 {
+    *///?} else if =1.8.9 {
     /*@Accessor("STATUS_EFFECTS_BY_ID")
     static Map<Identifier, StatusEffect> STATUS_EFFECTS_BY_ID() {
     *///?}

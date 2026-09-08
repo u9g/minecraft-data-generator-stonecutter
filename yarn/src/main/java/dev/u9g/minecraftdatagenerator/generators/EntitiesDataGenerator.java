@@ -76,7 +76,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         Identifier registryKey = entityRegistry.getId(entityType);
         int entityRawId = entityRegistry.getRawId(entityType);
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*Class<? extends Entity> entityClass = getEntityClass(entityType);
         @Nullable Entity entity = makeEntity(entityType);
         *///?}
@@ -88,7 +88,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //? if >=1.8.9 {
         entityDesc.addProperty("name", Objects.requireNonNull(registryKey).getPath());
         //?}
-        //? if >=1.8.9 <1.9.4 {
+        //? if =1.8.9 {
         /*if (entity instanceof ItemEntity itemEntity) {
             // Same as 1.9.4
             itemEntity.setItemStack(new ItemStack(Blocks.STONE));
@@ -142,7 +142,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         return EntityType.createInstanceFromName(name, DGU.getWorld());
         *///?} else if >=1.11.2 <1.13 {
         /*return EntityType.createInstanceFromClass(type, DGU.getWorld());
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
     /*private static Entity makeEntity(EntityType<?> type) {
         Entity entity;
         try {
@@ -161,7 +161,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
     /*private static String getCategoryFrom(@NotNull Class<?> entityClass) {
         if (entityClass == PlayerEntity.class) return "other"; // fail early for player entities
         String packageName = entityClass.getPackage().getName();
-    *///?} else if >=1.13 <1.14 {
+    *///?} else if =1.13 {
     /*private static Class<? extends Entity> getEntityClass(EntityType<?> entityType) {
         Class<? extends Entity> entityClazz = null;
         try {
@@ -180,7 +180,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
     //? if >=1.13 {
     private static String getCategoryFrom(@NotNull EntityType<?> entityType) {
     //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*if (entityType == EntityType.PLAYER) return "other"; // fail early for player entities
         Class<? extends Entity> entityClazz = getEntityClass(entityType);
         String packageName = entityClazz.getPackage().getName();
@@ -259,19 +259,19 @@ public class EntitiesDataGenerator implements IDataGenerator {
         //? if <1.8.9 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.7")) {
             throw new IllegalStateException("These ids were gotten manually for 1.7, remake for " + DGU.getCurrentlyRunningServer().getVersion());
-        *///?} else if >=1.8.9 <1.9.4 {
+        *///?} else if =1.8.9 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.8.9")) {
             throw new IllegalStateException("These ids were gotten manually for 1.8.9, remake for " + DGU.getCurrentlyRunningServer().getVersion());
-        *///?} else if >=1.9.4 <1.10.2 {
+        *///?} else if =1.9.4 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.9.4")) {
             throw new IllegalStateException("These ids were gotten manually for 1.9.4, remake for " + DGU.getCurrentlyRunningServer().getVersion());
-        *///?} else if >=1.10.2 <1.11.2 {
+        *///?} else if =1.10.2 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.10.2")) {
             throw new IllegalStateException("These ids were gotten manually for 1.10.2, remake for " + DGU.getCurrentlyRunningServer().getVersion());
-        *///?} else if >=1.11.2 <1.12.2 {
+        *///?} else if =1.11.2 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.11.2")) {
             throw new IllegalStateException("These ids were gotten manually for 1.11.2, remake for " + DGU.getCurrentlyRunningServer().getVersion());
-        *///?} else if >=1.12.2 <1.13 {
+        *///?} else if =1.12.2 {
         /*if (!DGU.getCurrentlyRunningServer().getVersion().equals("1.12.2")) {
             throw new IllegalStateException("These ids were gotten manually for 1.12.2, remake for " + DGU.getCurrentlyRunningServer().getVersion());
         *///?}
@@ -293,7 +293,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
             *///?}
                 //? if <1.8.9 {
                 /*throw new IllegalStateException("unable to find rawId for entity: " + entity.getClass().getName());
-                *///?} else if >=1.8.9 <1.9.4 {
+                *///?} else if =1.8.9 {
                 /*throw new IllegalStateException("unable to find rawId for entity: " + entity.getEntity().getClass().getName());
                 *///?} else if >=1.9.4 <1.13 {
                 /*throw new IllegalStateException("unable to find rawId for entity: " + entity.getEntityName());
@@ -319,7 +319,7 @@ public class EntitiesDataGenerator implements IDataGenerator {
         *///?} else {
         Registry<EntityType<?>> entityTypeRegistry = Registry.ENTITY_TYPE;
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*for (EntityType<?> entityType : (Iterable<EntityType<?>>) entityTypeRegistry) {
             resultArray.add(generateEntity(entityTypeRegistry, entityType));
         *///?}

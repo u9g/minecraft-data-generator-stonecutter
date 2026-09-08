@@ -15,7 +15,7 @@ import net.minecraft.core.registries.Registries;
 //? if <1.21.11 {
 /*import net.minecraft.resources.ResourceLocation;
 *///?}
-//? if >=1.21 <1.21.3 {
+//? if =1.21 {
 /*import net.minecraft.tags.EnchantmentTags;
 *///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
@@ -51,15 +51,11 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
     //? if <1.20.5 {
     /*public static String getEnchantmentTargetName(EnchantmentCategory target) {
     *///?}
-        //? if <1.16 {
+        //? if <1.16 || (>1.18 <1.19) {
         /*return ENCHANTMENT_TARGET_NAMES.getOrDefault(target, target.name().toLowerCase(Locale.ROOT));
-        *///?} else if >=1.16 <=1.18 {
+        *///?} else if (>=1.16 <=1.18) || (>=1.19 <1.20.5) {
         /*return target.name().toLowerCase(Locale.ROOT);
-        *///?} else if >1.18 <1.19 {
-        /*return ENCHANTMENT_TARGET_NAMES.getOrDefault(target, target.name().toLowerCase(Locale.ROOT));
-        *///?} else if >=1.19 <1.20.5 {
-        /*return target.name().toLowerCase(Locale.ROOT);
-        *///?} else if >=1.20.5 <1.21 {
+        *///?} else if =1.20.5 {
     /*public static String getEnchantmentTargetName(TagKey<Item> target) {
         return target.location().getPath().split("/")[1];
         *///?} else {
@@ -122,7 +118,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         JsonObject enchantmentDesc = new JsonObject();
         //? if <1.16 {
         /*ResourceLocation registryKey = registry.getKey(enchantment);
-        *///?} else if >=1.21 <1.21.3 {
+        *///?} else if =1.21 {
         /*Holder<Enchantment> enchantmentEntry = registry.wrapAsHolder(enchantment);
         *///?}
         //? if >=1.16 <1.21.5 {
@@ -141,7 +137,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         //?}
         //? if <1.21 {
         /*enchantmentDesc.addProperty("displayName", DGU.translateText(enchantment.getDescriptionId()));
-        *///?} else if >=1.21 <1.21.3 {
+        *///?} else if =1.21 {
         /*String displayName = Enchantment.getFullname(registry.wrapAsHolder(enchantment), 1).getString();
         displayName = displayName.replaceAll(" I$", "");
         enchantmentDesc.addProperty("displayName", displayName);
@@ -156,13 +152,13 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         //? if <1.21 {
         /*enchantmentDesc.addProperty("treasureOnly", enchantment.isTreasureOnly());
         enchantmentDesc.addProperty("curse", enchantment.isCurse());
-        *///?} else if >=1.21 <1.21.3 {
+        *///?} else if =1.21 {
         /*enchantmentDesc.addProperty("treasureOnly", enchantmentEntry.is(EnchantmentTags.TREASURE));
         *///?} else {
         enchantmentDesc.addProperty("treasureOnly", isEnchantmentInTag(enchantment, "treasure"));
         //?}
 
-        //? if >=1.21 <1.21.3 {
+        //? if =1.21 {
         /*enchantmentDesc.addProperty("curse", enchantmentEntry.is(EnchantmentTags.CURSE));
         *///?} else if >=1.21.3 {
         enchantmentDesc.addProperty("curse", isEnchantmentInTag(enchantment, "curse"));
@@ -174,7 +170,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
                 *///?}
                 //? if <1.16 {
                 /*.filter(other -> other != enchantment).toList();
-                *///?} else if >=1.21 <1.21.3 {
+                *///?} else if =1.21 {
                 /*.filter(other -> !Enchantment.areCompatible(enchantmentEntry, registry.wrapAsHolder(other)))
                 *///?} else if >=1.21.3 {
                 .filter(other -> {
@@ -220,7 +216,7 @@ public class EnchantmentsDataGenerator implements IDataGenerator {
         //? if >=1.16 <1.21 {
         /*enchantmentDesc.addProperty("tradeable", enchantment.isTradeable());
         enchantmentDesc.addProperty("discoverable", enchantment.isDiscoverable());
-        *///?} else if >=1.21 <1.21.3 {
+        *///?} else if =1.21 {
         /*enchantmentDesc.addProperty("tradeable", enchantmentEntry.is(EnchantmentTags.TRADEABLE));
         enchantmentDesc.addProperty("discoverable", enchantmentEntry.is(EnchantmentTags.ON_RANDOM_LOOT));
         *///?} else if >=1.21.5 {

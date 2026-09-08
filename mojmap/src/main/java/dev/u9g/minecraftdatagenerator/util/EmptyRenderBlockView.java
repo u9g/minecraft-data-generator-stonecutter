@@ -47,15 +47,13 @@ public enum EmptyRenderBlockView implements BlockAndTintGetter {
         return Fluids.EMPTY.defaultFluidState();
     }
 
-    //? if <1.17 {
-    /*public int getBottomY() {
-    *///?} else if >=1.17 <1.21.3 {
-    /*public int getMinBuildHeight() {
-    *///?} else if >=1.21.3 <1.21.5 {
-    /*public int getMinY() {
-    *///?} else {
+    //? if <1.17 || >=1.21.5 {
     public int getBottomY() {
-    //?}
+    //?} else if >=1.17 <1.21.3 {
+    /*public int getMinBuildHeight() {
+    *///?} else {
+    /*public int getMinY() {
+    *///?}
         return 0;
     }
 
@@ -118,7 +116,7 @@ public enum EmptyRenderBlockView implements BlockAndTintGetter {
         //? if >=1.21.3 {
         Registry<Biome> biomeRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.BIOME);
         //?}
-        //? if >=1.21.3 <1.21.5 {
+        //? if =1.21.3 {
         /*Biome plainsBiome = biomeRegistry.getValue(Biomes.PLAINS);
         *///?} else if >=1.21.5 {
         Biome plainsBiome = biomeRegistry.get(Biomes.PLAINS).orElse(null).value();

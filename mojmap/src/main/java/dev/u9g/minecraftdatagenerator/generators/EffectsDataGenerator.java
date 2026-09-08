@@ -80,7 +80,7 @@ public class EffectsDataGenerator implements IDataGenerator {
         /*Registry<MobEffect> statusEffectRegistry = Registry.MOB_EFFECT;
         *///?} else if >=1.20 <1.21.3 {
         /*Registry<MobEffect> statusEffectRegistry = DGU.getWorld().registryAccess().registryOrThrow(Registries.MOB_EFFECT);
-        *///?} else if >=1.21.3 <1.21.5 {
+        *///?} else if =1.21.3 {
         /*Registry<MobEffect> statusEffectRegistry = DGU.getWorld().registryAccess().lookupOrThrow(Registries.MOB_EFFECT);
         *///?}
         //? if <1.21.5 {

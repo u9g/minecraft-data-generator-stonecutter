@@ -12,13 +12,13 @@ import net.minecraft.core.Registry;
 //? if >=1.20 {
 import net.minecraft.core.RegistryAccess;
 //?}
-//? if >=1.21.3 <1.21.5 {
+//? if =1.21.3 {
 /*import net.minecraft.core.registries.BuiltInRegistries;
 *///?}
 //? if >=1.20 {
 import net.minecraft.core.registries.Registries;
 //?}
-//? if >=1.21.3 <1.21.5 {
+//? if =1.21.3 {
 /*import net.minecraft.data.recipes.RecipeCategory;
 *///?} else if >=1.21.9 {
 import net.minecraft.util.context.ContextMap;
@@ -43,7 +43,7 @@ import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 //?}
-//? if >=1.21.8 <1.21.9 {
+//? if =1.21.8 {
 /*import net.minecraft.util.context.ContextMap;
 *///?}
 
@@ -75,7 +75,7 @@ public class RecipeDataGenerator implements IDataGenerator {
         JsonObject finalObj = new JsonObject();
         Multimap<Integer, JsonObject> recipes = ArrayListMultimap.create();
     //?}
-        //? if >=1.21 <1.21.3 {
+        //? if =1.21 {
         /*for (RecipeHolder<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getRecipeManager().getRecipes()) {
         *///?} else if >=1.21.3 {
         for (RecipeHolder<?> recipeE : Objects.requireNonNull(DGU.getWorld()).getServer().getRecipeManager().getRecipes()) {
@@ -87,11 +87,11 @@ public class RecipeDataGenerator implements IDataGenerator {
             } else if (recipe instanceof ShapelessRecipe sl) {
                 var ingredients = new JsonArray();
             //?}
-                //? if >=1.21 <1.21.3 {
+                //? if =1.21 {
                 /*for (Ingredient ingredient : sl.getIngredients()) {
                     if (ingredient.isEmpty()) continue;
                     ingredients.add(getRawIdFor(ingredient.getItems()[0].getItem()));
-                *///?} else if >=1.21.3 <1.21.5 {
+                *///?} else if =1.21.3 {
                 /*for (Ingredient ingredient : sl.placementInfo().ingredients()) {
                     if (ingredient.items().isEmpty()) continue;
                     ingredients.add(getRawIdFor(ingredient.items().getFirst().value()));
@@ -118,7 +118,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 rootRecipeObject.add("ingredients", ingredients);
                 var resultObject = new JsonObject();
                 //?}
-                //? if >=1.21 <1.21.3 {
+                //? if =1.21 {
                 /*resultObject.addProperty("id", getRawIdFor(sl.getResultItem(registryManager).getItem()));
                 resultObject.addProperty("count", sl.getResultItem(registryManager).getCount());
                 *///?} else if >=1.21.3 <26.1 {
@@ -131,7 +131,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 //? if >=1.21 {
                 rootRecipeObject.add("result", resultObject);
                 //?}
-                //? if >=1.21 <1.21.3 {
+                //? if =1.21 {
                 /*recipes.put(getRawIdFor(sl.getResultItem(registryManager).getItem()), rootRecipeObject);
                 *///?} else if >=1.21.3 <26.1 {
                 /*recipes.put(getRawIdFor(sl.assemble(CraftingInput.EMPTY, registryManager).getItem()), rootRecipeObject);
@@ -181,7 +181,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 continue;
             }
             //?}
-            //? if >=1.21.3 <1.21.5 {
+            //? if =1.21.3 {
             /*var matching = stacks.get().items(); // FIXME: fix when there are more than one matching stack
             if (matching.isEmpty()) {
             *///?} else if >=1.21.5 {
@@ -192,7 +192,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 ingr.add(null);
                 continue;
                 //?}
-            //? if >=1.21.3 <1.21.5 {
+            //? if =1.21.3 {
             /*} else if (matching.size() > n){
                 ingr.add(getRawIdFor(matching.get(n).value()));
             *///?}
@@ -201,7 +201,7 @@ public class RecipeDataGenerator implements IDataGenerator {
             //?}
                 //? if >=1.20.5 <1.21.3 {
                 /*ingr.add(getRawIdFor(matching[0].getItem()));
-                *///?} else if >=1.21.3 <1.21.5 {
+                *///?} else if =1.21.3 {
                 /*ingr.add(getRawIdFor(matching.getFirst().value()));
                 *///?}
             //? if >=1.20.5 <1.21.5 {
@@ -209,7 +209,7 @@ public class RecipeDataGenerator implements IDataGenerator {
             *///?}
             //? if >=1.20.5 <1.21.3 {
             /*if (matching.length-1 > n && !hasIncremented) {
-            *///?} else if >=1.21.3 <1.21.5 {
+            *///?} else if =1.21.3 {
             /*if (matching.size()-1 > n && !hasIncremented) {
             *///?}
                 //? if >=1.20.5 <1.21.5 {
@@ -244,9 +244,9 @@ public class RecipeDataGenerator implements IDataGenerator {
                 var jsonRow = new JsonArray();
                 for (int z = 0; z < sr.getWidth(); z++) {
             *///?}
-                    //? if >=1.20.5 <1.21 {
+                    //? if =1.20.5 {
                     /*jsonRow.add(iter.next());
-                    *///?} else if >=1.21 <1.21.3 {
+                    *///?} else if =1.21 {
                     /*int value = iter.next();
                     jsonRow.add(value == -1 ? null : value);
                     *///?}
@@ -343,7 +343,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                 *///?}
                         //? if >=1.18 <1.20.5 {
                         /*ingr.add(-1);
-                        *///?} else if >=1.20.5 <1.21 {
+                        *///?} else if =1.20.5 {
                         /*ingr.add(null);
                         *///?}
                         //? if >=1.18 <1.21 {
@@ -355,7 +355,7 @@ public class RecipeDataGenerator implements IDataGenerator {
                         *///?}
                         //? if >=1.18 <1.20.5 {
                         /*ingr.add(-1);
-                        *///?} else if >=1.20.5 <1.21 {
+                        *///?} else if =1.20.5 {
                         /*ingr.add(null);
                         *///?}
                     //? if >=1.18 <1.21 {

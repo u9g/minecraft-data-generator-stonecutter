@@ -173,7 +173,7 @@ public class ItemsDataGenerator implements IDataGenerator {
         *///?} else {
         Registry<Item> itemRegistry = Registry.ITEM;
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*for (Item item : (Iterable<Item>) itemRegistry) {
             resultArray.add(generateItem(itemRegistry, item));
         *///?}

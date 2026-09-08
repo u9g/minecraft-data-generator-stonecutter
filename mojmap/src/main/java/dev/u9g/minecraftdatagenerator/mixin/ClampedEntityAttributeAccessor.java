@@ -1,4 +1,4 @@
-//? if >=1.16 <1.17 {
+//? if =1.16 {
 /*package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;

@@ -42,7 +42,7 @@ public class InstrumentsDataGenerator implements IDataGenerator {
         *///?} else if >=1.8.9 <1.13 {
         /*int i = 0;
         *///?}
-        //? if >=1.8.9 <1.9.4 {
+        //? if =1.8.9 {
         /*for (String soundName : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
         *///?} else if >=1.9.4 <1.13 {
         /*for (Sound sound : Objects.requireNonNull(NoteBlockAccessor.TUNES())) {
@@ -55,14 +55,14 @@ public class InstrumentsDataGenerator implements IDataGenerator {
             //? if >=1.8.9 <1.13 {
             /*object.addProperty("id", i++);
             *///?}
-            //? if >=1.8.9 <1.9.4 {
+            //? if =1.8.9 {
             /*object.addProperty("name", soundName);
             *///?} else if >=1.9.4 <1.13 {
             /*object.addProperty("name", sound.getId().getPath().split("\\.")[2]);
             *///?} else if >=1.13 {
             object.addProperty("id", instrument.ordinal());
             //?}
-            //? if >=1.13 <1.14 {
+            //? if =1.13 {
             /*object.addProperty("name", instrument.asString());
             *///?} else if >=1.14 {
             object.addProperty("name", instrument.toSnakeCase());

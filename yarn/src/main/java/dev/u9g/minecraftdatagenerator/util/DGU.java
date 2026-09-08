@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 //?}
 import net.minecraft.item.ItemStack;
-//? if >=1.13 <1.14 {
+//? if =1.13 {
 /*import net.minecraft.item.Itemable;
 *///?}
 import net.minecraft.server.MinecraftServer;
@@ -41,7 +41,7 @@ public class DGU {
     public static World getWorld() {
         //? if <1.13 {
         /*return getCurrentlyRunningServer().getWorld();
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*return getCurrentlyRunningServer().method_20312(DimensionType.OVERWORLD);
         *///?} else {
         return getCurrentlyRunningServer().getWorld(DimensionType.OVERWORLD);
@@ -50,7 +50,7 @@ public class DGU {
 
     //? if <1.13 {
     /*public static ItemStack stackFor(Item ic) {
-    *///?} else if >=1.13 <1.14 {
+    *///?} else if =1.13 {
     /*public static ItemStack stackFor(Itemable ic) {
     *///?} else {
     public static ItemStack stackFor(ItemConvertible ic) {

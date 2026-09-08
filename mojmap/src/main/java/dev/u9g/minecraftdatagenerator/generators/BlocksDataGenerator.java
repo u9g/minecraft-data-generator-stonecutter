@@ -90,13 +90,13 @@ public class BlocksDataGenerator implements IDataGenerator {
         //If we have local world context, we can actually evaluate loot tables and determine actual data
         //? if <1.16 {
         /*ServerLevel serverWorld = (ServerLevel) DGU.getWorld();
-        *///?} else if >=1.16 <1.17 {
+        *///?} else if =1.16 {
         /*ServerLevel serverWorld = minecraftServer.overworld();
         *///?}
         //? if <1.17 {
         /*LootContext.Builder lootContext = new LootContext.Builder(serverWorld)
         *///?}
-                //? if >=1.16 <1.17 {
+                //? if =1.16 {
                 /*.withParameter(LootContextParams.BLOCK_STATE, blockState)
                 .withParameter(LootContextParams.BLOCK_POS, new BlockPos(0, 0, 0))
                 .withParameter(LootContextParams.TOOL, firstToolItem.getDefaultInstance())
@@ -164,13 +164,11 @@ public class BlocksDataGenerator implements IDataGenerator {
         propertyObject.addProperty("num_values", propertyValues.size());
 
         //Do not add values for vanilla boolean properties, they are known by default
-        //? if <1.18 {
-        /*if (!(property instanceof BooleanProperty)) {
-        *///?} else if >=1.18 <=1.18 {
-        /*if (!(property instanceof BooleanProperty) && !(property instanceof IntegerProperty && property.getName(propertyValues.iterator().next()).equals("0"))) {
-        *///?} else {
+        //? if <1.18 || >1.18 {
         if (!(property instanceof BooleanProperty)) {
-        //?}
+        //?} else {
+        /*if (!(property instanceof BooleanProperty) && !(property instanceof IntegerProperty && property.getName(propertyValues.iterator().next()).equals("0"))) {
+        *///?}
             JsonArray propertyValuesArray = new JsonArray();
             for (T propertyValue : propertyValues) {
                 propertyValuesArray.add(property.getName(propertyValue));
@@ -200,17 +198,15 @@ public class BlocksDataGenerator implements IDataGenerator {
             return "default";
         }
     //?}
-        //? if >=1.17 <1.20.5 {
-        /*return matchingMaterials.getFirst().getMaterialName();
-        *///?} else if >=1.20.5 <26.1 {
+        //? if (>=1.17 <1.20.5) || >=26.1 {
+        return matchingMaterials.getFirst().getMaterialName();
+        //?} else if >=1.20.5 <26.1 {
         /*return matchingMaterials.stream()
             .filter(m -> m.getMaterialName().startsWith("mineable/"))
             .findFirst()
             .map(MaterialsDataGenerator.MaterialInfo::getMaterialName)
             .orElseGet(() -> matchingMaterials.getFirst().getMaterialName());
-        *///?} else if >=26.1 {
-        return matchingMaterials.getFirst().getMaterialName();
-        //?}
+        *///?}
     //? if >=1.17 {
     }
 
@@ -282,13 +278,13 @@ public class BlocksDataGenerator implements IDataGenerator {
         *///?}
                 //? if <1.16 {
                 /*item.getDestroySpeed(DGU.asStack(item), defaultState) // value
-                *///?} else if >=1.16 <1.17 {
+                *///?} else if =1.16 {
                 /*item.getDestroySpeed(item.getDefaultInstance(), defaultState) // value
                 *///?}
         //? if <1.17 {
         /*));
         blockDesc.add("effectiveTools", effTools);
-        *///?} else if >=1.17 <1.18 {
+        *///?} else if =1.17 {
         /*blockDesc.addProperty("diggable", block.defaultDestroyTime() != -1.0f && !(block instanceof AirBlock));
 //        JsonObject effTools = new JsonObject();
 //        effectiveTools.forEach(item -> effTools.addProperty(
@@ -348,9 +344,9 @@ public class BlocksDataGenerator implements IDataGenerator {
         // populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
 
 //        List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
-        //? if >=1.16 <1.17 {
+        //? if =1.16 {
         /*List<ItemStack> drops = populateDropsIfPossible(defaultState, effectiveTools.stream().findFirst().orElse(Items.AIR));
-        *///?} else if >=1.18 <=1.18 {
+        *///?} else if =1.18 {
         /*// for (ItemStack dropStack : actualBlockDrops) {
         //     dropsArray.add(Item.getRawId(dropStack.getItem()));
         // }
@@ -386,7 +382,7 @@ public class BlocksDataGenerator implements IDataGenerator {
             blockDesc.add("harvestTools", effectiveToolsObject);
         }
             //?}
-        //? if >=1.17 <1.18 {
+        //? if =1.17 {
 
         /*List<ItemStack> actualBlockDrops = new ArrayList<>();
         populateDropsIfPossible(defaultState, effectiveTools.isEmpty() ? Items.AIR : effectiveTools.getFirst(), actualBlockDrops);
@@ -396,9 +392,9 @@ public class BlocksDataGenerator implements IDataGenerator {
         /*JsonArray dropsArray = new JsonArray();
         *///?}
 //        drops.forEach(dropped -> dropsArray.add(Item.getRawId(dropped.getItem())));
-        //? if >=1.16 <1.17 {
+        //? if =1.16 {
         /*drops.forEach(dropped -> dropsArray.add(Item.getId(dropped.getItem())));
-        *///?} else if >=1.17 <1.18 {
+        *///?} else if =1.17 {
         /*for (ItemStack dropStack : actualBlockDrops) {
             dropsArray.add(Item.getId(dropStack.getItem()));
         }
@@ -409,7 +405,7 @@ public class BlocksDataGenerator implements IDataGenerator {
         VoxelShape blockCollisionShape = defaultState.getCollisionShape(EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
         blockDesc.addProperty("boundingBox", blockCollisionShape.isEmpty() ? "empty" : "block");
 
-        *///?} else if >=1.18 <=1.18 {
+        *///?} else if =1.18 {
         /*blockDesc.addProperty("defaultState", Block.getId(defaultState));
 //        JsonObject effTools = new JsonObject();
 //        effectiveTools.forEach(item -> effTools.addProperty(
@@ -454,9 +450,7 @@ public class BlocksDataGenerator implements IDataGenerator {
     @Override
     public JsonArray generateDataJson() {
         JsonArray resultBlocksArray = new JsonArray();
-        //? if >=1.17 <=1.18 {
-        /*Registry<Block> blockRegistry = Registry.BLOCK;
-        *///?} else if >=1.19 <1.20 {
+        //? if (>=1.17 <=1.18) || (>=1.19 <1.20) {
         /*Registry<Block> blockRegistry = Registry.BLOCK;
         *///?}
         //? if >=1.17 {
@@ -468,17 +462,13 @@ public class BlocksDataGenerator implements IDataGenerator {
 
         //? if <1.17 {
         /*Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(block)));
-        *///?} else if >=1.17 <=1.18 {
-        /*blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        *///?} else if >1.18 <1.19 {
-        /*Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        *///?} else if >=1.19 <1.20 {
-        /*blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        *///?} else if >=1.20 <1.21.5 {
-        /*BuiltInRegistries.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        *///?} else {
+        *///?} else if (>=1.17 <=1.18) || (>=1.19 <1.20) || >=1.21.5 {
         blockRegistry.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
-        //?}
+        //?} else if >1.18 <1.19 {
+        /*Registry.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
+        *///?} else {
+        /*BuiltInRegistries.BLOCK.forEach(block -> resultBlocksArray.add(generateBlock(availableMaterials, block)));
+        *///?}
         return resultBlocksArray;
     }
 }

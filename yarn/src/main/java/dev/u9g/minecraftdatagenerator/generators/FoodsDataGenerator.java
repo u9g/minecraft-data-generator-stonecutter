@@ -19,7 +19,7 @@ import java.util.Objects;
 public class FoodsDataGenerator implements IDataGenerator {
     //? if <1.13 {
     /*public static JsonObject generateFoodDescriptor(FoodItem foodItem) {
-    *///?} else if >=1.13 <1.14 {
+    *///?} else if =1.13 {
     /*public static JsonObject generateFoodDescriptor(Registry<Item> registry, FoodItem foodItem) {
     *///?} else {
     public static JsonObject generateFoodDescriptor(Registry<Item> registry, Item foodItem) {
@@ -59,7 +59,7 @@ public class FoodsDataGenerator implements IDataGenerator {
         //? if <1.13 {
         /*float foodPoints = foodItem.getHungerPoints(DGU.stackFor(foodItem));
         float saturationRatio = foodItem.getSaturation(DGU.stackFor(foodItem)) * 2.0F;
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*float foodPoints = foodItem.getHungerPoints(getDefaultStack(foodItem));
         float saturationRatio = foodItem.getSaturation(getDefaultStack(foodItem)) * 2.0F;
         *///?} else {
@@ -78,7 +78,7 @@ public class FoodsDataGenerator implements IDataGenerator {
         return foodDesc;
     }
 
-    //? if >=1.13 <1.14 {
+    //? if =1.13 {
     /*private static ItemStack getDefaultStack(FoodItem foodItem) {
         return new ItemStack(foodItem);
     }
@@ -96,7 +96,7 @@ public class FoodsDataGenerator implements IDataGenerator {
         *///?} else {
         Registry<Item> itemRegistry = Registry.ITEM;
         //?}
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*for (Item item : (Iterable<Item>) itemRegistry) {
         *///?}
             //? if <1.14 {
@@ -104,7 +104,7 @@ public class FoodsDataGenerator implements IDataGenerator {
             *///?}
                 //? if <1.13 {
                 /*resultsArray.add(generateFoodDescriptor((FoodItem) item));
-                *///?} else if >=1.13 <1.14 {
+                *///?} else if =1.13 {
                 /*resultsArray.add(generateFoodDescriptor(itemRegistry, (FoodItem) item));
                 *///?}
             //? if <1.14 {

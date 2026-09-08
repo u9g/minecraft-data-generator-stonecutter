@@ -45,10 +45,10 @@ public class TintsDataGenerator implements IDataGenerator {
             //? if <1.8.9 {
             /*double d = MathHelper.clamp(biome.temperature, 0.0f, 1.0f);
             double e = MathHelper.clamp(biome.downfall, 0.0f, 1.0f);
-            *///?} else if >=1.8.9 <1.9.4 {
+            *///?} else if =1.8.9 {
             /*double d = MathHelper.clamp(biome.temperature, 0.0F, 1.0F);
             double e = MathHelper.clamp(biome.downfall, 0.0F, 1.0F);
-            *///?} else if >=1.13 <1.14 {
+            *///?} else if =1.13 {
         /*for (Biome biome : (Iterable<Biome>) biomeRegistry) {
             *///?} else if >=1.14 {
 
@@ -83,7 +83,7 @@ public class TintsDataGenerator implements IDataGenerator {
         Map<Integer, Integer> resultColors = new LinkedHashMap<>();
 
     //?}
-        //? if >=1.8.9 <1.9.4 {
+        //? if =1.8.9 {
         /*RedstoneWireBlock redstoneWireBlock = new RedstoneWireBlock();
         try {
             Method colorIntensity = RedstoneWireBlock.class.getDeclaredMethod("getColorIntensity", int.class);
@@ -113,12 +113,12 @@ public class TintsDataGenerator implements IDataGenerator {
     }
         //?}
 
-        //? if >=1.8.9 <1.9.4 {
+        //? if =1.8.9 {
         /*return resultColors;
         *///?} else if >=1.9.4 {
     private static int getBlockColor(Block block) {
         //?}
-        //? if >=1.9.4 <1.10.2 {
+        //? if =1.9.4 {
         /*return BlockColors.create().method_12157(block.getDefaultState(), DGU.getWorld(), BlockPos.ORIGIN, 0);
         *///?} else if >=1.10.2 <1.12.2 {
         /*return BlockColors.create().method_13410(block.getDefaultState());
@@ -144,7 +144,7 @@ public class TintsDataGenerator implements IDataGenerator {
 
         //? if <1.8.9 {
         /*resultColors.put(Registries.BLOCKS.get("waterlily"), Blocks.LILY_PAD.getColor());
-        *///?} else if >=1.8.9 <1.9.4 {
+        *///?} else if =1.8.9 {
         /*resultColors.put(Blocks.LILY_PAD, Blocks.LILY_PAD.getColor());
         *///?} else {
         resultColors.put(Blocks.LILY_PAD, getBlockColor(Blocks.LILY_PAD));
@@ -161,7 +161,7 @@ public class TintsDataGenerator implements IDataGenerator {
         //? if <1.8.9 {
         /*resultColors.put(Registries.BLOCKS.get("melon_stem"), Blocks.MELON_STEM.getColor());
         resultColors.put(Registries.BLOCKS.get("pumpkin_stem"), Blocks.PUMPKIN_STEM.getColor());
-        *///?} else if >=1.8.9 <1.9.4 {
+        *///?} else if =1.8.9 {
         /*resultColors.put(Blocks.MELON_STEM, Blocks.MELON_STEM.getColor());
         resultColors.put(Blocks.PUMPKIN_STEM, Blocks.PUMPKIN_STEM.getColor());
         *///?} else {

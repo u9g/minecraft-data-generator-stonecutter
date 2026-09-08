@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.Registry;
-//? if >=1.17 <1.19 {
-/*import net.minecraft.core.RegistryAccess;
-*///?} else if >=1.19.2 {
+//? if (>=1.17 <1.19) || >=1.19.2 {
 import net.minecraft.core.RegistryAccess;
 //?}
 //? if >1.18 <1.20 {
@@ -128,7 +126,7 @@ public class BiomesDataGenerator implements IDataGenerator {
     }
 
     //?}
-    //? if >=1.19 <1.19.2 {
+    //? if =1.19 {
     /*public static JsonObject generateBiomeInfo(Biome biome) {
     *///?} else if >=1.19.2 {
     public static JsonObject generateBiomeInfo(Registry<Biome> registry, Biome biome) {
@@ -140,12 +138,10 @@ public class BiomesDataGenerator implements IDataGenerator {
         *///?} else if >=1.16 <=1.18 {
         /*ResourceLocation registryKey = registry.getResourceKey(biome).orElseThrow().location();
         String localizationKey = String.format("biome.%s.%s", registryKey.getNamespace(), registryKey.getPath());
-        *///?} else if >1.18 <1.19 {
+        *///?} else if (>1.18 <1.19) || =1.19.2 {
         /*ResourceKey<Biome> registryKey = registry.getResourceKey(biome).orElseThrow();
-        *///?} else if >=1.19 <1.19.2 {
+        *///?} else if =1.19 {
         /*ResourceKey<Biome> registryKey = BuiltinRegistries.BIOME.getResourceKey(biome).orElseThrow();
-        *///?} else if >=1.19.2 <1.20 {
-        /*ResourceKey<Biome> registryKey = registry.getResourceKey(biome).orElseThrow();
         *///?}
         //? if >1.18 <1.20 {
         /*ResourceLocation identifier = registryKey.location();
@@ -172,7 +168,7 @@ public class BiomesDataGenerator implements IDataGenerator {
         *///?} else if >=1.19 <1.20 {
         /*String name = identifier.getPath();
         *///?}
-        //? if >=1.19 <1.19.2 {
+        //? if =1.19 {
         /*biomeDesc.addProperty("id", BuiltinRegistries.BIOME.getId(biome));
         *///?} else if >=1.20 <1.21.5 {
         /*ResourceLocation registryKey = registry.getResourceKey(biome).orElseThrow().location();
@@ -260,10 +256,10 @@ public class BiomesDataGenerator implements IDataGenerator {
 
         /*biomeRegistry.stream()
                 .map(biome -> generateBiomeInfo(biomeRegistry, biome))
-        *///?} else if >=1.19 <1.19.2 {
+        *///?} else if =1.19 {
         /*BuiltinRegistries.BIOME.stream()
                 .map(BiomesDataGenerator::generateBiomeInfo)
-        *///?} else if >=1.19.2 <1.20 {
+        *///?} else if =1.19.2 {
         /*RegistryAccess registryManager = RegistryAccess.BUILTIN.get();
         Registry<Biome> biomeRegistry = registryManager.registryOrThrow(Registry.BIOME_REGISTRY);
         *///?} else {

@@ -2,7 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if >=1.16 <1.17 {
+//? if =1.16 {
 /*import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
 *///?}
 import dev.u9g.minecraftdatagenerator.util.DGU;
@@ -22,7 +22,7 @@ import net.minecraft.core.registries.Registries;
 /*import net.minecraft.resources.ResourceLocation;
 *///?}
 import net.minecraft.util.Mth;
-//? if >=1.21.3 <1.21.5 {
+//? if =1.21.3 {
 /*import net.minecraft.util.ARGB;
 *///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
@@ -52,7 +52,7 @@ public class TintsDataGenerator implements IDataGenerator {
             *///?}
             //? if <1.16 {
             /*int biomeWaterColor = biome.getWaterColor();
-            *///?} else if >=1.16 <1.17 {
+            *///?} else if =1.16 {
             /*int biomeWaterColor = ((BiomeEffectsAccessor) biome.getSpecialEffects()).waterColor();
             *///?} else {
             int biomeGrassColor = biome.getGrassColor(0.0, 0.0);
@@ -90,7 +90,7 @@ public class TintsDataGenerator implements IDataGenerator {
         float g = (float) (color >> 8 & 0xFF) / 255;
         float b = (float) (color & 0xFF) / 255;
     //?}
-        //? if >=1.21.3 <1.21.5 {
+        //? if =1.21.3 {
         /*return ARGB.colorFromFloat(0, r, g, b);
         *///?} else if >=1.21.5 {
         return ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);

@@ -16,13 +16,13 @@ import java.util.Objects;
 public class ParticlesDataGenerator implements IDataGenerator {
     //? if <1.13 {
     /*public static JsonObject generateParticleType(int id, ParticleType particleType) {
-    *///?} else if >=1.13 <1.14 {
+    *///?} else if =1.13 {
     /*public static JsonObject generateParticleType(ParticleType<?> particleType) {
     *///?} else {
     public static JsonObject generateParticleType(Registry<ParticleType<?>> registry, ParticleType<?> particleType) {
     //?}
         JsonObject effectDesc = new JsonObject();
-        //? if >=1.13 <1.14 {
+        //? if =1.13 {
         /*Identifier registryKey = Registry.PARTICLE_TYPE.getId(particleType);
         *///?} else if >=1.14 {
         Identifier registryKey = registry.getId(particleType);
@@ -31,7 +31,7 @@ public class ParticlesDataGenerator implements IDataGenerator {
         //? if <1.13 {
         /*effectDesc.addProperty("id", id);
         effectDesc.addProperty("name", particleType.getName());
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*effectDesc.addProperty("id", Registry.PARTICLE_TYPE.getRawId(particleType));
         *///?} else {
         effectDesc.addProperty("id", registry.getRawId(particleType));
@@ -47,7 +47,7 @@ public class ParticlesDataGenerator implements IDataGenerator {
         return "particles";
     }
 
-    //? if >=1.13 <1.14 {
+    //? if =1.13 {
     /*@SuppressWarnings("unchecked")
     *///?}
     @Override
@@ -58,7 +58,7 @@ public class ParticlesDataGenerator implements IDataGenerator {
         for (ParticleType particleType : ParticleType.values()) {
             resultsArray.add(generateParticleType(i++, particleType));
         }
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*Registry.PARTICLE_TYPE.forEach(particleType ->
                 resultsArray.add(generateParticleType((ParticleType<?>) particleType)));
         *///?} else {

@@ -38,7 +38,7 @@ public class EffectsDataGenerator implements IDataGenerator {
         /*@NotNull String name = Objects.requireNonNull(Registries.STATUS_EFFECTS.getId(statusEffect));
         *///?} else if >=1.8.9 <1.13 {
         /*@NotNull Identifier registryKey = Objects.requireNonNull(Registries.STATUS_EFFECTS.getIdentifier(statusEffect));
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*@NotNull Identifier registryKey = Objects.requireNonNull(registry.getId(statusEffect));
         *///?} else {
         Identifier registryKey = registry.getId(statusEffect);
@@ -49,7 +49,7 @@ public class EffectsDataGenerator implements IDataGenerator {
         *///?}
         //? if <1.8.9 {
         /*effectDesc.addProperty("name", name);
-        *///?} else if >=1.8.9 <1.9.4 {
+        *///?} else if =1.8.9 {
         /*effectDesc.addProperty("name", Arrays.stream(registryKey.getPath().split("_")).map(StringUtils::capitalize).collect(Collectors.joining()));
         *///?}
         //? if <1.9.4 {
@@ -86,7 +86,7 @@ public class EffectsDataGenerator implements IDataGenerator {
         //? if <1.13 {
         /*for (StatusEffect effect : Registries.STATUS_EFFECTS) {
             resultsArray.add(generateEffect(effect));
-        *///?} else if >=1.13 <1.14 {
+        *///?} else if =1.13 {
         /*Registry<StatusEffect> statusEffectRegistry = Registry.MOB_EFFECT;
         for (StatusEffect effect : (Iterable<StatusEffect>) statusEffectRegistry) {
             resultsArray.add(generateEffect(statusEffectRegistry, effect));
