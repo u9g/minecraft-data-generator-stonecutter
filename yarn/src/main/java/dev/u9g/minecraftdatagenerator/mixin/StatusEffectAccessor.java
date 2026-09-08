@@ -1,18 +1,15 @@
 package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.minecraft.entity.effect.StatusEffect;
-//? if >=1.8.9 <1.9.4 {
-/*import net.minecraft.util.Identifier;
-*///?} else if >=1.14 {
+import net.minecraft.util.Identifier;
+//? if >=1.14 {
 import net.minecraft.entity.effect.StatusEffectType;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-//? if >=1.8.9 <1.9.4 {
-/*import java.util.Map;
+import java.util.Map;
 
-*///?}
 @Mixin(StatusEffect.class)
 public interface StatusEffectAccessor {
     //? if <1.8.9 {

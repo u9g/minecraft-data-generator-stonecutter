@@ -2,9 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if >=1.20 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 //? if >=1.20 {
@@ -16,10 +14,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 //?}
 
-//? if <1.16 {
-/*import java.util.Objects;
+import java.util.Objects;
 
-*///?}
 public class ParticlesDataGenerator implements IDataGenerator {
     public static JsonObject generateParticleType(Registry<ParticleType<?>> registry, ParticleType<?> particleType) {
         JsonObject effectDesc = new JsonObject();

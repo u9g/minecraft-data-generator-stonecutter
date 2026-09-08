@@ -4,14 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 //? if >=1.16 <1.17 {
 /*import dev.u9g.minecraftdatagenerator.mixin.BiomeEffectsAccessor;
-*///?} else if >=1.20 {
-import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
-import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
-//? if <1.19 {
-/*import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 *///?}
+import dev.u9g.minecraftdatagenerator.util.DGU;
+import dev.u9g.minecraftdatagenerator.util.EmptyRenderBlockView;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -24,17 +21,14 @@ import net.minecraft.core.registries.Registries;
 //? if <1.21.11 {
 /*import net.minecraft.resources.ResourceLocation;
 *///?}
-//? if <1.17 {
-/*import net.minecraft.util.Mth;
-*///?} else if >=1.21.3 <1.21.5 {
+import net.minecraft.util.Mth;
+//? if >=1.21.3 <1.21.5 {
 /*import net.minecraft.util.ARGB;
 *///?} else if >=1.21.11 {
 import net.minecraft.resources.Identifier;
 //?}
 import net.minecraft.world.level.FoliageColor;
-//? if <1.17 {
-/*import net.minecraft.world.level.GrassColor;
-*///?}
+import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

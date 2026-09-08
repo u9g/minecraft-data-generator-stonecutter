@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-//? if >=1.20 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 //? if >=1.20 {

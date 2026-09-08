@@ -2,11 +2,8 @@ package dev.u9g.minecraftdatagenerator.mixin;
 
 import dev.u9g.minecraftdatagenerator.MinecraftDataGenerator;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//? if <1.21.5 {
-/*import net.minecraft.DetectedVersion;
-*///?} else {
+import net.minecraft.DetectedVersion;
 import net.minecraft.SharedConstants;
-//?}
 import net.minecraft.server.dedicated.DedicatedServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

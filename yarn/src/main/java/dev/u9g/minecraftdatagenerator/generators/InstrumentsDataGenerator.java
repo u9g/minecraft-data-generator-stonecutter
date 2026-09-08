@@ -3,19 +3,18 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 //? if <1.8.9 {
-/*import com.google.gson.JsonPrimitive;
-import net.minecraft.block.material.Material;
+/*import net.minecraft.block.material.Material;
 *///?} else if >=1.8.9 <1.13 {
 /*import dev.u9g.minecraftdatagenerator.mixin.NoteBlockAccessor;
 *///?}
 //? if >=1.9.4 <1.13 {
 /*import net.minecraft.sound.Sound;
 *///?}
-//? if >=1.8.9 <1.13 {
 
-/*import java.util.Objects;
-*///?} else if >=1.13 {
+import java.util.Objects;
+//? if >=1.13 {
 import net.minecraft.block.enums.Instrument;
 //?}
 

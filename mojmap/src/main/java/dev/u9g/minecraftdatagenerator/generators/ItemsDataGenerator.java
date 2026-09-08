@@ -2,9 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if >=1.21 {
 import com.google.gson.JsonPrimitive;
-//?}
 import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if >=1.20.5 {
 import net.minecraft.core.Holder;
@@ -31,26 +29,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 //? if <1.20.5 {
 /*import net.minecraft.world.item.enchantment.EnchantmentCategory;
-*///?} else {
-import net.minecraft.world.item.enchantment.Enchantment;
-//?}
-//? if >=1.20.5 <1.21 {
-/*import net.minecraft.world.item.enchantment.Enchantments;
 *///?}
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 
-//? if <1.16 {
-/*import java.util.*;
-*///?} else if >=1.16 <1.20.5 {
-/*import java.util.Arrays;
+import java.util.*;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-*///?} else if >=1.20.5 <1.21 {
-/*import java.util.*;
-*///?} else {
-import java.util.List;
 import java.util.Objects;
-//?}
 import java.util.stream.Collectors;
 
 public class ItemsDataGenerator implements IDataGenerator {

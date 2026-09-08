@@ -8,13 +8,10 @@ import com.google.gson.JsonObject;
 *///?}
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.BlockPos;
-//? if <1.20 {
-/*import net.minecraft.core.Registry;
-*///?} else if >=1.20 <1.21.5 {
-/*import net.minecraft.core.registries.BuiltInRegistries;
-*///?} else {
 import net.minecraft.core.Registry;
-//?}
+//? if >=1.20 <1.21.5 {
+/*import net.minecraft.core.registries.BuiltInRegistries;
+*///?}
 //? if >=1.20 {
 import net.minecraft.core.registries.Registries;
 //?}
@@ -23,18 +20,14 @@ import net.minecraft.core.registries.Registries;
 *///?} else {
 import net.minecraft.resources.Identifier;
 //?}
-//? if >=1.16 {
 import net.minecraft.server.MinecraftServer;
-//?}
 import net.minecraft.server.level.ServerLevel;
 //? if <1.17 {
 /*import net.minecraft.world.item.DiggerItem;
 *///?}
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-//? if >=1.16 {
 import net.minecraft.world.item.Items;
-//?}
 import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
@@ -43,28 +36,19 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
-//? if <1.20 {
-/*import net.minecraft.world.level.storage.loot.LootContext;
-*///?} else {
+import net.minecraft.world.level.storage.loot.LootContext;
+//? if >=1.20 {
 import net.minecraft.world.level.storage.loot.LootParams;
 //?}
-//? if >=1.16 {
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-//?}
-//? if >=1.17 {
 import net.minecraft.world.phys.Vec3;
-//?}
 import net.minecraft.world.phys.shapes.VoxelShape;
 //? if >=1.17 {
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //?}
 
-//? if >=1.17 <1.18 {
-/*import java.util.ArrayList;
-*///?} else if >1.18 {
 import java.util.ArrayList;
-//?}
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

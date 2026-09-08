@@ -8,9 +8,7 @@ import com.google.gson.JsonObject;
 //? if <1.20.5 {
 /*import dev.u9g.minecraftdatagenerator.mixin.MiningToolItemAccessor;
 *///?}
-//? if >=1.20 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
 import net.minecraft.core.Registry;
 //? if >=1.20.5 {
 import net.minecraft.core.component.DataComponents;

@@ -10,15 +10,9 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 /*import net.minecraft.item.FoodItem;
 *///?}
 import net.minecraft.item.Item;
-//? if >=1.13 <1.14 {
-/*import net.minecraft.item.ItemStack;
-*///?}
-//? if >=1.8.9 {
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 
 import java.util.Objects;
 

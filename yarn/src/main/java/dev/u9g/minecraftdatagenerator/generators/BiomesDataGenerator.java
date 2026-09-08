@@ -7,31 +7,20 @@ import com.google.gson.JsonObject;
 *///?}
 //? if <1.9.4 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
-*///?} else if >=1.13 {
-import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
-//? if >=1.9.4 {
-import net.minecraft.util.Identifier;
-//?}
-//? if >=1.9.4 <1.13 {
-/*import net.minecraft.util.registry.SimpleRegistry;
 *///?}
+import dev.u9g.minecraftdatagenerator.util.DGU;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.SimpleRegistry;
 //? if <1.13 {
 /*import net.minecraft.world.biome.*;
-*///?} else {
+*///?}
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
-//?}
 
-//? if <1.14 {
-/*import java.util.Locale;
-*///?}
-//? if <1.8.9 {
-/*import java.util.SortedMap;
+import java.util.Locale;
+import java.util.SortedMap;
 import java.util.TreeMap;
-*///?} else if >=1.13 {
 import java.util.Objects;
-//?}
 
 public class BiomesDataGenerator implements IDataGenerator {
 

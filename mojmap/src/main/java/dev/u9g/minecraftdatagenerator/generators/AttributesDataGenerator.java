@@ -6,28 +6,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 //? if <1.16 {
 /*import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
+*///?}
 import net.minecraft.locale.Language;
 
 import java.util.Map;
-*///?} else if >=1.16 <1.17 {
+//? if >=1.16 <1.17 {
 /*import dev.u9g.minecraftdatagenerator.mixin.ClampedEntityAttributeAccessor;
 *///?}
-//? if >=1.16 <1.20 {
-/*import net.minecraft.core.Registry;
-*///?} else if >=1.20 {
+import net.minecraft.core.Registry;
 import dev.u9g.minecraftdatagenerator.util.DGU;
+//? if >=1.20 {
 import net.minecraft.core.registries.Registries;
 //?}
-//? if >=1.16 {
 import net.minecraft.world.entity.ai.attributes.Attribute;
-//?}
-//? if >=1.17 {
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-//?}
-//? if >=1.21 {
 
 import java.util.Objects;
-//?}
 
 public class AttributesDataGenerator implements IDataGenerator {
     @Override

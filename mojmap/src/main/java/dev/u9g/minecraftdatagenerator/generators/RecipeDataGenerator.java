@@ -1,27 +1,14 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-//? if >=1.18 {
 import com.google.common.collect.ArrayListMultimap;
-//?}
-//? if >=1.18 <1.20 {
-/*import com.google.common.collect.Lists;
-*///?}
-//? if >=1.18 {
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonArray;
-//?}
 import com.google.gson.JsonElement;
-//? if <1.18 {
-/*import com.google.gson.JsonNull;
-*///?} else {
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
-//? if <1.20 {
-/*import net.minecraft.core.Registry;
-*///?} else if >=1.21.3 {
 import net.minecraft.core.Registry;
-//?}
 //? if >=1.20 {
 import net.minecraft.core.RegistryAccess;
 //?}
@@ -43,19 +30,14 @@ import net.minecraft.world.item.crafting.*;
 //? if >=1.21.3 {
 import net.minecraft.world.item.crafting.CraftingInput;
 //?}
-//? if >=1.18 <1.21.5 {
-/*import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-*///?}
 //? if >=1.20.4 <1.21.5 {
 /*import net.minecraft.world.item.crafting.RecipeHolder;
 *///?}
-//? if >=1.18 <1.21.5 {
-/*import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
-*///?} else if >=1.21.5 {
 import net.minecraft.world.item.crafting.RecipeType;
-//?}
 //? if >=1.21.8 {
 import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
@@ -64,12 +46,10 @@ import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 //? if >=1.21.8 <1.21.9 {
 /*import net.minecraft.util.context.ContextMap;
 *///?}
-//? if >=1.18 {
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-//?}
 
 public class RecipeDataGenerator implements IDataGenerator {
 

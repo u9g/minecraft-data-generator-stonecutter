@@ -2,9 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if <1.18 {
-/*import dev.u9g.minecraftdatagenerator.FieldHelper;
-*///?}
+import dev.u9g.minecraftdatagenerator.FieldHelper;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.Registry;
 //? if >=1.20 {
@@ -15,9 +13,7 @@ import net.minecraft.core.registries.Registries;
 *///?} else {
 import net.minecraft.resources.Identifier;
 //?}
-//? if >=1.16 {
 import net.minecraft.server.MinecraftServer;
-//?}
 //? if <1.17 {
 /*import net.minecraft.world.entity.AgableMob;
 *///?} else {
@@ -40,19 +36,14 @@ import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 //? if <1.16 {
 /*import net.minecraft.world.entity.projectile.AbstractArrow;
-*///?} else {
+*///?}
 import net.minecraft.world.entity.projectile.Projectile;
-//?}
 //? if <1.17 {
 /*import org.jetbrains.annotations.NotNull;
 *///?}
-//? if <1.18 {
 
-/*import java.lang.reflect.ParameterizedType;
-*///?}
-//? if <1.16 {
-/*import java.util.Objects;
-*///?}
+import java.lang.reflect.ParameterizedType;
+import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {
     public static JsonObject generateEntity(Registry<EntityType<?>> entityRegistry, EntityType<?> entityType) {

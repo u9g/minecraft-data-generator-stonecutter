@@ -4,13 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
-//? if <1.9.4 {
-/*import net.minecraft.util.Language;
-*///?} else if >=1.9.4 <1.13 {
-/*import dev.u9g.minecraftdatagenerator.util.Registries;
-*///?} else {
 import net.minecraft.util.Language;
-//?}
+//? if >=1.9.4 <1.13 {
+/*import dev.u9g.minecraftdatagenerator.util.Registries;
+*///?}
 
 import java.util.Map;
 

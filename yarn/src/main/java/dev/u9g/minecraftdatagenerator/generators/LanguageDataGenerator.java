@@ -1,23 +1,18 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-//? if >=1.13 {
 import com.google.gson.Gson;
-//?}
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
 //? if <1.13 {
-/*import dev.u9g.minecraftdatagenerator.mixin.LanguageAccessor;
-import dev.u9g.minecraftdatagenerator.util.Registries;
+/*import dev.u9g.minecraftdatagenerator.util.Registries;
 *///?}
 
-//? if <1.13 {
-/*import java.util.Map;
-*///?} else {
+import java.util.Map;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-//?}
 
 public class LanguageDataGenerator implements IDataGenerator {
     @Override

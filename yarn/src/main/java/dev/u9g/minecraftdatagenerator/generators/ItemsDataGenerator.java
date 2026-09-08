@@ -2,9 +2,7 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if <1.12.2 {
-/*import com.google.gson.JsonPrimitive;
-*///?}
+import com.google.gson.JsonPrimitive;
 //? if <1.8.9 {
 /*import dev.u9g.minecraftdatagenerator.mixin.VariantBlockItemAccessor;
 import dev.u9g.minecraftdatagenerator.mixin.ItemAccessor;
@@ -15,18 +13,12 @@ import dev.u9g.minecraftdatagenerator.util.DGU;
 *///?}
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
-//? if <1.8.9 {
-/*import net.minecraft.item.ItemStack;
-import net.minecraft.item.VariantBlockItem;
-*///?} else if >=1.13 {
 import net.minecraft.item.ItemStack;
-//?}
-//? if >=1.8.9 {
+//? if <1.8.9 {
+/*import net.minecraft.item.VariantBlockItem;
+*///?}
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 
 import java.util.*;
 import java.util.stream.Collectors;

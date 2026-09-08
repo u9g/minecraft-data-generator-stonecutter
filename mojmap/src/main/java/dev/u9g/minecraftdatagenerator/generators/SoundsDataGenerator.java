@@ -3,12 +3,8 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if <1.20 {
-/*import net.minecraft.core.Registry;
-*///?} else if >=1.21.5 {
-import dev.u9g.minecraftdatagenerator.util.DGU;
 import net.minecraft.core.Registry;
-//?}
+import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if >=1.20 {
 import net.minecraft.core.registries.BuiltInRegistries;
 //?}

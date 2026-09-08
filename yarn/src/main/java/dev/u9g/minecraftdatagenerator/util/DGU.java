@@ -1,11 +1,8 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-//? if >=1.9.4 {
 import net.fabricmc.loader.api.FabricLoader;
-//?}
-//? if <1.13 {
-/*import net.minecraft.item.Item;
-*///?} else if >=1.14 {
+import net.minecraft.item.Item;
+//? if >=1.14 {
 import net.minecraft.item.ItemConvertible;
 //?}
 import net.minecraft.item.ItemStack;
@@ -13,9 +10,7 @@ import net.minecraft.item.ItemStack;
 /*import net.minecraft.item.Itemable;
 *///?}
 import net.minecraft.server.MinecraftServer;
-//? if >=1.13 {
 import net.minecraft.util.Language;
-//?}
 import net.minecraft.world.World;
 //? if >=1.13 {
 import net.minecraft.world.dimension.DimensionType;

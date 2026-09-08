@@ -11,10 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-//? if <1.8.9 {
-/*import java.io.File;
+import java.io.File;
 
-*///?}
 @Mixin(MinecraftDedicatedServer.class)
 public class ReadyMixin {
     @Inject(method = "setupServer()Z", at = @At("HEAD"))

@@ -8,9 +8,7 @@ import com.google.gson.JsonObject;
 *///?} else {
 import net.minecraft.sound.SoundEvent;
 //?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 
 public class SoundsDataGenerator implements IDataGenerator {
     //? if <1.13 {

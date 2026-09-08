@@ -2,28 +2,19 @@ package dev.u9g.minecraftdatagenerator.generators;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if <1.12.2 {
-/*import com.google.gson.JsonPrimitive;
-*///?}
+import com.google.gson.JsonPrimitive;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 *///?}
-//? if >=1.9.4 <1.10.2 {
-/*import dev.u9g.minecraftdatagenerator.util.DGU;
-*///?} else if >=1.12.2 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
-*///?} else if >=1.14 {
+*///?}
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-//?}
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-//? if >=1.8.9 {
 import net.minecraft.block.RedstoneWireBlock;
-//?}
 //? if >=1.9.4 <1.14 {
 /*import net.minecraft.client.BlockColors;
 *///?} else if >=1.14 {
@@ -31,23 +22,13 @@ import net.minecraft.client.color.block.BlockColors;
 //?}
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.color.world.GrassColors;
-//? if >=1.8.9 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.9.4 <1.10.2 {
-/*import net.minecraft.util.math.BlockPos;
-*///?} else if >=1.12.2 {
 import net.minecraft.util.math.BlockPos;
-//?}
 import net.minecraft.util.math.MathHelper;
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 import net.minecraft.world.biome.Biome;
 
-//? if >=1.8.9 <1.9.4 {
-/*import java.lang.reflect.Method;
-*///?}
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class TintsDataGenerator implements IDataGenerator {

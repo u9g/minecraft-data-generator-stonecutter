@@ -3,18 +3,11 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-//? if <1.12.2 {
-/*import com.google.gson.JsonPrimitive;
-*///?}
-//? if >=1.8.9 <1.13 {
-/*import dev.u9g.minecraftdatagenerator.util.DGU;
-*///?}
+import com.google.gson.JsonPrimitive;
+import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
-*///?} else {
-import com.google.gson.JsonPrimitive;
-//?}
-//? if >=1.13 <1.14 {
+*///?} else if >=1.13 <1.14 {
 /*import dev.u9g.minecraftdatagenerator.util.EmptyBlockView;
 *///?}
 import net.minecraft.block.Block;
@@ -23,17 +16,12 @@ import net.minecraft.block.Block;
 *///?} else {
 import net.minecraft.block.BlockState;
 //?}
-//? if >=1.13 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.8.9 {
 import net.minecraft.util.math.BlockPos;
-//?}
 //? if <1.13 {
 /*import net.minecraft.util.math.Box;
-*///?} else {
+*///?}
 import net.minecraft.util.registry.Registry;
-//?}
 //? if >=1.13 <1.14 {
 /*import net.minecraft.util.shapes.VoxelShape;
 *///?} else if >=1.14 {
@@ -41,16 +29,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.EmptyBlockView;
 //?}
 
-//? if <1.8.9 {
-/*import java.lang.reflect.Field;
-*///?}
-//? if <1.13 {
-/*import java.util.ArrayList;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-*///?} else {
 import java.util.*;
-//?}
 
 public class BlockCollisionShapesDataGenerator implements IDataGenerator {
     //? if <1.8.9 {

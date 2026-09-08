@@ -1,16 +1,14 @@
 //? if <1.13 {
 /*package dev.u9g.minecraftdatagenerator.util;
 
+import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
 //? if <1.9.4 {
-/^import dev.u9g.minecraftdatagenerator.mixin.BiomeAccessor;
-import dev.u9g.minecraftdatagenerator.mixin.EnchantmentAccessor;
+/^import dev.u9g.minecraftdatagenerator.mixin.EnchantmentAccessor;
 ^///?}
 //? if <1.11.2 {
 /^import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
 ^///?}
-//? if <1.9.4 {
-/^import dev.u9g.minecraftdatagenerator.mixin.StatusEffectAccessor;
-^///?}
+import dev.u9g.minecraftdatagenerator.mixin.StatusEffectAccessor;
 //? if <1.8.9 {
 /^import dev.u9g.minecraftdatagenerator.registryview.RegistryBackedRegistryView;
 import dev.u9g.minecraftdatagenerator.registryview.RegistryView;
@@ -19,30 +17,20 @@ import dev.u9g.minecraftdatagenerator.registryview.TableBackedRegistryView;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-//? if >=1.11.2 {
 import net.minecraft.entity.EntityType;
-//?}
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
-//? if >=1.8.9 {
 import net.minecraft.util.Identifier;
-//?}
 import net.minecraft.util.Language;
-//? if >=1.8.9 {
 import net.minecraft.util.registry.SimpleRegistry;
-//?}
 import net.minecraft.world.biome.Biome;
 //? if <1.8.9 {
 /^import org.apache.commons.lang3.StringUtils;
 ^///?}
 
-//? if <1.8.9 {
-/^import java.util.Locale;
-^///?}
-//? if <1.11.2 {
-/^import java.util.Map;
+import java.util.Locale;
+import java.util.Map;
 
-^///?}
 public class Registries {
     //? if <1.8.9 {
     /^public static final Language LANGUAGE;

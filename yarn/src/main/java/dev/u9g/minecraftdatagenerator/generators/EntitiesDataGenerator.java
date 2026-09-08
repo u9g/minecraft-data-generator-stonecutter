@@ -4,30 +4,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 //? if <1.11.2 {
 /*import dev.u9g.minecraftdatagenerator.mixin.EntityTypeAccessor;
-*///?} else if >=1.13 <1.14 {
-/*import com.google.gson.reflect.TypeToken;
-*///?} else if >=1.14 {
+*///?}
+import com.google.gson.reflect.TypeToken;
 import dev.u9g.minecraftdatagenerator.FieldHelper;
-//?}
 import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
 *///?}
-//? if >=1.8.9 <1.9.4 {
-/*import net.minecraft.block.Blocks;
-*///?}
+import net.minecraft.block.Blocks;
 //? if <1.11.2 {
 /*import net.minecraft.entity.*;
-*///?} else {
+*///?}
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-//?}
-//? if >=1.11.2 <1.13 {
-/*import net.minecraft.entity.ItemEntity;
-*///?}
-//? if >=1.11.2 {
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
-//?}
 //? if >=1.14 {
 import net.minecraft.entity.WaterCreatureEntity;
 //?}
@@ -38,38 +29,25 @@ import net.minecraft.entity.mob.MobEntity;
 /*import net.minecraft.entity.mob.WaterCreatureEntity;
 *///?}
 import net.minecraft.entity.passive.AnimalEntity;
-//? if >=1.11.2 {
 import net.minecraft.entity.passive.PassiveEntity;
-//?}
+import net.minecraft.entity.player.PlayerEntity;
 //? if <1.13 {
-/*import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
+/*import net.minecraft.entity.projectile.FishingBobberEntity;
 *///?}
-//? if <1.14 {
-/*import net.minecraft.entity.projectile.Projectile;
-*///?}
-//? if >=1.8.9 <1.9.4 {
-/*import net.minecraft.item.ItemStack;
-*///?} else if >=1.14 {
+import net.minecraft.entity.projectile.Projectile;
+import net.minecraft.item.ItemStack;
+//? if >=1.14 {
 import net.minecraft.entity.projectile.ProjectileEntity;
 //?}
-//? if >=1.8.9 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 import org.jetbrains.annotations.NotNull;
 //? if <1.14 {
 /*import org.jetbrains.annotations.Nullable;
 *///?}
 
-//? if >=1.13 <1.14 {
-/*import java.lang.reflect.Field;
-*///?}
-//? if >=1.13 {
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-//?}
 import java.util.Objects;
 
 public class EntitiesDataGenerator implements IDataGenerator {

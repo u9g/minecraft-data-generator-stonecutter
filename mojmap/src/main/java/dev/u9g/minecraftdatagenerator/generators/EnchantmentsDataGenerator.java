@@ -1,10 +1,6 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-//? if <1.16 {
-/*import com.google.common.collect.ImmutableMap;
-*///?} else if >1.18 <1.19 {
-/*import com.google.common.collect.ImmutableMap;
-*///?}
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
@@ -26,20 +22,16 @@ import net.minecraft.resources.Identifier;
 //?}
 //? if >=1.20.5 {
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 //?}
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 //? if <1.20.5 {
 /*import net.minecraft.world.item.enchantment.EnchantmentCategory;
 *///?}
 
 import java.util.List;
-//? if <1.20.5 {
-/*import java.util.Locale;
-*///?}
-//? if <1.16 {
-/*import java.util.Objects;
-*///?}
+import java.util.Locale;
+import java.util.Objects;
 
 public class EnchantmentsDataGenerator implements IDataGenerator {
     //? if <1.16 {

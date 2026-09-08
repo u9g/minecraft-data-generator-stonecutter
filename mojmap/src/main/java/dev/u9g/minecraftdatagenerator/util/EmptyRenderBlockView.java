@@ -1,15 +1,9 @@
 package dev.u9g.minecraftdatagenerator.util;
 
-//? if >=1.21.5 {
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//?}
 import net.minecraft.core.BlockPos;
-//? if >=1.16 {
 import net.minecraft.core.Direction;
-//?}
-//? if >=1.17 {
 import net.minecraft.core.Registry;
-//?}
 //? if >=1.17 <1.20 {
 /*import net.minecraft.core.RegistryAccess;
 *///?} else if >=1.20 {
@@ -18,16 +12,13 @@ import net.minecraft.core.registries.Registries;
 //? if <26.1 {
 /*import net.minecraft.world.level.BlockAndTintGetter;
 *///?}
-//? if <1.21.5 {
-/*import net.minecraft.world.level.ColorResolver;
-*///?} else if >=26.1 {
+import net.minecraft.world.level.ColorResolver;
+//? if >=26.1 {
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.CardinalLighting;
 //?}
 import net.minecraft.world.level.LightLayer;
-//? if >=1.17 {
 import net.minecraft.world.level.biome.Biome;
-//?}
 //? if >=1.21.5 {
 import net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier;
 //?}

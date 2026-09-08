@@ -23,13 +23,9 @@ package dev.u9g.minecraftdatagenerator.mixin;
 *///?} else {
 import net.minecraft.resources.Identifier;
 //?}
-//? if >=1.21.5 {
 import net.minecraft.server.packs.repository.PackRepository;
-//?}
 import net.minecraft.world.flag.FeatureFlags;
-//? if <1.21.5 {
-/*import net.minecraft.world.level.DataPackConfig;
-*///?}
+import net.minecraft.world.level.DataPackConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

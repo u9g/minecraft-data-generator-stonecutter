@@ -3,14 +3,10 @@ package dev.u9g.minecraftdatagenerator.util;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.locale.Language;
 import net.minecraft.server.MinecraftServer;
-//? if <1.16 {
-/*import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-*///?}
 import net.minecraft.world.level.Level;
-//? if <1.16 {
-/*import net.minecraft.world.level.dimension.DimensionType;
-*///?}
+import net.minecraft.world.level.dimension.DimensionType;
 //? if <1.17 {
 /*import org.jetbrains.annotations.NotNull;
 *///?}

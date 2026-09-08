@@ -1,9 +1,8 @@
 package dev.u9g.minecraftdatagenerator.mixin;
 
 import net.minecraft.block.Block;
-//? if <1.14 {
-/*import net.minecraft.item.ToolItem;
-*///?} else {
+import net.minecraft.item.ToolItem;
+//? if >=1.14 {
 import net.minecraft.item.MiningToolItem;
 //?}
 import org.spongepowered.asm.mixin.Mixin;

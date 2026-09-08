@@ -3,13 +3,10 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.u9g.minecraftdatagenerator.util.DGU;
-//? if <1.19 {
-/*import net.minecraft.core.Registry;
-*///?}
+import net.minecraft.core.Registry;
 //? if >=1.17 <1.19 {
 /*import net.minecraft.core.RegistryAccess;
 *///?} else if >=1.19.2 {
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 //?}
 //? if >1.18 <1.20 {
@@ -31,10 +28,8 @@ import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 //?}
 import net.minecraft.world.level.biome.Biome;
-//? if <1.16 {
 
-/*import java.util.Objects;
-*///?}
+import java.util.Objects;
 
 public class BiomesDataGenerator implements IDataGenerator {
     //? if <=1.18 {

@@ -3,25 +3,17 @@ package dev.u9g.minecraftdatagenerator.generators;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if <1.12.2 {
-/*import com.google.gson.JsonPrimitive;
-*///?}
+import com.google.gson.JsonPrimitive;
 import dev.u9g.minecraftdatagenerator.util.DGU;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.util.Registries;
 *///?}
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-//? if >=1.8.9 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 
-//? if <1.14 {
-/*import java.util.ArrayList;
-*///?}
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;

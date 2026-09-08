@@ -8,14 +8,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FluidState;
 //?}
 import net.minecraft.util.math.BlockPos;
-//? if <1.13 {
-/^import net.minecraft.util.math.Direction;
-^///?}
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-//? if <1.13 {
-/^import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.level.LevelGeneratorType;
-^///?}
 import org.jetbrains.annotations.Nullable;
 
 //? if <1.12.2 {

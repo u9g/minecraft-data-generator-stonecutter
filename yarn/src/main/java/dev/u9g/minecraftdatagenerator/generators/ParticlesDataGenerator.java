@@ -8,12 +8,10 @@ import com.google.gson.JsonObject;
 *///?} else {
 import net.minecraft.particle.ParticleType;
 //?}
-//? if >=1.13 {
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Objects;
-//?}
 
 public class ParticlesDataGenerator implements IDataGenerator {
     //? if <1.13 {

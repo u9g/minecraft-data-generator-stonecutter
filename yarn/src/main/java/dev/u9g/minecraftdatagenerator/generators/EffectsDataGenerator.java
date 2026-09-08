@@ -14,12 +14,8 @@ import net.minecraft.entity.effect.StatusEffectType;
 //? if >=1.9.4 {
 import net.minecraft.entity.effect.StatusEffects;
 //?}
-//? if >=1.8.9 {
 import net.minecraft.util.Identifier;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 //? if >=1.8.9 {
 import org.apache.commons.lang3.StringUtils;
 //?}
@@ -27,15 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 /*import org.jetbrains.annotations.NotNull;
 *///?}
 
-//? if >=1.8.9 {
 import java.util.Arrays;
-//?}
-//? if <1.14 {
-/*import java.util.Objects;
-*///?}
-//? if >=1.8.9 {
+import java.util.Objects;
 import java.util.stream.Collectors;
-//?}
 
 public class EffectsDataGenerator implements IDataGenerator {
     //? if <1.13 {

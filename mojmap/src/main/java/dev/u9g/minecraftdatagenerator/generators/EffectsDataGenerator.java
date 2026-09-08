@@ -16,9 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 //?}
 import net.minecraft.world.effect.MobEffect;
-//? if <1.17 {
-/*import net.minecraft.world.effect.MobEffectCategory;
-*///?}
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffects;
 import org.apache.commons.lang3.StringUtils;
 

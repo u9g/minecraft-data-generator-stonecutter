@@ -1,13 +1,9 @@
 package dev.u9g.minecraftdatagenerator.generators;
 
-//? if >=1.8.9 {
 import com.google.common.base.CaseFormat;
-//?}
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-//? if >=1.8.9 <1.12.2 {
-/*import com.google.gson.JsonPrimitive;
-*///?}
+import com.google.gson.JsonPrimitive;
 //? if <1.13 {
 /*import dev.u9g.minecraftdatagenerator.mixin.BlockAccessor;
 *///?}
@@ -24,18 +20,15 @@ import net.minecraft.block.Block;
 //? if >=1.8.9 {
 import net.minecraft.block.BlockState;
 //?}
-//? if <1.13 {
-/*import net.minecraft.block.TransparentBlock;
-*///?}
+import net.minecraft.block.TransparentBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-//? if <1.14 {
-/*import net.minecraft.item.ToolItem;
-*///?} else {
+import net.minecraft.item.ToolItem;
 import net.minecraft.item.Items;
+//? if >=1.14 {
 import net.minecraft.item.MiningToolItem;
-import net.minecraft.server.world.ServerWorld;
 //?}
+import net.minecraft.server.world.ServerWorld;
 //? if >=1.8.9 {
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -47,12 +40,10 @@ import net.minecraft.state.property.IntegerProperty;
 //?}
 //? if >=1.8.9 {
 import net.minecraft.state.property.Property;
+//?}
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-//?}
-//? if >=1.13 {
 import net.minecraft.util.registry.Registry;
-//?}
 //? if >=1.13 <1.14 {
 /*import net.minecraft.util.shapes.VoxelShape;
 *///?} else if >=1.14 {
@@ -62,17 +53,11 @@ import net.minecraft.world.loot.context.LootContext;
 import net.minecraft.world.loot.context.LootContextParameters;
 //?}
 
-//? if <1.14 {
-/*import java.util.ArrayList;
-*///?}
-//? if >=1.8.9 {
+import java.util.ArrayList;
 import java.util.Collection;
-//?}
 import java.util.List;
 import java.util.Objects;
-//? if >=1.13 {
 import java.util.stream.Collectors;
-//?}
 
 public class BlocksDataGenerator implements IDataGenerator {
     private static List<Item> getItemsEffectiveForBlock(Block block) {
